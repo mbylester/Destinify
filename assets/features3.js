@@ -19,7 +19,7 @@ async function gal(d){const c=LS("dgal2")||{};if(c[d.n])return c[d.n];
  if(r.length){c[d.n]=r;LS("dgal2",c)}return r}
 function drawG(){const e=$("xg3");if(!e)return;const p=G.r[G.i];
  e.innerHTML=`<h4>PHOTOS · ${G.i+1}/${G.r.length}</h4><div class="xmain"><a href="${p.f}" target="_blank" rel="noopener"><img src="${p.u}" alt=""></a><button data-x3="gp" aria-label="Previous photo">‹</button><button data-x3="gn" aria-label="Next photo">›</button></div><div class="xcr"><a href="${p.p}" target="_blank" rel="noopener">Photo${p.a?": "+esc(p.a):""}${p.l?" · "+esc(p.l):""} · Wikimedia Commons</a></div><div class="xth">${G.r.map((q,k)=>`<button data-x3="g" data-k="${k}" class="${k==G.i?"on":""}" aria-label="Photo ${k+1}"><img src="${q.u}" alt="" loading="lazy"></button>`).join("")}</div>`}
-const _od=openDetail;openDetail=i=>{_od(i);const d=D[i];
+const _od=openDetail;openDetail=i=>{_od(i);const d=D[i];$("dmc").scrollTop=0;
  $("dmc").querySelector(".mh").insertAdjacentHTML("afterend",'<div class="dsc" id="xg3"><h4>PHOTOS</h4><p class="note">Loading photos…</p></div><div class="dsc" id="xwx"><p class="note">Loading weather…</p></div>');
  gal(d).then(r=>{if(st.cur!=i||!$("xg3"))return;if(!r.length)return $("xg3").remove();G={i:0,r};drawG()}).catch(()=>{$("xg3")&&$("xg3").remove()});
  wx(d).then(j=>{if(st.cur==i&&$("xwx"))$("xwx").innerHTML=wxH(j)}).catch(()=>{$("xwx")&&($("xwx").innerHTML='<p class="note">Weather is unavailable right now.</p>')})};
