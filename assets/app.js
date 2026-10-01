@@ -48,13 +48,23 @@ function list(){D.forEach(d=>{d.s=score(d);d.km=st.me?hav(st.me,d):null});
  const S={match:(a,b)=>b.s-a.s||b.o-a.o,cheap:(a,b)=>a.b-b.b,short:(a,b)=>a.d-b.d||a.b-b.b,az:(a,b)=>a.n.localeCompare(b.n),near:(a,b)=>a.km-b.km};
  return D.filter(d=>(!st.q||(d.n+" "+d.p+" "+d.t).toLowerCase().includes(st.q))&&(!st.g||d.g==st.g)&&(st.tab=="pop"?d.o:st.tab=="gem"?!d.o:st.tab=="now"?d.mo.includes(NOW):st.tab=="trip"?st.trip.includes(d.i):true)).sort(S[st.sort])}
 
+/* ---------- photos ---------- */
+const creditH=d=>d.img&&d.imgPage?`<a href="${d.imgPage}" target="_blank" rel="noopener">Photo: Wikipedia</a>`:"";
+function setPic(el,d){if(!d.img||el.querySelector(".pic"))return;const im=new Image();im.className="pic";im.alt=d.n;
+ im.onload=()=>{el.prepend(im);el.classList.add("has");const cr=el.parentElement&&el.parentElement.querySelector(".credit");if(cr)cr.innerHTML=creditH(d)};im.src=d.img}
+function hydrate(){document.querySelectorAll(".vis[data-i]").forEach(el=>{if(el.querySelector(".pic"))return;const d=D[+el.dataset.i];getImg(d).then(()=>setPic(el,d))})}
+function setHead(d){const h=$("mhd");if(!h||st.cur!=d.i||!d.img||h.classList.contains("has"))return;h.classList.add("has");
+ h.style.backgroundImage=`linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.65)),url("${d.img}")`;h.style.backgroundSize="cover";h.style.backgroundPosition="center";
+ if(d.imgPage)h.insertAdjacentHTML("beforeend",`<a class="credit2" href="${d.imgPage}" target="_blank" rel="noopener">Photo: Wikipedia</a>`)}
+
 /* ---------- cards ---------- */
 function cardH(d){const c=TC[d.t]||TC.Nature,on=st.trip.includes(d.i);
- return `<article class="dcard"><div class="vis" style="background:linear-gradient(135deg,${c[0]},${c[1]})"><span class="type">${d.t}</span>
+ return `<article class="dcard"><div class="vis${d.img?" has":""}" data-i="${d.i}" style="background:linear-gradient(135deg,${c[0]},${c[1]})">${d.img?`<img class="pic" src="${d.img}" alt="${d.n}" loading="lazy">`:""}<span class="type">${d.t}</span>
  <button class="heart${on?" on":""}" data-f="${d.i}" aria-label="${on?"Remove from":"Add to"} my trip">${HEART}</button>
  <span class="score"><i></i>${d.s}% match</span>
  <label class="cmp"><input type="checkbox" data-c="${d.i}" ${st.cmp.has(d.i)?"checked":""}> Compare</label></div>
  <div class="body"><div class="name">${d.n}</div><div class="where">${d.p} · ${G[d.g]}${d.km!=null?` · ${Math.round(d.km).toLocaleString()} km away`:""}</div>
+ <div class="credit">${creditH(d)}</div>
  ${d.desc?`<p class="blurb">${d.desc}</p>`:""}
  <div class="tags"><span class="tag ${d.o?"pop":"gem"}">${d.o?"Popular":"Hidden gem"}</span>${d.mo.includes(NOW)?'<span class="tag now">In season</span>':""}${d.a.slice(0,2).map(x=>`<span class="tag">${A[x]}</span>`).join("")}</div>
  <div class="foot"><div><b>${P(d.b)}</b> <span>/ ${d.d} day${d.d>1?"s":""}</span></div><div class="act"><button data-m="${d.i}">Map</button><button data-d="${d.i}">Details</button></div></div></div></article>`}
@@ -89,7 +99,7 @@ function render(){const arr=list();
  $("tripN").textContent=st.trip.length;
  $("cbar").classList.toggle("show",st.cmp.size>0);$("cn").textContent=st.cmp.size;
  $("rv").textContent=P(st.b)+(st.b>=30000?"+":"");
- drawMap(arr);renderTrip()}
+ drawMap(arr);renderTrip();hydrate()}
 
 /* ---------- trip planner ---------- */
 const tripKm=()=>st.trip.slice(1).reduce((s,i,k)=>s+hav(D[st.trip[k]],D[i]),0);
@@ -118,7 +128,7 @@ function openDetail(i){const d=D[i],c=TC[d.t]||TC.Nature,x=parts(d);d.s=score(d)
  const rows=[["Destination type",x.t,30],["Activities",x.a,25],["Budget",x.b,20],["Trip length",x.du,10],["Season",x.s,15]];
  const nb=near(d),sm=similar(d);
  const facts=[["Type",d.t],["Region",G[d.g]],["Suggested stay",d.d+" day"+(d.d>1?"s":"")],["Budget",P(d.b)+" per person"],["Activity level",level(d)],["Crowds",crowd(d)],["Best months",monthsText(d)],["Right now",d.mo.includes(NOW)?"In season":"Off-peak"]];
- $("dmc").innerHTML=`<div class="mh" style="background:linear-gradient(135deg,${c[0]},${c[1]})"><button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button><h3>${d.n}</h3><p>${d.p} · ${G[d.g]} · ${d.o?"Popular":"Hidden gem"}</p></div>
+ $("dmc").innerHTML=`<div class="mh" id="mhd" style="background:linear-gradient(135deg,${c[0]},${c[1]})"><button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button><h3>${d.n}</h3><p>${d.p} · ${G[d.g]} · ${d.o?"Popular":"Hidden gem"}</p></div>
  <div class="dsc">${d.desc?`<p class="lead2">${d.desc}</p>`:""}<div class="facts">${facts.map(f=>`<div><span>${f[0]}</span><b>${f[1]}</b></div>`).join("")}</div>
  ${d.go?`<div class="info"><h4>GETTING THERE</h4><p>${d.go}</p></div>`:""}${d.tip?`<div class="info"><h4>LOCAL TIP</h4><p>${d.tip}</p></div>`:""}</div>
  <div class="mb"><div><h4>WHY IT SCORES ${d.s}%</h4>${rows.map(r=>`<div class="bar"><span>${r[0]}</span><div><i style="width:${r[1]/r[2]*100}%"></i></div><b>${Math.round(r[1])}/${r[2]}</b></div>`).join("")}
@@ -134,7 +144,7 @@ function openDetail(i){const d=D[i],c=TC[d.t]||TC.Nature,x=parts(d);d.s=score(d)
  <div class="dsc" style="padding-top:0">${nb.length?`<h4>NEARBY (WITHIN 150 KM)</h4><div class="tags">${nb.map(o=>`<button class="chip" data-d="${o.x.i}">${o.x.n} · ${Math.round(o.k)} km</button>`).join("")}</div>`:""}
  ${sm.length?`<h4 style="margin-top:14px">SIMILAR PLACES</h4><div class="tags">${chipsFor(sm)}</div>`:""}
  <p class="note" style="margin-top:14px">Details are general guidance. Confirm fees, schedules, permits, and travel advisories with official sources before you go.</p></div>`;
- bootstrap.Modal.getOrCreateInstance($("dm")).show()}
+ bootstrap.Modal.getOrCreateInstance($("dm")).show();getImg(d).then(()=>setHead(d))}
 $("dm").addEventListener("shown.bs.modal",()=>{const d=D[st.cur];if(!d||!$("mini"))return;if(mini)mini.remove();
  mini=L.map("mini",{scrollWheelZoom:false}).setView([d.la,d.ln],9);L.tileLayer(OSM,{maxZoom:18,attribution:"© OpenStreetMap"}).addTo(mini);
  L.circleMarker([d.la,d.ln],{radius:9,color:"#0a2622",fillColor:GC[d.g],fillOpacity:.95}).addTo(mini)});
