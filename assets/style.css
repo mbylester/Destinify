@@ -191,3 +191,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .mh.has{min-height:210px;display:flex;flex-direction:column;justify-content:flex-end;text-shadow:0 2px 12px rgba(0,0,0,.45)}
 .credit2{position:absolute;right:16px;bottom:10px;font-size:11px;color:rgba(255,255,255,.85);text-decoration:underline;text-shadow:none}
 @media(prefers-reduced-motion:reduce){.pic{transition:none}.dcard:hover .pic{transform:none}}
+
+/* ---- v4: accounts, admin, weights, reviews ---- */
+.xp{padding:22px 28px 28px}.xp .form-control,.xp .form-select{background:var(--bg);color:var(--ink);border-color:var(--line)}
+.xw{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.xw label{font-size:12px;font-weight:600;color:var(--soft);display:block}.xw input{width:100%;accent-color:var(--coral)}
+.xbox{background:var(--bg);border-radius:12px;padding:12px 14px;margin-top:18px}.xbox h4{font:700 12px 'Work Sans';color:var(--soft);margin:0 0 8px}
+.xg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.xt{width:100%;font-size:13px}.xt td,.xt th{padding:5px 6px;border-bottom:1px solid var(--line)}
+@media(max-width:760px){.xw{grid-template-columns:1fr 1fr}}

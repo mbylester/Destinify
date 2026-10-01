@@ -16,7 +16,7 @@ const TYPES=[...new Set(D.map(x=>x.t))].sort();
 const st={q:"",b:8000,g:"",d:"any",mon:0,types:new Set(),acts:new Set(),tab:"all",sort:"match",shown:12,trip:[],cmp:new Set(),pax:2,sty:2,me:null,cur:null};
 try{st.trip=JSON.parse(localStorage.getItem("dtrip")||"[]").filter(i=>D[i])}catch(e){}
 const hm=location.hash.match(/trip=([\d,]+)/);if(hm)st.trip=hm[1].split(",").map(Number).filter(i=>D[i]);
-const save=()=>{try{localStorage.setItem("dtrip",JSON.stringify(st.trip))}catch(e){}};
+var save=()=>{try{localStorage.setItem("dtrip",JSON.stringify(st.trip))}catch(e){}};
 document.documentElement.dataset.theme=(()=>{try{return localStorage.getItem("dtheme")||"light"}catch(e){return"light"}})();
 
 /* ---------- helpers ---------- */
@@ -36,13 +36,15 @@ function ctl(){return `<div class="ctl"><label>Travelers <select data-pax>${[1,2
 function copy(txt,btn,label){(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent=label,1800)},()=>{btn.textContent="Copy not available"})}
 
 /* ---------- matching ---------- */
+const W=(()=>{try{return JSON.parse(localStorage.getItem("dw"))||{t:30,a:25,b:20,du:10,s:15}}catch(e){return{t:30,a:25,b:20,du:10,s:15}}})(),MX={};
+function norm(){const k=100/Object.values(W).reduce((a,b)=>a+b,0);for(const x in W)MX[x]=W[x]*k}norm();
 function parts(d){const p=st;
- const t=p.types.size?(p.types.has(d.t)?30:0):30;
- const a=p.acts.size?25*[...p.acts].filter(x=>d.a.includes(x)).length/p.acts.size:25;
- const b=d.b<=p.b?20:Math.max(0,20*(1-(d.b-p.b)/p.b));
- let du=10;if(p.d!="any"){const[x,y]=p.d.split("-").map(Number);du=d.d>=x&&d.d<=y?10:Math.abs(d.d-(d.d<x?x:y))==1?5:0}
- const s=p.mon?(d.mo.includes(p.mon)?15:0):15;
- return{t,a,b,du,s}}
+ const t=p.types.size?(p.types.has(d.t)?1:0):1;
+ const a=p.acts.size?[...p.acts].filter(x=>d.a.includes(x)).length/p.acts.size:1;
+ const b=d.b<=p.b?1:Math.max(0,1-(d.b-p.b)/p.b);
+ let du=1;if(p.d!="any"){const[x,y]=p.d.split("-").map(Number);du=d.d>=x&&d.d<=y?1:Math.abs(d.d-(d.d<x?x:y))==1?.5:0}
+ const s=p.mon?(d.mo.includes(p.mon)?1:0):1;
+ return{t:t*MX.t,a:a*MX.a,b:b*MX.b,du:du*MX.du,s:s*MX.s}}
 const score=d=>{const x=parts(d);return Math.round(x.t+x.a+x.b+x.du+x.s)};
 function list(){D.forEach(d=>{d.s=score(d);d.km=st.me?hav(st.me,d):null});
  const S={match:(a,b)=>b.s-a.s||b.o-a.o,cheap:(a,b)=>a.b-b.b,short:(a,b)=>a.d-b.d||a.b-b.b,az:(a,b)=>a.n.localeCompare(b.n),near:(a,b)=>a.km-b.km};
@@ -125,7 +127,7 @@ function openDetail(i){const d=D[i],c=TC[d.t]||TC.Nature,x=parts(d);d.s=score(d)
  if(mini){mini.remove();mini=null}
  const br=["Diving","Adventure","Surf"].includes(d.t)?[.25,.25,.15,.35]:["City","Heritage"].includes(d.t)?[.3,.35,.25,.1]:[.3,.3,.2,.2];
  const bn=["Transport","Stay","Food","Activities"],bc=["#1c6e8c","#e8b750","#ff6f4c","#4fd1b5"];
- const rows=[["Destination type",x.t,30],["Activities",x.a,25],["Budget",x.b,20],["Trip length",x.du,10],["Season",x.s,15]];
+ const rows=[["Destination type",x.t,MX.t],["Activities",x.a,MX.a],["Budget",x.b,MX.b],["Trip length",x.du,MX.du],["Season",x.s,MX.s]];
  const nb=near(d),sm=similar(d);
  const facts=[["Type",d.t],["Region",G[d.g]],["Suggested stay",d.d+" day"+(d.d>1?"s":"")],["Budget",P(d.b)+" per person"],["Activity level",level(d)],["Crowds",crowd(d)],["Best months",monthsText(d)],["Right now",d.mo.includes(NOW)?"In season":"Off-peak"]];
  $("dmc").innerHTML=`<div class="mh" id="mhd" style="background:linear-gradient(135deg,${c[0]},${c[1]})"><button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button><h3>${d.n}</h3><p>${d.p} · ${G[d.g]} · ${d.o?"Popular":"Hidden gem"}</p></div>
