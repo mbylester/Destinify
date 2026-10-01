@@ -18,7 +18,16 @@ const FEST=[
 {n:"MassKara",d:"Bacolod",m:[10],w:"Third weekend of October",x:"Smiling-mask street dancing, food and live music."},
 {n:"Buglasan",d:"Dumaguete",m:[10],w:"October",x:"Showcases Negros Oriental's culture with street dancing and a trade fair."},
 {n:"Hermosa Festival",d:"Zamboanga City",m:[10],w:"October (Fiesta Pilar, Oct 12)",x:"The fiesta of Our Lady of the Pillar, with regattas and Chavacano culture."},
-{n:"Lanzones Festival",d:"Camiguin",m:[10],w:"Around the third week of October",x:"Street dancing and feasting for the island's lanzones harvest."}
+{n:"Lanzones Festival",d:"Camiguin",m:[10],w:"Around the third week of October",x:"Street dancing and feasting for the island's lanzones harvest."},
+{n:"Pamulinawen Festival",d:"Laoag City",m:[2],w:"Around mid-February",x:"Ilocano city fiesta with street dancing and cultural shows."},
+{n:"Jaro Fiesta",d:"Jaro Cathedral",m:[2],w:"Around February 2 (Candelaria)",x:"Religious procession and fiesta at the Jaro belfry cathedral."},
+{n:"Bangus Festival",d:"Dagupan",m:[4],w:"Typically April",x:"Celebrates Dagupan's milkfish with grilling, parades and food stalls."},
+{n:"Antipolo pilgrimage season",d:"Antipolo",m:[5],w:"All of May",x:"Pilgrims climb to the cathedral to honor Our Lady of Peace and Good Voyage."},
+{n:"Magayon Festival",d:"Legazpi City",m:[5],w:"May",x:"Month-long Albay festival with street dancing, food and Mayon-themed events."},
+{n:"Penafrancia Festival",d:"Naga City",m:[9],w:"September (fluvial procession on the third Saturday)",x:"Bicol's largest religious festival, honoring Our Lady of Penafrancia."},
+{n:"Diyandi Festival",d:"Iligan City",m:[9],w:"Late September",x:"City fiesta honoring St. Michael with street dancing and parades."},
+{n:"Bonok-Bonok Festival",d:"Surigao City",m:[9],w:"Typically September",x:"Street dancing and rituals of thanksgiving in Surigao City."},
+{n:"Siargao International Surfing Cup",d:"Cloud 9",m:[9,10],w:"Typically late September to October",x:"Pro surfing competition at Siargao's famous Cloud 9 break."}
 ].filter(f=>{const d=D.find(x=>x.n==f.d);if(d)f.i=d.i;return d});
 const mt=f=>f.m.includes(NOW)?'<span class="tag now">This month</span>':f.m.includes(NOW%12+1)?'<span class="tag gem">Next month</span>':"";
 const evH=(f,km)=>`<div class="info"><b>🎉 ${esc(f.n)}</b> ${mt(f)}<br><small>${f.m.map(m=>MN[m-1]).join("–")} · ${esc(f.w)}${km!=null?` · in ${esc(f.d)}, ${km} km away`:""}</small><p>${esc(f.x)}</p></div>`;

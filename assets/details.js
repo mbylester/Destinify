@@ -150,154 +150,154 @@ General Santos|Tuna capital with fish ports and fresh seafood.|Fly to General Sa
 Lake Sebu|Highland lake home to the T'boli people and weaving traditions.|Van from Koronadal, about 1 to 1.5 hrs.|Try tilapia and watch T'boli weaving.
 Mt. Matutum|Dormant volcano with hiking trails near General Santos.|Drive from General Santos to Tupi.|Start early, because trails are exposed.
 Gumasa Beach|Black-sand beach known for surf near Glan, Sarangani.|Drive from General Santos, about 2 hrs.|Check surf conditions before heading out.
-Mt. Ulap|Grassy ridge hike with sea-of-clouds views near Baguio.||
-Bontoc|Cordillera town with a museum on highland cultures.||
-Maligcong Rice Terraces|Stone-walled terraces with easy village hikes.||
-Kabayan Mummy Caves|Burial caves with centuries-old Ibaloi mummies.||
-Chico River|Rafting and kayaking on a scenic Cordillera river.||
-Laoag City|Ilocano food stops and the Sinking Bell Tower.||
-Pinsal Falls|Cascading falls reached by a short trail.||
-Santa Maria Church|UNESCO hilltop fortress church.||
-Bantay Church|Church and bell tower once used as a watchtower.||
-Cape Bojeador Lighthouse|Spanish-era lighthouse on a coastal hill.||
-Currimao|Quiet rocky shoreline and calm beach coves.||
-Tangadan Falls|Jungle falls with a natural swimming pool.||
-Agoo Basilica|Marian basilica and museum in La Union.||
-Manaoag Church|Pilgrimage church for Our Lady of Manaoag.||
-Dagupan|Known for grilled bangus and fish markets.||
-La Trinidad|Strawberry farms and Benguet's vegetable valley.||
-Mayoyao Rice Terraces|Remote terraces and a village heritage museum.||
-Mt. Arayat|Solitary volcano with forest trails.||
-Candaba Swamp|Migratory bird haven in the dry months.||
-Madlum Cave|Limestone cave with a river running through it.||
-Biak-na-Bato|Revolutionary hideout with caves and trails.||
-Barasoain Church|Site of the First Philippine Republic congress.||
-Mt. Samat|War memorial shrine with a cross viewpoint.||
-Mt. Natib|Volcanic caldera with forest trekking.||
-Pawikan Conservation Center|Sea turtle hatchery along the coast.||
-Corregidor Island|WWII fortress island at the mouth of Manila Bay.||
-Aguinaldo Shrine|Home where independence was declared in 1898.||
-Mt. Maculot|Rocky summit with views over Taal Lake.||
-Mt. Talamitam|Beginner hike over open grassland.||
-Mt. Gulugod Baboy|Short ridge hike above Anilao.||
-Fortune Island|Greek-style ruins and clear water.||
-Laiya|Long white-sand beach with resorts.||
-Malabrigo Lighthouse|Historic lighthouse on a Lobo headland.||
-Seven Lakes of San Pablo|Crater lakes with bamboo rafts and cafes.||
-Hidden Valley Springs|Forest resort with natural spring pools.||
-Taytay Falls|Broad falls in Majayjay reached by steps.||
-Lake Caliraya|Reservoir for kayaking and wakeboarding.||
-Villa Escudero|Plantation resort with a waterfall lunch.||
-Kamay ni Hesus|Healing shrine with a large Christ statue.||
-Mt. Banahaw|Sacred mountain with pilgrim trails.||
-Cagbalete Island|Sandbar island with calm shallow water.||
-Real|Beginner-friendly surf breaks and falls nearby.||
-Polillo Island|Quiet island with beaches and caves.||
-Antipolo|Hilltop cathedral and city views near Manila.||
-Pililla Wind Farm|Turbines overlooking Laguna de Bay.||
-Masungi Georeserve|Rope walks and limestone viewpoints.||
-Mt. Daraitan|Limestone peak with a river and a cave.||
-Mt. Makiling|Forest mountain near Los Baños.||
-Naujan Lake|Large lake rich in birdlife.||
-Tamaraw Falls|Twin falls beside the roadside.||
-Mt. Halcon|Challenging peak for experienced trekkers.||
-Bulalacao|Quiet southern Mindoro beaches and islets.||
-Lubang Island|Remote island with WWII history.||
-Mt. Guiting-Guiting|Demanding jagged peak on Sibuyan.||
-Ticao Island|Manta rays and quiet coves.||
-Cuyo Island|Fortified town and beaches in the Cuyo group.||
-Calauit Safari Park|Giraffes and zebras roaming a Palawan island.||
-Tabon Caves|Caves tied to some of the oldest remains in the country.||
-Taytay|Spanish fort and gateway to northern islands.||
-San Vicente|Long Beach, one of the longest in the Philippines.||
-Ugong Rock|Climbing and zipline on a limestone rock.||
-Capones Island|Lighthouse islet with clear water.||
-Liwliwa|Laid-back surf and camping beach.||
-Dingalan|Coves and viewpoints along the Pacific coast.||
-Tuguegarao|Gateway to Cagayan with pancit batil patong.||
-Fuga Island|Remote island with white beaches.||
-Itbayat|Rugged northernmost inhabited island.||
-Bagasbas Beach|Black-sand beach popular with surfers.||
-Naga City|Bicol food and the Peñafrancia pilgrimage.||
-Mt. Isarog|Forested volcano with falls and trails.||
-Lake Buhi|Home of the sinarapan, a tiny fish.||
-Legazpi City|Base city with Mayon views.||
-Hoyop-Hoyopan Cave|Cave with striking formations in Camalig.||
-Rizal Park|Manila's central park and national monument.||
-Bonifacio Global City|Modern district with cafes and street art.||
-Makati|Dining, museums, and nightlife.||
-Quezon City|Food scene, museums, and Art in Island.||
-Bomod-ok Falls|Big falls reached by a rice terrace trek.||
-Jawili Falls|Tiered falls with turquoise pools.||
-Bugtong Bato Falls|Twin falls near Tibiao.||
-Mt. Madja-as|Panay's highest peak and sunrise camp.||
-Nogas Island|Marine sanctuary with white sand.||
-Caluya Islands|Remote island group with clear water.||
-Pan de Azucar Island|Cone-shaped island with a hill hike.||
-Jaro Cathedral|Belfry cathedral and city market.||
-Molo Church|Gothic-style church with twin spires.||
-San Joaquin Church|Coral-stone church with a battle relief.||
-Panay Church|Giant bell and old church in Pan-ay.||
-Silay|Ancestral houses and museums.||
-The Ruins|Mansion ruins glowing at sunset.||
-Lakawon Island|Sandbar island near Cadiz.||
-Mt. Talinis|Twin-peaked volcano above Dumaguete.||
-Twin Lakes of Balinsasayao|Two crater lakes in cloud forest.||
-Pulangbato Falls|Reddish falls and a hot spring.||
-Bais City|Dolphin watching and sandbar trips.||
-Manjuyod Sandbar|Sandbar in Tañon Strait at low tide.||
-Dauin|Muck-dive sites and black-sand beaches.||
-Cambugahay Falls|Three-tier falls with rope swings.||
-Salagdoong Beach|Beach with a cliff jump platform.||
-Paliton Beach|Popular sunset beach with fine sand.||
-Cantabon Cave|Guided cave trek through narrow passages.||
-Sumilon Island|Sandbar island and marine sanctuary.||
-Tumalog Falls|Curtain falls near Oslob.||
-Mantayupan Falls|Tall falls with a cool pool.||
-Carcar|Heritage houses and local sweets.||
-Pescador Island|Reef wall near Moalboal's sardine run.||
-Gato Island|Cave swim-through and white-tip sharks.||
-Olango Island|Bird sanctuary and snorkeling spots.||
-Temple of Leah|Hilltop Roman-style temple with views.||
-Simala Shrine|Castle-like Marian shrine.||
-Loboc River|River cruise with buffet lunch.||
-Baclayon Church|One of the country's oldest stone churches.||
-Dauis Church|Church with a holy well inside.||
-Hinagdanan Cave|Cave with a swimming pool.||
-Mag-Aso Falls|Cool falls in Antequera.||
-Pamilacan Island|Dolphin and whale watching trips.||
-Cabilao Island|Hammerhead dive spot off Loon.||
-Ormoc|West-coast city with falls nearby.||
-Palo|MacArthur Landing Memorial and cathedral.||
-Langun-Gobingob Caves|One of Asia's biggest cave systems.||
-Lulugayan Falls|Wide falls in Calbiga.||
-Tarangban Falls|Three-tier falls near Calbayog.||
-Marabut|Islets and rock formations off Leyte Gulf.||
-Guiuan Church|Baroque church and base for Calicoan.||
-Balangiga Church|Church known for the bells of Balangiga.||
-Capul Island|Remote island with a distinct language.||
-Ulan-Ulan Falls|Falls on Biliran's mountain slopes.||
-Cloud 9|Siargao's famous surf break and boardwalk.||
-Daku Island|Island day trip with a sandbar.||
-Guyam Island|Tiny palm islet off General Luna.||
-Surigao City|Port city and gateway to Siargao.||
-Mabua Pebble Beach|Beach of smooth rounded stones.||
-Butuan|Home of ancient balangay boat finds.||
-Mantigue Island|Marine sanctuary island off Mahinog.||
-Ardent Hot Springs|Hot spring pools below the volcano.||
-Iligan City|City of waterfalls.||
-Fort Pilar|Spanish fort and shrine.||
-Pasonanca Park|Pine park with a treehouse.||
-Lake Wood|Highland lake with calm water.||
-Pagadian|Hillside city on Illana Bay.||
-Simunul Island|Site of the country's oldest mosque. Check advisories first.||
-Mt. Kalatungan|Challenging peak with mossy forest.||
-Mt. Malindang|Forested peak with a crater lake.||
-Kidapawan|Base for Mt. Apo treks.||
-Maitum|Anthropomorphic burial jars and caves.||
-Hagimit Falls|Falls on Samal Island.||
-Mati|City by Pujada Bay near Dahican.||
-Maragusan Valley|Highland valley with cool air and views.||
-Malagos Garden Resort|Bird show and chocolate museum.||
-Asik-Asik Falls|Falls streaming from a cliff wall.||
+Mt. Ulap|Grassy ridge hike with sea-of-clouds views near Baguio.|Bus to Baguio, then jeepney to Itogon and the Ampucao trailhead.|Start before sunrise and bring a windbreaker.
+Bontoc|Cordillera town with a museum on highland cultures.|Overnight bus from Manila, or van from Baguio, about 6 hrs.|Visit the museum first, then arrange village treks.
+Maligcong Rice Terraces|Stone-walled terraces with easy village hikes.|From Bontoc by jeepney or tricycle, about 30 min.|Terraces are greenest after planting season.
+Kabayan Mummy Caves|Burial caves with centuries-old Ibaloi mummies.|Bus to Baguio, then van or jeepney to Kabayan, about 3 hrs.|Entry is arranged through the local tourism office.
+Chico River|Rafting and kayaking on a scenic Cordillera river.|Fly or bus to Tuguegarao, then van to Tabuk.|Go with licensed operators and check water levels.
+Laoag City|Ilocano food stops and the Sinking Bell Tower.|Fly to Laoag or take a long bus from Manila, about 10 hrs.|Try bagnet and Ilocos empanada.
+Pinsal Falls|Cascading falls reached by a short trail.|From Vigan by van or bus to Santa Maria, then a short walk.|Dry months are safer for the trail.
+Santa Maria Church|UNESCO hilltop fortress church.|From Vigan by jeepney or van, about 40 min.|Climb the steps early to beat the heat.
+Bantay Church|Church and bell tower once used as a watchtower.|Tricycle from Vigan, about 15 min.|Climb the belltower only when it is open.
+Cape Bojeador Lighthouse|Spanish-era lighthouse on a coastal hill.|From Laoag by van to Burgos, about 1 hr.|Pair it with Kapurpurawan and Pagudpud.
+Currimao|Quiet rocky shoreline and calm beach coves.|From Laoag by van, about 45 min.|Bring water shoes for the rocky shore.
+Tangadan Falls|Jungle falls with a natural swimming pool.|From San Fernando by tricycle to San Gabriel, then a short hike.|Wear grippy sandals since rocks are slick.
+Agoo Basilica|Marian basilica and museum in La Union.|Bus from Manila toward San Fernando, then a jeepney to Agoo.|Combine it with a surf stop in San Juan.
+Manaoag Church|Pilgrimage church for Our Lady of Manaoag.|Bus from Manila to Dagupan or Urdaneta, then a van, about 4 hrs.|Weekends and feast days draw large crowds.
+Dagupan|Known for grilled bangus and fish markets.|Bus from Manila, about 4 to 5 hrs.|Go early to the markets for the freshest bangus.
+La Trinidad|Strawberry farms and Benguet's vegetable valley.|From Baguio by jeepney, about 20 min.|Strawberries are best from December to March.
+Mayoyao Rice Terraces|Remote terraces and a village heritage museum.|From Banaue by jeepney, about 2 to 3 hrs.|Roads are rough, so allow extra time.
+Mt. Arayat|Solitary volcano with forest trails.|From Manila by bus to Angeles, then a tricycle to the park.|Hike in the cool morning and bring water.
+Candaba Swamp|Migratory bird haven in the dry months.|From Manila by bus to Candaba, then a tricycle.|Bring binoculars and go early in the morning.
+Madlum Cave|Limestone cave with a river running through it.|From Manila by bus to San Miguel, then a tricycle.|Go in the dry months and bring a headlamp.
+Biak-na-Bato|Revolutionary hideout with caves and trails.|Bus from Manila to San Miguel, then a tricycle.|Wear sturdy shoes for the cave trails.
+Barasoain Church|Site of the First Philippine Republic congress.|Bus from Manila to Malolos, about 1 hr.|Check museum hours before going.
+Mt. Samat|War memorial shrine with a cross viewpoint.|Bus from Manila to Balanga, then a jeepney, about 3 hrs.|Go on a clear day for the best views.
+Mt. Natib|Volcanic caldera with forest trekking.|Bus to Balanga, then a ride to the Bagac or Orani trailheads.|Hire a guide since trails are not well marked.
+Pawikan Conservation Center|Sea turtle hatchery along the coast.|Bus to Morong, Bataan, then a short tricycle ride.|Hatchling releases depend on the season.
+Corregidor Island|WWII fortress island at the mouth of Manila Bay.|Ferry from Manila's CCP pier, about 1 hr.|Book a tour ahead since it often sells out.
+Aguinaldo Shrine|Home where independence was declared in 1898.|Bus or jeepney from Manila to Kawit, about 1 hr.|Visit on a weekday for fewer crowds.
+Mt. Maculot|Rocky summit with views over Taal Lake.|Bus to Batangas, then a tricycle to Cuenca.|Start early since the rocky section is exposed.
+Mt. Talamitam|Beginner hike over open grassland.|Bus to Nasugbu, then a tricycle to the trailhead.|Bring plenty of water since shade is limited.
+Mt. Gulugod Baboy|Short ridge hike above Anilao.|Bus to Batangas, then a jeepney to Mabini.|Combine it with a dive or snorkel day in Anilao.
+Fortune Island|Greek-style ruins and clear water.|Boat from Nasugbu, about 1 hr.|Book a boat early and watch sea conditions.
+Laiya|Long white-sand beach with resorts.|Bus to San Juan, Batangas, then a tricycle.|Weekends fill up, so go midweek.
+Malabrigo Lighthouse|Historic lighthouse on a Lobo headland.|Bus to Lobo, Batangas, then a tricycle.|Go in late afternoon for softer light.
+Seven Lakes of San Pablo|Crater lakes with bamboo rafts and cafes.|Bus from Manila to San Pablo, about 2 hrs.|Lake Pandin is the most popular for bamboo rafts.
+Hidden Valley Springs|Forest resort with natural spring pools.|Drive or van from Manila to Calauan, about 2 hrs.|Reservations are required.
+Taytay Falls|Broad falls in Majayjay reached by steps.|Bus to Majayjay, then a tricycle and a short climb of steps.|Avoid it after heavy rain.
+Lake Caliraya|Reservoir for kayaking and wakeboarding.|Drive or bus to Lumban, then a tricycle.|Go early before the wind picks up.
+Villa Escudero|Plantation resort with a waterfall lunch.|Bus to Tiaong, then a tricycle.|Day tour packages include meals.
+Kamay ni Hesus|Healing shrine with a large Christ statue.|Bus to Lucban from Manila, about 3 hrs.|Pair it with Pahiyas season for extra color.
+Mt. Banahaw|Sacred mountain with pilgrim trails.|Bus to Lucena, then a van to Dolores.|Check if trails are open, since access is restricted at times.
+Cagbalete Island|Sandbar island with calm shallow water.|Bus to Mauban, then a boat, about 45 min.|Bring cash since there are no ATMs.
+Real|Beginner-friendly surf breaks and falls nearby.|Bus from Manila to Real, Quezon, about 4 hrs.|Check surf conditions if you are a beginner.
+Polillo Island|Quiet island with beaches and caves.|Bus to Real, then a ferry, about 2 to 3 hrs.|Ferries depend on the weather.
+Antipolo|Hilltop cathedral and city views near Manila.|Jeepney or van from Marikina or Cubao, about 1 hr.|Avoid May weekends when pilgrims crowd the cathedral.
+Pililla Wind Farm|Turbines overlooking Laguna de Bay.|Bus or van from Manila to Pililla, Rizal.|Visit near sunset for the best photos.
+Masungi Georeserve|Rope walks and limestone viewpoints.|Van or drive to Baras, Rizal, by reservation only.|Book weeks ahead and wear closed shoes.
+Mt. Daraitan|Limestone peak with a river and a cave.|Van from Manila to Tanay, then a tricycle, about 3 hrs.|Cross the river carefully after rain.
+Mt. Makiling|Forest mountain near Los Baños.|Bus to Los Baños, then a jeepney to the trailheads.|Check ranger advisories before hiking.
+Naujan Lake|Large lake rich in birdlife.|Bus to Calapan, then a jeepney to Naujan.|Go early for birdwatching.
+Tamaraw Falls|Twin falls beside the roadside.|From Calapan by jeepney or van, about 2 hrs.|Visit early before tour groups arrive.
+Mt. Halcon|Challenging peak for experienced trekkers.|Bus to Calapan, then a jeepney to Baco.|Hire a guide and prepare for multi-day camping.
+Bulalacao|Quiet southern Mindoro beaches and islets.|Bus or jeepney from Calapan, about 5 to 6 hrs.|Bring cash and book boats locally.
+Lubang Island|Remote island with WWII history.|Boat from Batangas or Calapan, about 3 hrs.|Schedules are limited, so check ferry days.
+Mt. Guiting-Guiting|Demanding jagged peak on Sibuyan.|Ferry to Sibuyan, then a trek from Magdiwang.|A guide and good fitness are needed.
+Ticao Island|Manta rays and quiet coves.|Fly or ferry to Masbate, then a boat to San Jacinto.|Manta sightings depend on the season.
+Cuyo Island|Fortified town and beaches in the Cuyo group.|Flight or boat from Puerto Princesa or Iloilo.|Transport is limited, so plan ahead.
+Calauit Safari Park|Giraffes and zebras roaming a Palawan island.|Fly to Busuanga, then a tour by van and boat.|Book through a Coron operator.
+Tabon Caves|Caves tied to some of the oldest remains in the country.|Van from Puerto Princesa to Quezon, about 3 hrs.|Only a few caves are open to visitors.
+Taytay|Spanish fort and gateway to northern islands.|Van from El Nido, about 2 hrs.|Combine it with trips to nearby islands.
+San Vicente|Long Beach, one of the longest in the Philippines.|Fly to San Vicente Airport or take a van from Puerto Princesa.|Quieter than El Nido, but book early in peak months.
+Ugong Rock|Climbing and zipline on a limestone rock.|Van from Puerto Princesa, about 1 hr.|Closed shoes are required for climbing.
+Capones Island|Lighthouse islet with clear water.|Boat from Pundaquit, about 30 min.|Book a boatman at the beach and expect a short hike.
+Liwliwa|Laid-back surf and camping beach.|Bus to San Felipe, Zambales, then a tricycle.|Surf is best in the cooler months.
+Dingalan|Coves and viewpoints along the Pacific coast.|Bus to Cabanatuan, then a van to Dingalan.|Roads are long, so plan at least two days.
+Tuguegarao|Gateway to Cagayan with pancit batil patong.|Fly from Manila or take a long bus, about 10 to 12 hrs.|Try pancit batil patong.
+Fuga Island|Remote island with white beaches.|Boat from Aparri, Cagayan, about 3 to 4 hrs.|Sea conditions can cancel trips.
+Itbayat|Rugged northernmost inhabited island.|Flight or boat from Basco, weather permitting.|Allow extra days in case of delays.
+Bagasbas Beach|Black-sand beach popular with surfers.|Bus from Manila to Daet, about 8 hrs.|Surf is best in the cooler months.
+Naga City|Bicol food and the Peñafrancia pilgrimage.|Fly to Naga or take a bus from Manila, about 8 hrs.|Peñafrancia week fills hotels fast.
+Mt. Isarog|Forested volcano with falls and trails.|Bus to Naga, then a van to Panicuason.|Hire a guide and start early.
+Lake Buhi|Home of the sinarapan, a tiny fish.|Bus to Naga, then a van to Buhi, about 2 hrs.|Visit early for calm water.
+Legazpi City|Base city with Mayon views.|Fly to Legazpi or take a long bus from Manila.|Mayon views are clearest early in the morning.
+Hoyop-Hoyopan Cave|Cave with striking formations in Camalig.|From Legazpi by jeepney to Camalig, about 30 min.|Wear closed shoes and bring a flashlight.
+Rizal Park|Manila's central park and national monument.|Take the LRT to United Nations Station.|Go early and bring water.
+Bonifacio Global City|Modern district with cafes and street art.|Bus from Ayala or EDSA, about 20 min.|Explore the mural spots on foot.
+Makati|Dining, museums, and nightlife.|MRT or bus along EDSA, or a ride-hail.|Weekends have lighter traffic.
+Quezon City|Food scene, museums, and Art in Island.|MRT or LRT-2 to Cubao, then a local ride.|Check opening times for museums.
+Bomod-ok Falls|Big falls reached by a rice terrace trek.|Walk about 1.5 hrs from Sagada.|Hire a local guide and expect steep steps.
+Jawili Falls|Tiered falls with turquoise pools.|Fly to Kalibo, then a van to Tangalan, about 1 hr.|Visit in the wetter months for fuller flow.
+Bugtong Bato Falls|Twin falls near Tibiao.|Van from Iloilo or Kalibo to Tibiao, then a short walk.|Pair it with a river trip in Tibiao.
+Mt. Madja-as|Panay's highest peak and sunrise camp.|Van from Iloilo to Culasi, then a trek, about 2 days.|Hire a guide and bring warm clothes.
+Nogas Island|Marine sanctuary with white sand.|Boat from Anini-y, about 30 min.|Boats depend on sea conditions.
+Caluya Islands|Remote island group with clear water.|Boat from Libertad, Antique, about 3 to 4 hrs.|Schedules are limited, so plan ahead.
+Pan de Azucar Island|Cone-shaped island with a hill hike.|Boat from Concepcion, Iloilo, about 30 min.|Go early to climb before the heat.
+Jaro Cathedral|Belfry cathedral and city market.|Jeepney or taxi in Iloilo City.|Visit the market nearby for local snacks.
+Molo Church|Gothic-style church with twin spires.|Jeepney in Iloilo City, about 20 min from downtown.|Look for the old Molo mansion nearby.
+San Joaquin Church|Coral-stone church with a battle relief.|Van or bus from Iloilo City, about 1 hr.|Combine it with Miagao Church on a day trip.
+Panay Church|Giant bell and old church in Pan-ay.|Jeepney from Roxas City, about 30 min.|Look for the giant bell in the churchyard.
+Silay|Ancestral houses and museums.|Bus or van from Bacolod, about 20 min.|Visit during the day when houses are open.
+The Ruins|Mansion ruins glowing at sunset.|Van or taxi from Bacolod, about 30 min.|Go before sunset for golden light.
+Lakawon Island|Sandbar island near Cadiz.|Boat from Cadiz, Negros Occidental, about 20 min.|Check tides and book ahead on weekends.
+Mt. Talinis|Twin-peaked volcano above Dumaguete.|Van from Dumaguete to Valencia, then a trek.|Hire a guide and start before dawn.
+Twin Lakes of Balinsasayao|Two crater lakes in cloud forest.|Van or motorbike from Dumaguete, about 1 hr.|Roads are narrow, so go in dry weather.
+Pulangbato Falls|Reddish falls and a hot spring.|Van from Dumaguete to Valencia, then a short walk.|Bring water shoes for the pools.
+Bais City|Dolphin watching and sandbar trips.|Van from Dumaguete, about 1 hr.|Join dolphin tours early in the morning.
+Manjuyod Sandbar|Sandbar in Tañon Strait at low tide.|Van from Dumaguete to Bais, then a boat.|Check low tide before going.
+Dauin|Muck-dive sites and black-sand beaches.|Van from Dumaguete, about 30 min.|Book dives with certified operators.
+Cambugahay Falls|Three-tier falls with rope swings.|From Siquijor town by tricycle or motorbike, about 30 min.|Visit early since weekends get busy.
+Salagdoong Beach|Beach with a cliff jump platform.|Tricycle or motorbike from Siquijor town, about 30 min.|Check the water depth before jumping from the platform.
+Paliton Beach|Popular sunset beach with fine sand.|Tricycle or motorbike from Siquijor town, about 20 min.|Time it for sunset.
+Cantabon Cave|Guided cave trek through narrow passages.|Tricycle or motorbike from Siquijor town, then a guided trek.|Wear closed shoes and bring a headlamp.
+Sumilon Island|Sandbar island and marine sanctuary.|Boat from Oslob, about 20 min.|Check sandbar access in advance.
+Tumalog Falls|Curtain falls near Oslob.|From Oslob by tricycle, about 20 min.|Visit early to avoid crowds.
+Mantayupan Falls|Tall falls with a cool pool.|From Cebu City by van to Barili, about 3 hrs.|Combine it with Kawasan on a southern route.
+Carcar|Heritage houses and local sweets.|Bus from Cebu South Bus Terminal, about 1.5 hrs.|Try the local chicharon and sweets.
+Pescador Island|Reef wall near Moalboal's sardine run.|Boat from Moalboal, about 30 min.|Book snorkeling or diving early.
+Gato Island|Cave swim-through and white-tip sharks.|Boat from Malapascua, about 30 min.|Some dive spots need experienced divers.
+Olango Island|Bird sanctuary and snorkeling spots.|Boat from Mactan, about 30 min.|Visit the sanctuary at low tide for birds.
+Temple of Leah|Hilltop Roman-style temple with views.|Taxi or ride-hail from Cebu City, about 30 min.|Go in late afternoon for sunset.
+Simala Shrine|Castle-like Marian shrine.|Bus from Cebu to Sibonga, about 2 hrs.|Dress modestly for the shrine.
+Loboc River|River cruise with buffet lunch.|From Tagbilaran by van, about 40 min.|Book meal cruises early for peak months.
+Baclayon Church|One of the country's oldest stone churches.|From Tagbilaran by jeepney or tricycle, about 20 min.|Check the museum hours.
+Dauis Church|Church with a holy well inside.|From Tagbilaran by tricycle, about 15 min.|Combine it with Panglao visits.
+Hinagdanan Cave|Cave with a swimming pool.|From Panglao by tricycle, about 15 min.|Go early and bring a flashlight.
+Mag-Aso Falls|Cool falls in Antequera.|From Tagbilaran by van to Antequera, about 45 min.|Rainy months make the flow stronger.
+Pamilacan Island|Dolphin and whale watching trips.|Boat from Baclayon, about 1 hr.|Join dolphin tours at sunrise.
+Cabilao Island|Hammerhead dive spot off Loon.|Boat from Loon, about 30 min.|Choose a dive operator with local knowledge.
+Ormoc|West-coast city with falls nearby.|Fly to Tacloban or take a ferry from Cebu to Ormoc.|Try the local pasalubong near the port.
+Palo|MacArthur Landing Memorial and cathedral.|Short van or taxi ride from Tacloban, about 20 min.|Visit the MacArthur Landing site in the morning.
+Langun-Gobingob Caves|One of Asia's biggest cave systems.|Van from Catbalogan to Calbiga, then a guide.|Arrange tours with the local tourism office.
+Lulugayan Falls|Wide falls in Calbiga.|Van from Catbalogan to Calbiga, then a trail.|Go in the dry months for safer trails.
+Tarangban Falls|Three-tier falls near Calbayog.|Van or bus from Catbalogan to Calbayog, then a short ride.|Avoid it after heavy rain.
+Marabut|Islets and rock formations off Leyte Gulf.|Van from Tacloban to Marabut, about 3 hrs.|Boat rides depend on tide and wind.
+Guiuan Church|Baroque church and base for Calicoan.|Van from Tacloban to Guiuan, about 3 to 4 hrs.|Visit the church before going on to Calicoan.
+Balangiga Church|Church known for the bells of Balangiga.|Van from Tacloban to Balangiga, about 3 hrs.|Check opening times for the museum.
+Capul Island|Remote island with a distinct language.|Boat from Allen, Northern Samar, about 2 hrs.|Check sea conditions and book stays early.
+Ulan-Ulan Falls|Falls on Biliran's mountain slopes.|From Naval by tricycle or motorbike, then a trail.|Go early for the best light.
+Cloud 9|Siargao's famous surf break and boardwalk.|From General Luna on foot or by motorbike.|Surf sessions follow tides, so ask locals.
+Daku Island|Island day trip with a sandbar.|Boat from General Luna, about 30 min.|Join a day tour with Guyam and Naked Island.
+Guyam Island|Tiny palm islet off General Luna.|Boat from General Luna, about 20 min.|Bring cash for the tour fee.
+Surigao City|Port city and gateway to Siargao.|Fly to Surigao or take a ferry from Leyte.|Allow a buffer day before island ferries.
+Mabua Pebble Beach|Beach of smooth rounded stones.|Tricycle from Surigao City, about 20 min.|Wear sandals since stones are rough.
+Butuan|Home of ancient balangay boat finds.|Fly to Butuan or take a bus from Cagayan de Oro.|Visit the national museum first.
+Mantigue Island|Marine sanctuary island off Mahinog.|Boat from Mahinog, Camiguin, about 20 min.|Go early for calm water.
+Ardent Hot Springs|Hot spring pools below the volcano.|Tricycle from Mambajao, about 15 min.|Go in the evening for cooler air.
+Iligan City|City of waterfalls.|Bus or van from Cagayan de Oro, about 1.5 hrs.|Pair it with Maria Cristina and Tinago Falls.
+Fort Pilar|Spanish fort and shrine.|Short taxi or tricycle ride in Zamboanga City.|Visit in the morning before the heat.
+Pasonanca Park|Pine park with a treehouse.|Taxi or jeepney in Zamboanga City, about 20 min.|Weekdays are quieter.
+Lake Wood|Highland lake with calm water.|Van from Pagadian or Zamboanga City, several hours.|Check road conditions locally.
+Pagadian|Hillside city on Illana Bay.|Fly to Pagadian or take a long bus from Zamboanga City.|Go for the sunset views over the bay.
+Simunul Island|Site of the country's oldest mosque. Check advisories first.|Flight to Bongao, then a boat.|Check current advisories before going.
+Mt. Kalatungan|Challenging peak with mossy forest.|Van from Malaybalay to Pangantucan, then a trek.|Hire a guide and prepare for cold nights.
+Mt. Malindang|Forested peak with a crater lake.|From Ozamiz by van, then a guide for the trek.|Check weather before going up.
+Kidapawan|Base for Mt. Apo treks.|Fly to Davao, then a van, about 3 hrs.|Stay overnight before any Mt. Apo trek.
+Maitum|Anthropomorphic burial jars and caves.|Drive from General Santos, about 2 hrs.|Visit the local museum for the burial jars.
+Hagimit Falls|Falls on Samal Island.|Ferry to Samal from Davao, then a tricycle.|Go early to beat crowds.
+Mati|City by Pujada Bay near Dahican.|Fly to Davao, then a van, about 4 hrs.|Combine it with Dahican Beach.
+Maragusan Valley|Highland valley with cool air and views.|Van from Davao City, about 4 hrs.|Roads are winding, so start early.
+Malagos Garden Resort|Bird show and chocolate museum.|Van or taxi from Davao City, about 40 min.|Book the bird show in advance.
+Asik-Asik Falls|Falls streaming from a cliff wall.|Van from Kidapawan or Cotabato City, then a short trek.|Roads can be rough, so leave early.
 `;
