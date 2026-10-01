@@ -17,7 +17,7 @@
 
 <header class="site"><div class="nav">
   <a href="#" class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M3 15C6 15 6 11 9 11C12 11 12 15 15 15C18 15 18 11 21 11" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg></span>Destinify</a>
-  <nav class="links"><a href="#match">Match</a><a href="#results">Destinations</a><a href="#mapsection">Map</a></nav>
+  <nav class="links"><a href="#match">Match</a><a href="#results">Destinations</a><a href="#mapsection">Map</a><a href="#insights">Insights</a><a href="#faq">Travel tips</a></nav>
   <div class="navr">
     <button class="ib" id="themeBtn" aria-label="Toggle dark mode">◐</button>
     <button class="btn btn-c" data-bs-toggle="offcanvas" data-bs-target="#tripPanel">♥ My trip (<span id="tripN">0</span>)</button>
@@ -58,12 +58,17 @@
   <div class="head">
     <div><h2 id="rt">Your best matches</h2><p id="rc"></p></div>
     <div class="tools">
-      <button class="chip on" data-tab="all">All</button><button class="chip" data-tab="pop">Popular</button><button class="chip" data-tab="gem">Hidden gems</button><button class="chip" data-tab="trip">My trip</button>
-      <select id="ps" aria-label="Sort"><option value="match">Best match</option><option value="cheap">Lowest budget</option><option value="short">Shortest trip</option><option value="az">A to Z</option></select>
+      <button class="chip on" data-tab="all">All</button><button class="chip" data-tab="pop">Popular</button><button class="chip" data-tab="gem">Hidden gems</button><button class="chip" data-tab="now">In season now</button><button class="chip" data-tab="trip">My trip</button>
+      <button class="chip" id="nearBtn">Near me</button><select id="ps" aria-label="Sort"><option value="match">Best match</option><option value="cheap">Lowest budget</option><option value="short">Shortest trip</option><option value="az">A to Z</option></select>
     </div>
   </div>
   <div class="grid" id="grid"></div>
   <div class="more" id="more"></div>
+</div></section>
+
+<section class="insights" id="insights"><div class="wrap">
+  <div class="head"><div><h2>The catalog by the numbers</h2><p>How the 150 destinations break down by region, type, and season.</p></div></div>
+  <div id="ins"></div>
 </div></section>
 
 <section class="mapsec" id="mapsection"><div class="wrap">
@@ -73,7 +78,20 @@
   <div class="legend"><span><i style="background:#ff6f4c"></i>Luzon &amp; Palawan</span><span><i style="background:#e8b750"></i>Visayas</span><span><i style="background:#4fd1b5"></i>Mindanao</span><span>Larger pins are popular places</span></div>
 </div></section>
 
-<footer><div class="wrap"><span>© 2026 Destinify. A system proposal by Huerto, Benlester N.</span><span>Budgets, best months, and coordinates are approximate prototype data.</span></div></footer>
+<section class="faq" id="faq"><div class="wrap">
+  <div class="head"><div><h2>Good to know before you go</h2><p>General travel guidance for the Philippines. Always confirm details with official sources.</p></div></div>
+  <div class="accordion" id="faqAcc">
+    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#f1">When is the best time to visit?</button></h3><div id="f1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc"><div class="accordion-body">Most places are easiest from about November to May, when it is drier. Some activities follow their own seasons: surf spots like Siargao, Baler, and Catanduanes have their own swells, whale sharks in Donsol are usually seen from about November to June, and waterfalls look fullest in the wetter months. Each destination page lists its best months.</div></div></div>
+    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f2">What about typhoons and rough seas?</button></h3><div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Typhoon season runs roughly June to November. Boats and flights to islands can be cancelled at short notice, so keep your schedule flexible, buffer a day before flights home, and follow official weather updates from PAGASA.</div></div></div>
+    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f3">How much cash should I carry?</button></h3><div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Cities have ATMs and card payments, but small islands and remote towns often have neither. Withdraw cash before you go and carry small bills for tricycles, entrance fees, and food stalls.</div></div></div>
+    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f4">How do I get around?</button></h3><div id="f4" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Expect a mix of flights, buses, vans, ferries, jeepneys, tricycles, and habal-habal motorbike taxis. Travel between islands takes longer than the map suggests, so allow extra time and book popular ferries and tours early.</div></div></div>
+    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f5">Are there fees and permits?</button></h3><div id="f5" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Many places charge entrance, environmental, or guide fees, and some need permits, such as Mt. Pulag, Mt. Apo, and the Puerto Princesa Underground River. Fees and rules change, so check with the local tourism office before you travel.</div></div></div>
+    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f6">How can I travel responsibly?</button></h3><div id="f6" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Don't touch or stand on coral, don't feed wildlife, use reef-safe sunscreen, carry your trash out, and hire local guides and boatmen. Choose operators that follow marine and wildlife guidelines.</div></div></div>
+    <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f7">Is every area open to visitors?</button></h3><div id="f7" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Conditions vary, especially in parts of Mindanao and the Sulu archipelago. Check current government travel advisories and ask local operators before booking.</div></div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 Destinify. A system proposal by Huerto, Benlester N.</span><span>Budgets, best months, coordinates, and travel details are approximate prototype data.</span></div></footer>
 
 <div class="cbar" id="cbar"><span><b id="cn">0</b> selected (max 3)</span><button class="btn btn-c" id="cmpOpen" style="padding:8px 18px">Compare</button><button class="btn btn-o" id="cmpClr" style="padding:8px 16px">Clear</button></div>
 
@@ -85,6 +103,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <script src="assets/data.js"></script>
+<script src="assets/details.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>
