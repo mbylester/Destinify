@@ -218,3 +218,23 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .hero{overflow:visible;overflow-x:clip}                 /* stops the preference panel's buttons being cut off */
 #dmc,#cmc{overflow-y:auto;overflow-x:hidden}            /* detail + compare modals scroll */
 .xmain{aspect-ratio:2/1}
+
+/* ---- v7: planner, travel times, heatmap, recommendations ---- */
+#xmc{overflow-y:auto;overflow-x:hidden}
+.xtv{font-size:11.5px;color:var(--soft);padding:3px 0 3px 36px;border-bottom:1px dashed var(--line)}
+.xdrag{cursor:grab}.xdrag.over{outline:2px dashed var(--coral);outline-offset:-2px}
+.xday{border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:10px}.xday.warn{border-color:var(--gold)}.xday.bad{border-color:var(--coral)}
+.xdh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.xdh small{color:var(--soft)}
+.xwarn{background:#ffe0d8;color:#8a2a10;border-radius:8px;padding:5px 9px;font-size:12.5px;margin-top:6px}
+.xzone{display:flex;gap:8px;flex-wrap:wrap;min-height:46px;margin-top:8px;padding:6px;border-radius:10px;background:var(--bg)}
+.xchip{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 10px;display:flex;flex-direction:column;cursor:grab;font-size:13px}
+.xchip small{color:var(--soft);font-size:11.5px}.xchip span{display:flex;gap:4px;margin-top:3px}.xchip button{border:none;background:var(--bg);color:var(--ink);border-radius:6px;padding:0 8px}
+.xhm{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.xhm div{text-align:center;border-radius:8px;padding:6px 0;font-size:11px;display:flex;flex-direction:column;min-height:44px}
+.xhm .g{background:#2f9e6b;color:#fff}.xhm .a{background:#f0c36a;color:#4a3300}.xhm .r{background:var(--line);color:var(--soft)}
+.xhm .now{outline:2px solid var(--coral);outline-offset:1px}.xhm i{font-style:normal;font-size:10px;min-height:12px}
+.xleg{font-size:11.5px;color:var(--soft);margin:6px 0 10px}
+.xvd{border-radius:12px;padding:10px 14px;font-size:14px;background:var(--bg)}
+.xvd.go{border-left:5px solid #2f9e6b}.xvd.maybe{border-left:5px solid var(--gold)}.xvd.wait{border-left:5px solid var(--coral)}
+.xrg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.xrc{display:flex;flex-direction:column;gap:3px;align-items:flex-start}.xrc small{font-size:11.5px;color:var(--soft)}
+@media(max-width:860px){.xrg{grid-template-columns:1fr 1fr}}

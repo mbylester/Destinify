@@ -29,5 +29,6 @@ document.addEventListener("click",e=>{const t=e.target.closest("[data-x3]");if(!
 const _rt=renderTrip;renderTrip=()=>{_rt();const T=st.trip.slice(0,10).map(i=>D[i]);if(!T.length)return;
  J(`${OM}&latitude=${T.map(d=>d.la).join(",")}&longitude=${T.map(d=>d.ln).join(",")}&current=temperature_2m,weather_code`,"wxt"+T.map(d=>d.i).join("-"),18e5)
  .then(j=>{const a=Array.isArray(j)?j:[j];document.querySelectorAll("#tripBody .stop .t span").forEach((s,k)=>{const c=a[k]&&a[k].current;if(c&&!s.dataset.w){s.dataset.w=1;s.textContent+=` · ${WC(c.weather_code)[0]} ${Math.round(c.temperature_2m)}°C`}})}).catch(()=>{})};
+DX.wx=wx;
 render();
 })();
