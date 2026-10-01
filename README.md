@@ -1,6 +1,6 @@
 # Destinify
 
-**Find your next Philippine escape.** Destinify is a destination-matching web app for the Philippines. Set your budget, travel style, and travel month, and it scores and ranks **300 destinations**, from crowd favorites to quiet corners few people visit, from Batanes to Tawi-Tawi.
+**Find your next Philippine escape.** Destinify is a destination-matching web app for the Philippines. Set your budget, travel style, and travel month, and it scores and ranks **500 destinations**, from crowd favorites to quiet corners few people visit, from Batanes to Tawi-Tawi.
 
 It is a static front-end prototype: no build step, no backend, no API keys. Open it in a browser and it works.
 
@@ -72,7 +72,7 @@ Destinify/
 ├── sw.js               Service worker (network first, offline fallback)
 └── assets/
     ├── style.css       Styles, light and dark themes
-    ├── data.js         Destination catalog (300 rows)
+    ├── data.js         Destination catalog (500 rows)
     ├── details.js      Description, getting there, and tip per destination
     ├── images.js       Wikipedia photo loader and title overrides
     ├── app.js          Core logic: matching, cards, map, trip planner
