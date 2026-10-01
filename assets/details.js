@@ -150,4 +150,154 @@ General Santos|Tuna capital with fish ports and fresh seafood.|Fly to General Sa
 Lake Sebu|Highland lake home to the T'boli people and weaving traditions.|Van from Koronadal, about 1 to 1.5 hrs.|Try tilapia and watch T'boli weaving.
 Mt. Matutum|Dormant volcano with hiking trails near General Santos.|Drive from General Santos to Tupi.|Start early, because trails are exposed.
 Gumasa Beach|Black-sand beach known for surf near Glan, Sarangani.|Drive from General Santos, about 2 hrs.|Check surf conditions before heading out.
+Mt. Ulap|Grassy ridge hike with sea-of-clouds views near Baguio.||
+Bontoc|Cordillera town with a museum on highland cultures.||
+Maligcong Rice Terraces|Stone-walled terraces with easy village hikes.||
+Kabayan Mummy Caves|Burial caves with centuries-old Ibaloi mummies.||
+Chico River|Rafting and kayaking on a scenic Cordillera river.||
+Laoag City|Ilocano food stops and the Sinking Bell Tower.||
+Pinsal Falls|Cascading falls reached by a short trail.||
+Santa Maria Church|UNESCO hilltop fortress church.||
+Bantay Church|Church and bell tower once used as a watchtower.||
+Cape Bojeador Lighthouse|Spanish-era lighthouse on a coastal hill.||
+Currimao|Quiet rocky shoreline and calm beach coves.||
+Tangadan Falls|Jungle falls with a natural swimming pool.||
+Agoo Basilica|Marian basilica and museum in La Union.||
+Manaoag Church|Pilgrimage church for Our Lady of Manaoag.||
+Dagupan|Known for grilled bangus and fish markets.||
+La Trinidad|Strawberry farms and Benguet's vegetable valley.||
+Mayoyao Rice Terraces|Remote terraces and a village heritage museum.||
+Mt. Arayat|Solitary volcano with forest trails.||
+Candaba Swamp|Migratory bird haven in the dry months.||
+Madlum Cave|Limestone cave with a river running through it.||
+Biak-na-Bato|Revolutionary hideout with caves and trails.||
+Barasoain Church|Site of the First Philippine Republic congress.||
+Mt. Samat|War memorial shrine with a cross viewpoint.||
+Mt. Natib|Volcanic caldera with forest trekking.||
+Pawikan Conservation Center|Sea turtle hatchery along the coast.||
+Corregidor Island|WWII fortress island at the mouth of Manila Bay.||
+Aguinaldo Shrine|Home where independence was declared in 1898.||
+Mt. Maculot|Rocky summit with views over Taal Lake.||
+Mt. Talamitam|Beginner hike over open grassland.||
+Mt. Gulugod Baboy|Short ridge hike above Anilao.||
+Fortune Island|Greek-style ruins and clear water.||
+Laiya|Long white-sand beach with resorts.||
+Malabrigo Lighthouse|Historic lighthouse on a Lobo headland.||
+Seven Lakes of San Pablo|Crater lakes with bamboo rafts and cafes.||
+Hidden Valley Springs|Forest resort with natural spring pools.||
+Taytay Falls|Broad falls in Majayjay reached by steps.||
+Lake Caliraya|Reservoir for kayaking and wakeboarding.||
+Villa Escudero|Plantation resort with a waterfall lunch.||
+Kamay ni Hesus|Healing shrine with a large Christ statue.||
+Mt. Banahaw|Sacred mountain with pilgrim trails.||
+Cagbalete Island|Sandbar island with calm shallow water.||
+Real|Beginner-friendly surf breaks and falls nearby.||
+Polillo Island|Quiet island with beaches and caves.||
+Antipolo|Hilltop cathedral and city views near Manila.||
+Pililla Wind Farm|Turbines overlooking Laguna de Bay.||
+Masungi Georeserve|Rope walks and limestone viewpoints.||
+Mt. Daraitan|Limestone peak with a river and a cave.||
+Mt. Makiling|Forest mountain near Los Baños.||
+Naujan Lake|Large lake rich in birdlife.||
+Tamaraw Falls|Twin falls beside the roadside.||
+Mt. Halcon|Challenging peak for experienced trekkers.||
+Bulalacao|Quiet southern Mindoro beaches and islets.||
+Lubang Island|Remote island with WWII history.||
+Mt. Guiting-Guiting|Demanding jagged peak on Sibuyan.||
+Ticao Island|Manta rays and quiet coves.||
+Cuyo Island|Fortified town and beaches in the Cuyo group.||
+Calauit Safari Park|Giraffes and zebras roaming a Palawan island.||
+Tabon Caves|Caves tied to some of the oldest remains in the country.||
+Taytay|Spanish fort and gateway to northern islands.||
+San Vicente|Long Beach, one of the longest in the Philippines.||
+Ugong Rock|Climbing and zipline on a limestone rock.||
+Capones Island|Lighthouse islet with clear water.||
+Liwliwa|Laid-back surf and camping beach.||
+Dingalan|Coves and viewpoints along the Pacific coast.||
+Tuguegarao|Gateway to Cagayan with pancit batil patong.||
+Fuga Island|Remote island with white beaches.||
+Itbayat|Rugged northernmost inhabited island.||
+Bagasbas Beach|Black-sand beach popular with surfers.||
+Naga City|Bicol food and the Peñafrancia pilgrimage.||
+Mt. Isarog|Forested volcano with falls and trails.||
+Lake Buhi|Home of the sinarapan, a tiny fish.||
+Legazpi City|Base city with Mayon views.||
+Hoyop-Hoyopan Cave|Cave with striking formations in Camalig.||
+Rizal Park|Manila's central park and national monument.||
+Bonifacio Global City|Modern district with cafes and street art.||
+Makati|Dining, museums, and nightlife.||
+Quezon City|Food scene, museums, and Art in Island.||
+Bomod-ok Falls|Big falls reached by a rice terrace trek.||
+Jawili Falls|Tiered falls with turquoise pools.||
+Bugtong Bato Falls|Twin falls near Tibiao.||
+Mt. Madja-as|Panay's highest peak and sunrise camp.||
+Nogas Island|Marine sanctuary with white sand.||
+Caluya Islands|Remote island group with clear water.||
+Pan de Azucar Island|Cone-shaped island with a hill hike.||
+Jaro Cathedral|Belfry cathedral and city market.||
+Molo Church|Gothic-style church with twin spires.||
+San Joaquin Church|Coral-stone church with a battle relief.||
+Panay Church|Giant bell and old church in Pan-ay.||
+Silay|Ancestral houses and museums.||
+The Ruins|Mansion ruins glowing at sunset.||
+Lakawon Island|Sandbar island near Cadiz.||
+Mt. Talinis|Twin-peaked volcano above Dumaguete.||
+Twin Lakes of Balinsasayao|Two crater lakes in cloud forest.||
+Pulangbato Falls|Reddish falls and a hot spring.||
+Bais City|Dolphin watching and sandbar trips.||
+Manjuyod Sandbar|Sandbar in Tañon Strait at low tide.||
+Dauin|Muck-dive sites and black-sand beaches.||
+Cambugahay Falls|Three-tier falls with rope swings.||
+Salagdoong Beach|Beach with a cliff jump platform.||
+Paliton Beach|Popular sunset beach with fine sand.||
+Cantabon Cave|Guided cave trek through narrow passages.||
+Sumilon Island|Sandbar island and marine sanctuary.||
+Tumalog Falls|Curtain falls near Oslob.||
+Mantayupan Falls|Tall falls with a cool pool.||
+Carcar|Heritage houses and local sweets.||
+Pescador Island|Reef wall near Moalboal's sardine run.||
+Gato Island|Cave swim-through and white-tip sharks.||
+Olango Island|Bird sanctuary and snorkeling spots.||
+Temple of Leah|Hilltop Roman-style temple with views.||
+Simala Shrine|Castle-like Marian shrine.||
+Loboc River|River cruise with buffet lunch.||
+Baclayon Church|One of the country's oldest stone churches.||
+Dauis Church|Church with a holy well inside.||
+Hinagdanan Cave|Cave with a swimming pool.||
+Mag-Aso Falls|Cool falls in Antequera.||
+Pamilacan Island|Dolphin and whale watching trips.||
+Cabilao Island|Hammerhead dive spot off Loon.||
+Ormoc|West-coast city with falls nearby.||
+Palo|MacArthur Landing Memorial and cathedral.||
+Langun-Gobingob Caves|One of Asia's biggest cave systems.||
+Lulugayan Falls|Wide falls in Calbiga.||
+Tarangban Falls|Three-tier falls near Calbayog.||
+Marabut|Islets and rock formations off Leyte Gulf.||
+Guiuan Church|Baroque church and base for Calicoan.||
+Balangiga Church|Church known for the bells of Balangiga.||
+Capul Island|Remote island with a distinct language.||
+Ulan-Ulan Falls|Falls on Biliran's mountain slopes.||
+Cloud 9|Siargao's famous surf break and boardwalk.||
+Daku Island|Island day trip with a sandbar.||
+Guyam Island|Tiny palm islet off General Luna.||
+Surigao City|Port city and gateway to Siargao.||
+Mabua Pebble Beach|Beach of smooth rounded stones.||
+Butuan|Home of ancient balangay boat finds.||
+Mantigue Island|Marine sanctuary island off Mahinog.||
+Ardent Hot Springs|Hot spring pools below the volcano.||
+Iligan City|City of waterfalls.||
+Fort Pilar|Spanish fort and shrine.||
+Pasonanca Park|Pine park with a treehouse.||
+Lake Wood|Highland lake with calm water.||
+Pagadian|Hillside city on Illana Bay.||
+Simunul Island|Site of the country's oldest mosque. Check advisories first.||
+Mt. Kalatungan|Challenging peak with mossy forest.||
+Mt. Malindang|Forested peak with a crater lake.||
+Kidapawan|Base for Mt. Apo treks.||
+Maitum|Anthropomorphic burial jars and caves.||
+Hagimit Falls|Falls on Samal Island.||
+Mati|City by Pujada Bay near Dahican.||
+Maragusan Valley|Highland valley with cool air and views.||
+Malagos Garden Resort|Bird show and chocolate museum.||
+Asik-Asik Falls|Falls streaming from a cliff wall.||
 `;
