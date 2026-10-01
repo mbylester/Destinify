@@ -58,5 +58,6 @@ document.addEventListener("click",async e=>{const t=e.target.closest("[data-x]")
  else if(x=="csv"&&adm()){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv([["Name","Province","Type","Budget","Days","Popular","Avg rating","Reviews","Times in trips"],...D.map(d=>[d.n,d.p,d.t,d.b,d.d,d.o?"yes":"no",avg(d.i).toFixed(1),(rev[d.i]||[]).length,users.filter(u=>(u.trip||[]).includes(d.i)).length])])],{type:"text/csv"}));a.download="destinify-report.csv";a.click()}
  else if(x=="build")build();
  else if(x=="rv"&&U){const i=+t.dataset.id,c=V("xc");if(!c)return;(rev[i]=rev[i]||[]).push({u:U.n,r:+$("xr").value,c});LS("drev",rev);$("xrev").innerHTML=revH(D[i])}});
+window.DX={avg,rev:()=>rev,U:()=>U,show,M,V,LS,esc,hid:()=>hid,users:()=>users,saveUsers:()=>LS("dusers",users),sha,nav};
 render();
 })();
