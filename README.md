@@ -1,69 +1,173 @@
 # Destinify
 
-**A web-based travel destination recommendation system for the Philippines.**
+**Find your next Philippine escape.** Destinify is a destination-matching web app for the Philippines. Set your budget, travel style, and travel month, and it scores and ranks **300 destinations**, from crowd favorites to quiet corners few people visit, from Batanes to Tawi-Tawi.
 
-Destinify helps travelers find Philippine destinations that match their budget, interests, preferred activities, destination type, location, and travel duration. Instead of searching across many websites and social media pages, users set their preferences once and get ranked destination matches.
+It is a static front-end prototype: no build step, no backend, no API keys. Open it in a browser and it works.
 
-> **Status:** In development. This is an academic project (IPT2).
+> A system proposal by Huerto, Benlester N.
 
-## Why Destinify?
-
-Most tourism websites offer destination information, galleries, and inspiration, but few help you decide *which* destination fits you best. Destinify organizes destination data in one database and uses a weighted rule-based matching algorithm to score how well each destination fits your preferences. It uses only free and open-source technologies, with no paid AI services or commercial recommendation APIs.
+---
 
 ## Features
 
-- **User accounts:** registration, login, profile management, and role-based access
-- **Preference selection:** budget, interests, activities, destination type, location, and travel duration
-- **Destination catalog:** Philippine destinations with descriptions, categories, activities, estimated budget, and recommended duration
-- **Weighted matching:** compatibility scores between your preferences and each destination
-- **Search, filter, and favorites:** browse destinations and save the ones you like
-- **Map pins:** markers for recommended destinations, using free-tier or open-source mapping services
-- **Admin panel:** manage users, destinations, categories, and activities, with basic dashboard summaries and reports
+**Matching and discovery**
+- Weighted match score (0–100%) based on destination type, activities, budget, trip length, and season
+- Adjustable weights (defaults: 30 / 25 / 20 / 10 / 15), rescaled to 100%
+- Preference quiz, "Surprise me", search, region and trip-length filters
+- Tabs for All, Popular, Hidden gems, In season now, Favorites, and My trip
+- "Near me" sorting using your location, plus sort by best match, lowest budget, shortest trip, A to Z, and top rated
+- Side-by-side comparison of up to 3 destinations
+- "Picked for you" recommendations based on your trip, places you viewed, and your own reviews
 
-## User Roles
+**Destination pages**
+- Photo gallery from Wikimedia Commons, with credits
+- Live 5-day weather from Open-Meteo, and a "should I go this week?" verdict
+- Best-month heatmap with typhoon-season markers
+- Getting there, local tips, packing list, sample day-by-day plan, and nearby places
+- Festivals and events for the destination
+- Traveler reviews and ratings
 
-| Role | What they can do |
-| --- | --- |
-| **Admin** | Manage users, destinations, categories, and activities; view dashboard reports |
-| **Traveler** | Set preferences, get recommendations, search destinations, view details, save favorites |
-| **Guest** | Browse public destination information without an account |
+**Trip planning**
+- Cost estimate by number of travelers and travel style (Budget, Standard, Comfort)
+- Route optimizer, drag-and-drop ordering, and rough travel-time estimates between stops
+- Day-by-day planner with drag-and-drop and an overpacked-day warning
+- Auto trip builder (give it days and a budget)
+- Copy itinerary, share link, calendar export (`.ics`), and print itinerary
 
-## Tech Stack
+**Map**
+- Leaflet map with clustered pins, colored by region and sized by popularity
+- Street, terrain, and satellite layers
+- Trip route drawn as a gold line
 
-| Layer | Technology |
-| --- | --- |
-| Frontend | HTML5, CSS3, JavaScript, Bootstrap |
-| Backend | PHP |
-| Database | MySQL |
-| Local server | XAMPP (Apache + MySQL) |
-| Tools | Git/GitHub, Visual Studio Code, phpMyAdmin, Figma |
+**Extras**
+- Festivals and events calendar by month
+- Catalog insights (breakdown by region, type, and season)
+- Accounts with Traveler and Admin roles (demo, stored in the browser)
+- Admin dashboard: add or hide destinations, view stats, download a CSV report
+- Dark mode and responsive layout
+- Installable PWA with offline fallback
 
-## Getting Started
+---
 
-### Prerequisites
+## Run it locally
 
-- [XAMPP](https://www.apachefriends.org/) with Apache and MySQL
-- [Git](https://git-scm.com/)
+No install is needed, but the app must be served over HTTP (not opened as a `file://` page) so the service worker and API calls work.
 
-### Run locally
+**XAMPP:** copy the project folder into `htdocs` and open `http://localhost/Destinify/`.
 
-1. Clone the repository into your XAMPP `htdocs` folder:
-   ```
-   cd C:\xampp\htdocs
-   git clone https://github.com/mbylester/Destinify.git
-   ```
-2. Start **Apache** and **MySQL** in the XAMPP Control Panel.
-3. Open your browser and go to:
-   ```
-   http://localhost/Destinify/
-   ```
+**Python:**
+```bash
+python -m http.server 8000
+```
+Then open `http://localhost:8000/`.
 
-Database setup instructions will be added once the MySQL schema is ready.
+---
 
-## Out of Scope
+## Project structure
 
-Destinify does not handle online booking, payments, native mobile apps, or custom machine-learning models.
+```
+Destinify/
+├── index.html          Page layout and script loading order
+├── manifest.json       PWA manifest
+├── sw.js               Service worker (network first, offline fallback)
+└── assets/
+    ├── style.css       Styles, light and dark themes
+    ├── data.js         Destination catalog (300 rows)
+    ├── details.js      Description, getting there, and tip per destination
+    ├── images.js       Wikipedia photo loader and title overrides
+    ├── app.js          Core logic: matching, cards, map, trip planner
+    ├── features.js     Accounts, reviews, match weights, trip builder, admin
+    ├── features2.js    Quiz, recommendations, calendar and print export, profile, PWA
+    ├── features3.js    Photo gallery and live weather
+    ├── features4.js    Drag-and-drop trips, day planner, heatmap, smarter picks
+    ├── features5.js    Festivals calendar and favorites
+    ├── icon-192.png
+    └── icon-512.png
+```
 
-## Author
+Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features5.js`. Each feature file builds on the one before it, so keep that order.
 
-**Benlester N. Huerto**
+---
+
+## Editing the data
+
+### Add a destination (`assets/data.js`)
+
+One destination per line, fields separated by `|`:
+
+```
+name|province|group|lat|lng|type|budget PHP|days|activities|popular|best months
+```
+
+Example:
+```
+Sagada|Mountain Province|L|17.084|120.901|Mountain|6200|3|hk cv cm|1|11-4
+```
+
+| Field | Notes |
+|---|---|
+| group | `L` Luzon and Palawan, `V` Visayas, `M` Mindanao |
+| type | Beach, Island, Mountain, Waterfall, Heritage, City, Diving, Surf, Cave, Lake, Nature, or Adventure |
+| budget | Approximate cost per person for the suggested stay, in PHP |
+| activities | Space-separated codes (see below) |
+| popular | `1` popular, `0` hidden gem |
+| best months | `start-end`, e.g. `11-4`. Optional, defaults to `11-5` |
+
+Activity codes: `sw` swimming, `sn` snorkeling, `dv` diving, `hk` hiking, `sf` surfing, `ih` island hopping, `ss` sightseeing, `cm` camping, `fd` food trip, `cv` caving, `kc` kayaking, `cw` culture walks, `wl` wildlife, `cy` canyoneering, `ad` adventure sports, `ph` photography, `rl` relaxation, `bk` cycling.
+
+**Add new places at the end of the file.** Saved trips, favorites, and reviews refer to a destination by its position in the list, so inserting rows in the middle would shift them.
+
+### Add details (`assets/details.js`)
+
+```
+name|description|how to get there|tip
+```
+
+The name must match `data.js` exactly. Don't use `|` inside any field.
+
+### Fix a photo (`assets/images.js`)
+
+Photos load from Wikipedia at runtime. If a place shows the wrong picture, add its exact Wikipedia article title to `IMG_TITLES`, or point it to your own image in `IMG_URL`. Results are cached in the browser's `localStorage`.
+
+### Add a festival (`assets/features5.js`)
+
+Add a row to `FEST` with `n` (name), `d` (destination name exactly as in `data.js`), `m` (months, 1–12), `w` (when), and `x` (description).
+
+---
+
+## Demo accounts and admin
+
+Accounts are **demo only** and live in the browser's `localStorage`. Passwords are hashed with SHA-256 before they are stored, but there is no server.
+
+- Admin demo login: `admin` / `admin123`
+
+If you deploy this publicly, change or remove the default admin account first. Anyone can read it in the source.
+
+---
+
+## Built with
+
+- Vanilla JavaScript, HTML, and CSS
+- [Bootstrap 5.3](https://getbootstrap.com/)
+- [Leaflet](https://leafletjs.com/) and Leaflet.markercluster
+- [Open-Meteo](https://open-meteo.com/) for weather (no API key)
+- Wikipedia and Wikimedia Commons for photos
+- Fraunces and Work Sans from Google Fonts
+
+---
+
+## Data notes and limits
+
+- Budgets, best months, coordinates, travel times, and festival dates are **approximate prototype data**, not official figures.
+- Always confirm fees, permits, schedules, festival dates, and travel advisories with official sources (DOT, local tourism offices, PAGASA) before you travel.
+- Photos belong to their authors and are used under their own Wikipedia and Wikimedia Commons licenses. A credit link is shown with each one.
+- Reviews, accounts, trips, and favorites are stored in your own browser, so they are not shared between devices.
+
+---
+
+## Roadmap
+
+- Move accounts, reviews, and trips to a PHP/MySQL backend (each `localStorage` call in `features.js` maps to an endpoint)
+- Fill in coordinates and details with checked, official sources
+- Add more festivals and events
+- Add more Mindanao destinations to balance the catalog
