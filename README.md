@@ -19,6 +19,11 @@ It is a static front-end prototype: no build step, no backend, no API keys. Open
 - Side-by-side comparison of up to 3 destinations
 - "Picked for you" recommendations based on your trip, places you viewed, and your own reviews
 
+**Search and assistant**
+- Search button in the header (also `Ctrl+K` or `/`) with live results across names, provinces, types, and activities, plus a region filter
+- A "Search" button under the search field in the filter panel
+- Chatbot (bottom-right) that suggests places by budget, region, type, activity, or month, answers questions about a place, and plans a trip by days and budget. It runs in the browser from the catalog, so it needs no server or API key
+
 **Destination pages**
 - Photo gallery from Wikimedia Commons, with credits
 - Live 5-day weather from Open-Meteo, and a "should I go this week?" verdict
@@ -81,11 +86,12 @@ Destinify/
     ├── features3.js    Photo gallery and live weather
     ├── features4.js    Drag-and-drop trips, day planner, heatmap, smarter picks
     ├── features5.js    Festivals calendar and favorites
+    ├── features6.js    Global search and the travel chatbot
     ├── icon-192.png
     └── icon-512.png
 ```
 
-Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features5.js`. Each feature file builds on the one before it, so keep that order.
+Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features6.js`. Each feature file builds on the one before it, so keep that order.
 
 ---
 
