@@ -1,0 +1,53 @@
+/* Destinify themes. Basic mode = Dawn Rose, Dark mode = Golden Hour. Load after style.css. The logo mark keeps its original colors. */
+:root{--t950:#4a1942;--t900:#5d2a58;--t800:#7a3a73;--gold:#e08a1e;--coral:#c2185b;--coral-d:#a3124a;
+--bg:#fff0f5;--card:#fff;--ink:#3b1238;--soft:#6e4a6a;--line:rgba(74,25,66,.12);--tagbg:#f6e3ef;--tagfg:#7a1d52;--hdr:rgba(255,240,245,.92)}
+[data-theme=dark]{--t950:#12072e;--t900:#1b1464;--t800:#3a2a8a;--gold:#ffca28;--coral:#e8512f;--coral-d:#ff9a76;
+--bg:#14093a;--card:#1d1250;--ink:#fff3e0;--soft:#c0b3e6;--line:rgba(255,243,224,.13);--tagbg:rgba(255,202,40,.14);--tagfg:#ffd97a;--hdr:rgba(20,9,58,.92)}
+/* logo stays as it was */
+.mark{background:linear-gradient(135deg,#ff6f4c,#e8b750)}
+/* hero scene */
+.hero{background:#6f8fd8;color:#4a1942;isolation:isolate}
+[data-theme=dark] .hero{background:#10062c;color:#fff3e0}
+.scene{position:absolute;left:0;right:0;top:0;height:640px;overflow:hidden;z-index:0;pointer-events:none}
+.scene svg{position:absolute;inset:0;width:100%;height:100%}
+.scene-d,[data-theme=dark] .scene-l{display:none}[data-theme=dark] .scene-d{display:block}
+.hero::before{content:"";position:absolute;left:0;top:0;width:62%;height:640px;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(255,240,245,.55),rgba(255,240,245,0))}
+[data-theme=dark] .hero::before{background:linear-gradient(90deg,rgba(18,7,46,.6),rgba(18,7,46,0))}
+.hero .wrap{position:relative;z-index:2}
+.art svg{display:none}
+.hero h1 em,.hero .stats b{color:#c2185b}[data-theme=dark] .hero h1 em,[data-theme=dark] .hero .stats b{color:#ffca28}
+.hero .lede{color:rgba(74,25,66,.84)}[data-theme=dark] .hero .lede{color:rgba(255,243,224,.86)}
+.hero .stats span{color:rgba(74,25,66,.74)}[data-theme=dark] .hero .stats span{color:rgba(255,243,224,.78)}
+[data-theme=dark] .hero h1{text-shadow:0 2px 16px rgba(18,7,46,.5)}
+.hero .btn-o{border-color:rgba(74,25,66,.45);color:#4a1942}.hero .btn-o:hover{border-color:#4a1942;color:#4a1942}
+[data-theme=dark] .hero .btn-o{border-color:rgba(255,243,224,.5);color:#fff3e0}[data-theme=dark] .hero .btn-o:hover{border-color:#fff3e0;color:#fff3e0}
+[data-theme=dark] .hero .cta .btn-c{background:#ffca28;color:#2a1450}[data-theme=dark] .hero .cta .btn-c:hover{background:#ffd95e;color:#2a1450}
+@media(max-width:900px){.scene{opacity:.5}}
+/* buttons, chips, accents */
+.btn-c{background:var(--coral);color:#fff}.btn-c:hover{background:#a3124a;color:#fff}
+[data-theme=dark] .btn-c:hover{background:#c63f1f}
+[data-theme=dark] .btn-d{background:#ffca28;color:#2a1450}[data-theme=dark] .btn-d:hover{color:#2a1450}
+.chip.on{background:#c2185b;border-color:#c2185b;color:#fff}
+[data-theme=dark] .chip.on{background:#ffca28;border-color:#ffca28;color:#2a1450}
+[data-theme=dark] .hb i,[data-theme=dark] .vbars i{background:#8b7be0}
+.panel{box-shadow:0 28px 70px rgba(74,25,66,.35)}[data-theme=dark] .panel{box-shadow:0 28px 70px rgba(0,0,0,.55)}
+.score{background:rgba(74,25,66,.88)}.cmp{background:rgba(74,25,66,.6)}
+[data-theme=dark] .score{background:rgba(18,7,46,.9)}[data-theme=dark] .cmp{background:rgba(18,7,46,.65)}
+/* map section matches the hero */
+.mapsec{background:linear-gradient(180deg,var(--t950),var(--t900));color:#fff3e0}
+.mapsec p,.legend{color:rgba(255,243,224,.78)}
+#map{border:1px solid rgba(255,243,224,.2)}
+.marker-cluster{background:rgba(255,202,40,.45)}.marker-cluster div{background:var(--t900);color:#fff3e0}
+footer{background:var(--t950);color:rgba(255,243,224,.65);border-top-color:rgba(255,243,224,.12)}
+/* mode switch */
+#themeBtn{display:none}
+.xmode{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.xmode button{border:0;background:transparent;color:var(--ink);font:600 13px 'Work Sans',sans-serif;padding:8px 13px;white-space:nowrap}
+.xmode button[aria-pressed=true]{background:var(--coral);color:#fff}
+[data-theme=dark] .xmode button[aria-pressed=true]{background:#ffca28;color:#2a1450}
+@media(max-width:700px){.xmode span{display:none}}
+/* chatbot and search follow the theme */
+body #xcb,body .xc-act,body .xs-all{background:var(--coral);color:#fff}
+body .xc-h,body .xc-u,body .xc-i button{background:var(--t900);color:#fff}
+body .xc-q button,body .xs-c{border-color:var(--t900);color:var(--t900)}
+body .xs-c.on{background:var(--t900);color:#fff}

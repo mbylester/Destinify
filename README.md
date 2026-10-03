@@ -24,6 +24,11 @@ It is a static front-end prototype: no build step, no backend, no API keys. Open
 - A "Search" button under the search field in the filter panel
 - Chatbot (bottom-right) that suggests places by budget, region, type, activity, or month, answers questions about a place, and plans a trip by days and budget. It runs in the browser from the catalog, so it needs no server or API key
 
+**Two color modes**
+- **Basic mode** uses the Dawn Rose look: a soft peach-and-rose sunrise over Mayon, with plum text and magenta accents
+- **Dark mode** uses the Golden Hour look: a glowing sunset scene, with cream text and gold accents
+- The switch in the header remembers your choice. Buttons, chips, the map section, the chatbot, and search all follow the active mode
+
 **Destination pages**
 - Photo gallery from Wikimedia Commons, with credits
 - Live 5-day weather from Open-Meteo, and a "should I go this week?" verdict
@@ -77,6 +82,7 @@ Destinify/
 ├── sw.js               Service worker (network first, offline fallback)
 └── assets/
     ├── style.css       Styles, light and dark themes
+    ├── theme.css       Basic (Dawn Rose) and Dark (Golden Hour) colors, loaded after style.css
     ├── data.js         Destination catalog (500 rows)
     ├── details.js      Description, getting there, and tip per destination
     ├── images.js       Wikipedia photo loader and title overrides
@@ -87,11 +93,12 @@ Destinify/
     ├── features4.js    Drag-and-drop trips, day planner, heatmap, smarter picks
     ├── features5.js    Festivals calendar and favorites
     ├── features6.js    Global search and the travel chatbot
+    ├── features7.js    Basic / Dark mode switch
     ├── icon-192.png
     └── icon-512.png
 ```
 
-Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features6.js`. Each feature file builds on the one before it, so keep that order.
+Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`. Each feature file builds on the one before it, so keep that order.
 
 ---
 
