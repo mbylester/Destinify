@@ -1,4 +1,4 @@
-/* Destinify sample dataset (500 places)
+/* Destinify sample dataset (675 places)
    Format: name|province|group|lat|lng|type|budget PHP|days|activities|popular(1/0)|best months (start-end, optional, default 11-5)
    Groups: L = Luzon & Palawan, V = Visayas, M = Mindanao
    Budgets, best months and coordinates are approximate prototype data. */
@@ -35,7 +35,7 @@ Sabtang|Batanes|L|20.330|121.883|Heritage|14000|5|cw ss hk ph|0|3-6
 Batan Island|Batanes|L|20.449|121.970|Island|15000|5|ss hk cw ph|1|3-6
 Tanay|Rizal|L|14.498|121.355|Waterfall|2500|1|sw hk|1|6-11
 Pagsanjan Falls|Laguna|L|14.277|121.454|Waterfall|3000|1|kc sw ad|1|6-11
-Nagcarlan Underground Cemetery|Laguna|L|14.130|121.415|Heritage|2500|1|cw|0
+San Bartolome Church Nagcarlan|Laguna|L|14.1330|121.4150|Heritage|2000|1|cw ss ph|0
 Lucban & Tayabas|Quezon|L|14.113|121.556|Heritage|3000|1|cw fd ss|0
 Borawan Island|Quezon|L|14.667|121.617|Island|3500|2|sw kc|0|3-6
 Taal Heritage Town|Batangas|L|13.883|120.930|Heritage|3000|1|cw ss fd|0
@@ -312,7 +312,7 @@ Casa Manila|Manila|L|14.5892|120.9751|Heritage|1200|1|cw ss|0
 Roxas Boulevard Baywalk|Manila|L|14.5757|120.9770|City|1000|1|ss ph rl|0
 Quiapo Church|Manila|L|14.5990|120.9835|Heritage|1000|1|cw ss|0
 Manila Ocean Park|Manila|L|14.5790|120.9755|City|2500|1|wl ss|0
-Manila American Cemetery|Metro Manila|L|14.5376|121.0442|Heritage|1000|1|cw ss ph|0
+Venice Grand Canal Mall|Metro Manila|L|14.5365|121.0540|City|1200|1|ss ph rl|1
 Ayala Museum|Metro Manila|L|14.5535|121.0236|Heritage|1500|1|cw ss|0
 Greenbelt|Metro Manila|L|14.5528|121.0211|City|2500|1|fd ss rl|0
 Poblacion Makati|Metro Manila|L|14.5648|121.0300|City|2500|1|fd ss|0
@@ -324,7 +324,7 @@ Cubao Expo|Metro Manila|L|14.6230|121.0546|City|1500|1|fd ss ph|0
 Las Piñas Bamboo Organ|Metro Manila|L|14.4393|120.9985|Heritage|1200|1|cw ss|0
 Mall of Asia|Metro Manila|L|14.5350|120.9822|City|2500|1|fd ss rl|1
 Marikina Shoe Museum|Metro Manila|L|14.6330|121.0980|Heritage|1200|1|cw ss|0
-Manila Chinese Cemetery|Manila|L|14.6392|120.9992|Heritage|1200|1|cw ss ph|0
+Binondo Church|Manila|L|14.6004|120.9733|Heritage|1000|1|cw ss fd|0
 Metropolitan Museum of Manila|Metro Manila|L|14.5502|120.9942|Heritage|1500|1|cw ss|0
 Coconut Palace|Metro Manila|L|14.5532|120.9885|Heritage|1500|1|cw ss ph|0
 Manila Central Post Office|Manila|L|14.5937|120.9795|Heritage|1000|1|cw ph|0
@@ -475,7 +475,7 @@ Tandag|Surigao del Sur|M|9.0783|126.1986|City|4000|2|ss fd|0
 Malaybalay|Bukidnon|M|8.1467|125.1275|City|3500|1|ss fd|0
 Del Monte Pineapple Plantation|Bukidnon|M|8.3667|124.8667|Nature|3500|1|ss ph|0
 Monastery of the Transfiguration|Bukidnon|M|8.1167|125.1000|Heritage|3000|1|cw rl|0
-Sunken Cemetery|Camiguin|M|9.1300|124.6600|Heritage|4000|1|ss ph|1
+Tuasan Falls|Camiguin|M|9.1500|124.6500|Waterfall|3500|1|sw ph|0|6-11
 Old Vulcan Church|Camiguin|M|9.1333|124.6500|Heritage|4000|1|cw ph|0
 Mt. Hibok-Hibok|Camiguin|M|9.2000|124.6833|Mountain|5500|2|hk ph|0|11-4
 Santo Niño Cold Spring|Camiguin|M|9.1833|124.7167|Nature|3500|1|sw rl|0
@@ -501,4 +501,179 @@ Cagwait White Beach|Surigao del Sur|M|8.9333|126.2833|Beach|4500|2|sw rl|0|3-6
 Bislig City|Surigao del Sur|M|8.2133|126.3228|City|4500|2|ss fd|0
 Cabadbaran|Agusan del Norte|M|9.1167|125.5333|City|3500|1|ss cw|0
 Oroquieta City|Misamis Occidental|M|8.4833|123.8000|City|3500|1|ss fd|0
-Dipolog Cathedral|Zamboanga del Norte|M|8.5844|123.3414|Heritage|2500|1|cw ss|0`;
+Dipolog Cathedral|Zamboanga del Norte|M|8.5844|123.3414|Heritage|2500|1|cw ss|0
+Art in Island|Metro Manila|L|14.6205|121.0548|City|1000|1|ph ss|1
+Eastwood City|Metro Manila|L|14.6081|121.0802|City|1200|1|fd ss rl|0
+UP Diliman Academic Oval|Metro Manila|L|14.6537|121.0685|Nature|1000|1|bk rl ph|1
+Ninoy Aquino Parks and Wildlife Center|Metro Manila|L|14.6486|121.0442|Nature|1000|1|wl rl|0
+Tomas Morato Food Strip|Metro Manila|L|14.6345|121.0345|City|1200|1|fd|0
+Maginhawa Street|Metro Manila|L|14.6475|121.0594|City|1000|1|fd|1
+Museo Pambata|Manila|L|14.5836|120.9775|City|1000|1|cw|0
+Kapitolyo|Metro Manila|L|14.5712|121.0636|City|1200|1|fd|1
+Bonifacio High Street|Metro Manila|L|14.5507|121.0467|City|1200|1|fd ss ph|1
+CCP Complex|Metro Manila|L|14.5560|120.9822|Heritage|1000|1|cw ss|0
+Divisoria|Manila|L|14.6010|120.9680|City|1000|1|fd ss|0
+Malate Church|Manila|L|14.5730|120.9890|Heritage|1000|1|cw ss|0
+Metropolitan Theater|Manila|L|14.5959|120.9814|Heritage|1000|1|cw ph|1
+Bahay Tsinoy|Manila|L|14.5881|120.9733|Heritage|1000|1|cw|0
+Baluarte de San Diego|Manila|L|14.5877|120.9712|Heritage|1000|1|cw ph|0
+Pasig River Ferry|Metro Manila|L|14.5944|120.9758|City|1000|1|ss ph|0
+Marikina River Park|Metro Manila|L|14.6368|121.0985|Nature|1000|1|bk rl|0
+Ayala Triangle Gardens|Metro Manila|L|14.5567|121.0262|Nature|1000|1|rl fd ph|1
+Greenhills|Metro Manila|L|14.6017|121.0502|City|1200|1|fd ss|0
+Bonifacio Monument|Metro Manila|L|14.6559|120.9822|Heritage|1000|1|cw ss|0
+Dampa Seafood Market|Metro Manila|L|14.5282|120.9880|City|1200|1|fd|0
+Sto. Domingo Church|Metro Manila|L|14.6217|121.0044|Heritage|1000|1|cw ph|0
+San Sebastian Church|Manila|L|14.5979|120.9894|Heritage|1000|1|cw ph|1
+Manila Zoo|Manila|L|14.5656|120.9942|Nature|1200|1|wl rl|0
+Yuchengco Museum|Metro Manila|L|14.5560|121.0170|Heritage|1200|1|cw|0
+Lopez Museum|Metro Manila|L|14.5833|121.0600|Heritage|1200|1|cw|0
+Manila City Hall Clock Tower|Manila|L|14.5933|120.9811|Heritage|1000|1|cw ph|0
+Taal Volcano Island|Batangas|L|14.0021|120.9937|Mountain|2500|1|hk ph|1
+Mt. Daguldol|Batangas|L|13.7000|121.4167|Mountain|2000|1|hk ph cm|0
+Caleruega Church|Batangas|L|14.0839|120.8403|Heritage|2000|1|cw ph|1
+Sombrero Island|Batangas|L|13.7167|120.8833|Island|3500|1|sn dv ph|1|3-6
+Cape Santiago Lighthouse|Batangas|L|13.8167|120.6167|Heritage|2500|1|ss ph|0
+Munting Buhangin|Batangas|L|14.0700|120.6200|Beach|3000|1|sw ph|1|3-6
+Tingloy Island|Batangas|L|13.6667|120.8833|Island|4000|2|dv sn sw|0|3-6
+Pico de Loro Cove|Batangas|L|14.1167|120.6167|Beach|4500|2|sw sn rl|1|3-6
+Taal Basilica|Batangas|L|13.8802|120.9253|Heritage|2500|1|cw ph|1
+Kaybiang Tunnel|Cavite|L|14.1500|120.6000|Adventure|2000|1|bk ph ss|1
+Puerto Azul Beach|Cavite|L|14.2000|120.6000|Beach|3500|1|sw rl|0|3-6
+Mahogany Market Tagaytay|Cavite|L|14.1020|120.9400|City|1500|1|fd|1
+Sonya's Garden|Cavite|L|14.0900|120.9400|Nature|2500|1|fd rl ph|1
+Imus Cathedral|Cavite|L|14.4300|120.9367|Heritage|2000|1|cw ph|0
+Fort San Felipe|Cavite|L|14.4833|120.9000|Heritage|2000|1|cw ph|0
+Tagaytay Ridge Viewpoint|Cavite|L|14.0990|120.9380|Nature|2500|1|ss ph|1
+Mt. Marami|Cavite|L|14.2000|120.6500|Mountain|2000|1|hk ph|0|11-4
+Bumbungan Falls|Laguna|L|14.1500|121.4800|Waterfall|2000|1|sw hk|0|6-11
+Hulugan Falls|Laguna|L|14.2000|121.5167|Waterfall|2500|1|sw hk ph|1|6-11
+Lumot Lake|Laguna|L|14.2667|121.5167|Lake|2500|1|kc ph|0
+Lake Pandin|Laguna|L|14.0690|121.3340|Lake|2500|1|kc rl ph|1
+Majayjay Church|Laguna|L|14.1500|121.4700|Heritage|2000|1|cw ph ss|0
+Nuvali|Laguna|L|14.2300|121.0600|Adventure|2500|1|bk ad rl|1
+Pila Heritage Town|Laguna|L|14.2333|121.3667|Heritage|2000|1|cw ph|0
+Pagsanjan Church|Laguna|L|14.2733|121.4553|Heritage|2000|1|cw ph|0
+Mt. Cristobal|Laguna|L|14.0000|121.4000|Mountain|2500|1|hk cm|0
+Batlag Falls|Rizal|L|14.5167|121.3833|Waterfall|2000|1|sw hk|0|6-11
+Angono Petroglyphs|Rizal|L|14.5167|121.1667|Heritage|1500|1|cw|0
+Angono Art District|Rizal|L|14.5260|121.1530|City|1500|1|cw ph fd|1
+Boso-Boso Highlands|Rizal|L|14.6000|121.2600|Mountain|2000|1|hk ph|0
+Jala-Jala Peninsula|Rizal|L|14.3333|121.3167|Lake|2500|1|rl ph|0
+Marilaque Highway|Rizal|L|14.5833|121.4500|Adventure|2000|1|bk ss ph|1
+Morong Church|Rizal|L|14.5133|121.2400|Heritage|2000|1|cw ph|0
+Talim Island|Rizal|L|14.4333|121.2167|Island|2500|1|ph ss|0
+Treasure Mountain|Rizal|L|14.5800|121.4100|Mountain|2500|1|hk ph|1
+Pinto Art Museum|Rizal|L|14.6000|121.1900|Heritage|2000|1|cw ph|1
+Sariaya Heritage Town|Quezon|L|13.9667|121.5333|Heritage|2000|1|cw ph|0
+Pagbilao Mangrove Eco-Park|Quezon|L|13.9500|121.7000|Nature|2500|1|kc ph wl|0
+Tayabas Basilica|Quezon|L|14.0267|121.5933|Heritage|2500|1|cw ph|0
+Mauban Church|Quezon|L|14.1933|121.7333|Heritage|2500|1|cw ph|0
+Quezon National Park|Quezon|L|13.9667|121.9167|Nature|3000|1|hk ph|0
+Crystal Beach|Zambales|L|15.0200|120.0650|Beach|4000|2|sw sf rl|1|11-4
+Camara Island|Zambales|L|14.9333|119.9500|Island|3800|1|sw ph cm|1|3-6
+Pundaquit Beach|Zambales|L|14.8833|119.9667|Beach|3500|2|sw cm|0|3-6
+Mt. Tapulao|Zambales|L|15.4600|120.0167|Mountain|4500|2|hk cm|0|11-4
+Mt. Mariveles|Bataan|L|14.5167|120.4000|Mountain|2500|2|hk cm|0|11-4
+Dinosaurs Island Clark|Pampanga|L|15.1800|120.5500|Adventure|2500|1|ad ph|0
+Monasterio de Tarlac|Tarlac|L|15.4700|120.6000|Heritage|2500|1|cw ph|1
+Capas National Shrine|Tarlac|L|15.3500|120.5167|Heritage|2000|1|cw|0
+Cabanatuan|Nueva Ecija|L|15.4900|120.9700|City|2500|1|fd cw|0
+Sabang Beach Baler|Aurora|L|15.7600|121.5650|Surf|4500|2|sf sw|1|10-2
+Cemento Beach|Aurora|L|15.7533|121.5600|Beach|4000|1|sw ph|0
+Silanguin Cove|Zambales|L|14.9583|120.0083|Beach|4000|2|cm sw|0|3-6
+Magalawa Island|Zambales|L|15.4333|119.8833|Island|4000|2|sw cm|0|3-6
+Ermita Hill|Aurora|L|15.7600|121.5600|Heritage|3500|1|ss ph cw|0
+Mapanuepe Lake|Zambales|L|15.1500|120.1500|Lake|3500|1|kc ph|0
+Sisiman Cove|Bataan|L|14.4333|120.4167|Beach|3000|1|sw ph|0|3-6
+Subic Tree Top Adventure|Zambales|L|14.8200|120.2800|Adventure|2500|1|ad|0
+Malolos Cathedral|Bulacan|L|14.8433|120.8100|Heritage|2000|1|cw ph|0
+Calumpit Church|Bulacan|L|14.9167|120.7667|Heritage|2000|1|cw ph|0
+Cabongaoan Beach|Pangasinan|L|16.0833|119.8833|Beach|3500|2|sw sf ph|0|11-4
+Enchanted Cave Bolinao|Pangasinan|L|16.3333|119.9000|Cave|3500|1|cv sw|0
+Baluarte Zoo|Ilocos Sur|L|17.5800|120.3950|Nature|3000|1|wl|0
+Malacañang of the North|Ilocos Norte|L|18.1000|120.5167|Heritage|3000|1|cw ph|0
+Sinking Bell Tower|Ilocos Norte|L|18.1950|120.5900|Heritage|2500|1|cw ph|0
+La Paz Sand Dunes|Ilocos Norte|L|18.1900|120.5000|Adventure|3500|1|ad ph|1
+Quezon Island|Pangasinan|L|16.1833|120.0500|Island|3000|1|sw ih ph|0
+Sarrat Church|Ilocos Norte|L|18.1633|120.6483|Heritage|2500|1|cw ph|0
+St. William Cathedral|Ilocos Norte|L|18.1978|120.5933|Heritage|2500|1|cw ph|0
+Lingayen Beach|Pangasinan|L|16.0333|120.2333|Beach|2500|1|sw rl|0
+Bauang Beach|La Union|L|16.5333|120.3333|Beach|3000|1|sw rl|0
+Narvacan Church|Ilocos Sur|L|17.4167|120.4833|Heritage|2500|1|cw ph|0
+Lucap Wharf|Pangasinan|L|16.1500|120.0333|Nature|2500|1|ih ss|0
+Baguio Botanical Garden|Benguet|L|16.4093|120.6106|Nature|1500|1|rl ph|0
+Baguio Cathedral|Benguet|L|16.4116|120.5958|Heritage|1500|1|cw ph|0
+Session Road|Benguet|L|16.4119|120.5942|City|2000|1|fd ss|1
+The Mansion Baguio|Benguet|L|16.4150|120.6200|Heritage|1500|1|cw ph|0
+Wright Park|Benguet|L|16.4175|120.6200|Nature|1500|1|rl ph|0
+Atok Highest Point|Benguet|L|16.6000|120.7500|Nature|3500|1|ph ss|0
+Bokong Falls|Mountain Province|L|17.0833|120.8833|Waterfall|5000|1|sw hk|0|6-11
+Pongas Falls|Mountain Province|L|17.0900|120.8900|Waterfall|5000|1|sw hk|0|6-11
+Nagacadan Rice Terraces|Ifugao|L|16.7833|121.1000|Heritage|5000|2|hk ph|0
+Baguio Night Market|Benguet|L|16.4120|120.5950|City|1500|1|fd|1
+Tinglayan|Kalinga|L|17.1833|121.1167|Heritage|5500|2|hk cw ph|0|11-4
+Cape Engaño Lighthouse|Cagayan|L|18.5833|122.1333|Heritage|6500|3|ss ph hk|0|3-6
+Magapit Suspension Bridge|Cagayan|L|17.8000|121.6167|Heritage|3500|1|ph ss|0
+Magat Dam|Isabela|L|16.8333|121.4333|Lake|3500|1|ph rl|0
+Santa Victoria Caves|Isabela|L|17.0000|122.1000|Cave|4000|2|cv hk|0
+Chawa View Deck|Batanes|L|20.3417|121.9000|Nature|5000|1|ph ss|1|3-6
+Tukon Chapel|Batanes|L|20.4333|121.9167|Heritage|5000|1|ph|1|3-6
+Mt. Iraya|Batanes|L|20.4667|121.9833|Mountain|6000|2|hk ph|0|3-6
+Tuguegarao Cathedral|Cagayan|L|17.6128|121.7283|Heritage|2500|1|cw ph|0
+Mt. Ugo|Nueva Vizcaya|L|16.3833|120.9000|Mountain|3500|2|hk cm|0|11-4
+Busay Falls|Albay|L|13.3167|123.7333|Waterfall|3000|1|sw hk|0|6-11
+Sumlang Lake|Albay|L|13.1700|123.6500|Lake|2500|1|kc rl|0
+Mt. Asog|Camarines Sur|L|13.4500|123.4500|Mountain|3500|2|hk ph|0|11-4
+Apuao Grande Island|Camarines Norte|L|14.1833|123.0167|Island|5000|2|sw sn|0|3-6
+Twin Rock Beach|Catanduanes|L|13.5833|124.3000|Beach|4500|1|sw ph|0|3-6
+Mt. Bulusan|Sorsogon|L|12.7683|124.0508|Mountain|4000|2|hk ph|0|11-4
+Rizal Beach Gubat|Sorsogon|L|12.9167|124.1167|Beach|3500|1|sw rl|0
+Burias Island|Masbate|L|13.1500|122.9000|Island|5000|2|sw sn|0|3-6
+Albay Park and Wildlife|Albay|L|13.1450|123.7333|Nature|2000|1|wl rl|0
+Naga Basilica|Camarines Sur|L|13.6200|123.1900|Heritage|2500|1|cw ph|0
+Hidden Lagoon|Palawan|L|11.2000|119.3667|Island|7500|1|kc sw ph|1
+Secret Lagoon|Palawan|L|11.1833|119.3500|Island|7500|1|sw ph|1
+Shimizu Island|Palawan|L|11.1667|119.3667|Island|7500|1|sn sw|0
+Snake Island|Palawan|L|11.2333|119.4333|Island|7500|1|sw ph|1
+Barracuda Lake|Palawan|L|11.9800|120.2000|Lake|8500|1|dv sn|1
+Malcapuya Island|Palawan|L|11.9167|120.0000|Island|8000|1|sw sn|0
+Banana Island|Palawan|L|11.9000|120.0500|Island|8000|1|sw sn|0
+Pamuayan Falls|Palawan|L|10.3333|119.1500|Waterfall|6000|1|sw hk|0|6-11
+Mt. Mantalingahan|Palawan|L|8.7833|117.7000|Mountain|7000|3|hk cm|0|3-5
+Sabang Beach Puerto Galera|Oriental Mindoro|L|13.5200|120.9500|Beach|4500|2|sw dv fd|1
+Entalula Island|Palawan|L|11.2500|119.4000|Island|7500|1|sw sn|0
+Mitra's Ranch|Palawan|L|9.7500|118.7500|Nature|2500|1|rl ph|0
+Baker's Hill|Palawan|L|9.7500|118.7667|City|2000|1|fd ph|1
+Sabang Beach Palawan|Palawan|L|10.1833|118.9167|Beach|4500|1|sw ph|0
+Dos Palmas Island|Palawan|L|9.8833|118.8167|Island|5500|1|sw sn rl|0
+Cowrie Island|Palawan|L|9.8000|118.8000|Island|4000|1|sw sn|0
+Las Cabanas Beach|Palawan|L|11.1833|119.3833|Beach|5500|1|sw ph|1
+Puerto Princesa Cathedral|Palawan|L|9.7433|118.7358|Heritage|2000|1|cw ph|0
+Mt. Malindig|Marinduque|L|13.2333|121.9833|Mountain|4000|2|hk ph|0|11-4
+Mamburao|Occidental Mindoro|L|13.2167|120.5833|City|3000|2|ss fd|0
+Aguinid Falls|Cebu|V|9.5333|123.3167|Waterfall|3500|1|sw hk|0|6-11
+Quinale Beach|Bohol|V|9.7500|124.5667|Beach|5000|2|sw rl|0|3-6
+Olotayan Island|Capiz|V|11.6500|122.7000|Island|4000|1|sw ph|0|3-6
+Mt. Mandalagan|Negros Occidental|V|10.6167|123.1667|Mountain|4500|2|hk cm|0|11-4
+Sagay Marine Reserve|Negros Occidental|V|10.9500|123.4167|Nature|4000|1|sn wl|0
+Valencia Forest Camp|Negros Oriental|V|9.2833|123.2167|Nature|3000|1|hk rl|0
+Sirao Pictorial Garden|Cebu|V|10.3667|123.8667|Nature|2500|1|ph rl|1
+Chocolate Hills Adventure Park|Bohol|V|9.8333|124.1500|Adventure|3500|1|ad ph|1
+Lake Danao Natural Park|Leyte|V|11.0167|124.6667|Lake|3500|1|hk kc|0
+Antonia Beach|Iloilo|V|11.6000|123.3500|Beach|6500|1|sw ph|0|3-6
+Bantigue Sandbar|Iloilo|V|11.5833|123.3833|Island|6500|1|sw ph|1|3-6
+Bulubadiangan Island|Iloilo|V|11.4333|123.1500|Island|5000|1|sw sn|0|3-6
+Agho Island|Iloilo|V|11.4333|123.1000|Island|5000|1|sw sn|0|3-6
+Pandanon Island|Bohol|V|10.1167|124.1000|Island|4000|1|sw ph|0|3-6
+Badian Island|Cebu|V|9.8333|123.3667|Island|6000|2|sw sn rl|0
+Tudaya Falls|Davao del Sur|M|6.8167|125.3333|Waterfall|3500|1|sw hk|0|6-11
+Lake Holon|South Cotabato|M|6.1000|124.8700|Lake|7000|3|hk cm ph|1|11-4
+Mt. Parker|South Cotabato|M|6.0833|124.8667|Mountain|6000|3|hk cm|0|11-4
+Little Santa Cruz Island|Zamboanga del Sur|M|6.8833|122.0600|Island|4500|1|sw ph|0
+Sohoton Cove|Surigao del Norte|M|9.6667|125.9667|Nature|6500|2|kc sw cv|1
+Pearl Farm Beach Resort|Davao del Norte|M|6.9667|125.7167|Beach|6000|1|sw rl|0
+Tayangban Cave Pool|Surigao del Norte|M|9.8500|126.0833|Cave|4500|1|cv sw|1
+Lake Lanao|Lanao del Sur|M|7.8833|124.2500|Lake|4500|2|ph ss|0
+Grand Mosque Cotabato|Maguindanao|M|7.2133|124.2500|Heritage|3500|1|cw ph|0
+Lake Venado|Cotabato|M|6.9833|125.2833|Lake|6500|3|hk cm ph|0|11-4`;

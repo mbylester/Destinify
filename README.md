@@ -1,6 +1,6 @@
 # Destinify
 
-**Find your next Philippine escape.** Destinify is a destination-matching web app for the Philippines. Set your budget, travel style, and travel month, and it scores and ranks **500 destinations**, from crowd favorites to quiet corners few people visit, from Batanes to Tawi-Tawi.
+**Find your next Philippine escape.** Destinify is a destination-matching web app for the Philippines. Set your budget, travel style, and travel month, and it scores and ranks **675 destinations**, from crowd favorites to quiet corners few people visit, from Batanes to Tawi-Tawi.
 
 It is a static front-end prototype: no build step, no backend, no API keys. Open it in a browser and it works.
 
@@ -18,6 +18,13 @@ It is a static front-end prototype: no build step, no backend, no API keys. Open
 - "Near me" sorting using your location, plus sort by best match, lowest budget, shortest trip, A to Z, and top rated
 - Side-by-side comparison of up to 3 destinations
 - "Picked for you" recommendations based on your trip, places you viewed, and your own reviews
+
+**Regions, starting point and TikTok**
+- Filter by the 18 administrative regions, from NCR and CAR through Region I to Region XIII, MIMAROPA, NIR, and BARMM
+- Pick where you are starting from (or use your location) and budgets are re-estimated, so a short trip from Antipolo to Manila costs less than the Metro Manila default. The minimum is ₱1,000
+- A TikTok spots tab, a TikTok badge on cards, and photo tips and hashtags on the detail page
+- Region and starting-point info, Google Maps and Directions buttons, and a "Know before you go" note on every detail page
+- Every destination shows a picture: Wikipedia and Wikimedia Commons photos, then a generated illustration if none is found
 
 **Search and assistant**
 - Search button in the header (also `Ctrl+K` or `/`) with live results across names, provinces, types, and activities, plus a region filter
@@ -83,7 +90,7 @@ Destinify/
 └── assets/
     ├── style.css       Styles, light and dark themes
     ├── theme.css       Basic (Dawn Rose) and Dark (Golden Hour) colors, loaded after style.css
-    ├── data.js         Destination catalog (500 rows)
+    ├── data.js         Destination catalog (675 rows)
     ├── details.js      Description, getting there, and tip per destination
     ├── images.js       Wikipedia photo loader and title overrides
     ├── app.js          Core logic: matching, cards, map, trip planner
@@ -94,11 +101,13 @@ Destinify/
     ├── features5.js    Festivals calendar and favorites
     ├── features6.js    Global search and the travel chatbot
     ├── features7.js    Basic / Dark mode switch
+    ├── regions.js      Regions, starting points, and the TikTok-famous list
+    ├── features8.js    Region filter, starting-point budgets, TikTok spots, detail extras
     ├── icon-192.png
     └── icon-512.png
 ```
 
-Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`. Each feature file builds on the one before it, so keep that order.
+Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`, `regions.js`, and `features8.js`. Each feature file builds on the one before it, so keep that order.
 
 ---
 

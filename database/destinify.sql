@@ -1,417 +1,368 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Sep 30, 2026 at 10:46 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `destinify`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `activities`
---
-
-CREATE TABLE `activities` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(80) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `activities`
---
-
-INSERT INTO `activities` (`id`, `name`) VALUES
-(8, 'Camping'),
-(3, 'Diving'),
-(4, 'Hiking'),
-(6, 'Island hopping'),
-(7, 'Sightseeing'),
-(2, 'Snorkeling'),
-(5, 'Surfing'),
-(1, 'Swimming');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `categories`
---
-
-CREATE TABLE `categories` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(80) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `categories`
---
-
-INSERT INTO `categories` (`id`, `name`) VALUES
-(1, 'Beach'),
-(4, 'City'),
-(5, 'Historical'),
-(2, 'Island'),
-(3, 'Mountain'),
-(6, 'Nature'),
-(7, 'Waterfall');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `destinations`
---
-
-CREATE TABLE `destinations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(120) NOT NULL,
-  `description` text DEFAULT NULL,
-  `category_id` int(10) UNSIGNED NOT NULL,
-  `region` varchar(80) NOT NULL,
-  `province` varchar(80) DEFAULT NULL,
-  `estimated_budget` decimal(10,2) NOT NULL,
-  `recommended_days` tinyint(3) UNSIGNED NOT NULL,
-  `latitude` decimal(9,6) DEFAULT NULL,
-  `longitude` decimal(9,6) DEFAULT NULL,
-  `image_url` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `destination_activities`
---
-
-CREATE TABLE `destination_activities` (
-  `destination_id` int(10) UNSIGNED NOT NULL,
-  `activity_id` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `destination_interests`
---
-
-CREATE TABLE `destination_interests` (
-  `destination_id` int(10) UNSIGNED NOT NULL,
-  `interest_id` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `favorites`
---
-
-CREATE TABLE `favorites` (
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `destination_id` int(10) UNSIGNED NOT NULL,
-  `saved_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `interests`
---
-
-CREATE TABLE `interests` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(80) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `interests`
---
-
-INSERT INTO `interests` (`id`, `name`) VALUES
-(2, 'Adventure'),
-(3, 'Culture'),
-(4, 'Food'),
-(6, 'History'),
-(1, 'Nature'),
-(7, 'Photography'),
-(5, 'Relaxation');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `preference_activities`
---
-
-CREATE TABLE `preference_activities` (
-  `preference_id` int(10) UNSIGNED NOT NULL,
-  `activity_id` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `preference_interests`
---
-
-CREATE TABLE `preference_interests` (
-  `preference_id` int(10) UNSIGNED NOT NULL,
-  `interest_id` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `recommendations`
---
-
-CREATE TABLE `recommendations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `destination_id` int(10) UNSIGNED NOT NULL,
-  `match_score` decimal(5,2) NOT NULL,
-  `generated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `full_name` varchar(100) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
-  `role` enum('admin','traveler') NOT NULL DEFAULT 'traveler',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_preferences`
---
-
-CREATE TABLE `user_preferences` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `max_budget` decimal(10,2) DEFAULT NULL,
-  `category_id` int(10) UNSIGNED DEFAULT NULL,
-  `region` varchar(80) DEFAULT NULL,
-  `trip_days` tinyint(3) UNSIGNED DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `activities`
---
-ALTER TABLE `activities`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `destinations`
---
-ALTER TABLE `destinations`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`);
-
---
--- Indexes for table `destination_activities`
---
-ALTER TABLE `destination_activities`
-  ADD PRIMARY KEY (`destination_id`,`activity_id`),
-  ADD KEY `activity_id` (`activity_id`);
-
---
--- Indexes for table `destination_interests`
---
-ALTER TABLE `destination_interests`
-  ADD PRIMARY KEY (`destination_id`,`interest_id`),
-  ADD KEY `interest_id` (`interest_id`);
-
---
--- Indexes for table `favorites`
---
-ALTER TABLE `favorites`
-  ADD PRIMARY KEY (`user_id`,`destination_id`),
-  ADD KEY `destination_id` (`destination_id`);
-
---
--- Indexes for table `interests`
---
-ALTER TABLE `interests`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `preference_activities`
---
-ALTER TABLE `preference_activities`
-  ADD PRIMARY KEY (`preference_id`,`activity_id`),
-  ADD KEY `activity_id` (`activity_id`);
-
---
--- Indexes for table `preference_interests`
---
-ALTER TABLE `preference_interests`
-  ADD PRIMARY KEY (`preference_id`,`interest_id`),
-  ADD KEY `interest_id` (`interest_id`);
-
---
--- Indexes for table `recommendations`
---
-ALTER TABLE `recommendations`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `destination_id` (`destination_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- Indexes for table `user_preferences`
---
-ALTER TABLE `user_preferences`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `category_id` (`category_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `activities`
---
-ALTER TABLE `activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `destinations`
---
-ALTER TABLE `destinations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `interests`
---
-ALTER TABLE `interests`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `recommendations`
---
-ALTER TABLE `recommendations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_preferences`
---
-ALTER TABLE `user_preferences`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `destinations`
---
-ALTER TABLE `destinations`
-  ADD CONSTRAINT `destinations_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
-
---
--- Constraints for table `destination_activities`
---
-ALTER TABLE `destination_activities`
-  ADD CONSTRAINT `destination_activities_ibfk_1` FOREIGN KEY (`destination_id`) REFERENCES `destinations` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `destination_activities_ibfk_2` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `destination_interests`
---
-ALTER TABLE `destination_interests`
-  ADD CONSTRAINT `destination_interests_ibfk_1` FOREIGN KEY (`destination_id`) REFERENCES `destinations` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `destination_interests_ibfk_2` FOREIGN KEY (`interest_id`) REFERENCES `interests` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `favorites`
---
-ALTER TABLE `favorites`
-  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `favorites_ibfk_2` FOREIGN KEY (`destination_id`) REFERENCES `destinations` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `preference_activities`
---
-ALTER TABLE `preference_activities`
-  ADD CONSTRAINT `preference_activities_ibfk_1` FOREIGN KEY (`preference_id`) REFERENCES `user_preferences` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `preference_activities_ibfk_2` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `preference_interests`
---
-ALTER TABLE `preference_interests`
-  ADD CONSTRAINT `preference_interests_ibfk_1` FOREIGN KEY (`preference_id`) REFERENCES `user_preferences` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `preference_interests_ibfk_2` FOREIGN KEY (`interest_id`) REFERENCES `interests` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `recommendations`
---
-ALTER TABLE `recommendations`
-  ADD CONSTRAINT `recommendations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `recommendations_ibfk_2` FOREIGN KEY (`destination_id`) REFERENCES `destinations` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `user_preferences`
---
-ALTER TABLE `user_preferences`
-  ADD CONSTRAINT `user_preferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_preferences_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- Destinify database (300 destinations)
+-- Import in phpMyAdmin: create or select a database, open the Import tab, choose this file, click Import.
+CREATE DATABASE IF NOT EXISTS destinify_app CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE destinify_app;
+SET NAMES utf8mb4;
+
+DROP TABLE IF EXISTS trip_stops, favorites, reviews, users, destinations;
+
+CREATE TABLE destinations (
+  id INT UNSIGNED PRIMARY KEY,
+  name VARCHAR(120) NOT NULL UNIQUE,
+  province VARCHAR(80) NOT NULL,
+  region_group CHAR(1) NOT NULL COMMENT 'L Luzon and Palawan, V Visayas, M Mindanao',
+  lat DECIMAL(8,5) NOT NULL,
+  lng DECIMAL(8,5) NOT NULL,
+  type VARCHAR(20) NOT NULL,
+  budget_php INT UNSIGNED NOT NULL COMMENT 'approx per person for the suggested stay',
+  days TINYINT UNSIGNED NOT NULL,
+  activities VARCHAR(60) NOT NULL COMMENT 'comma-separated codes, e.g. hk,cv,cm',
+  popular TINYINT(1) NOT NULL DEFAULT 0,
+  best_start TINYINT UNSIGNED NOT NULL DEFAULT 11,
+  best_end TINYINT UNSIGNED NOT NULL DEFAULT 5,
+  description TEXT,
+  getting_there TEXT,
+  tip TEXT,
+  hidden TINYINT(1) NOT NULL DEFAULT 0,
+  KEY idx_group (region_group),
+  KEY idx_type (type)
+) ENGINE=InnoDB;
+
+CREATE TABLE users (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(40) NOT NULL UNIQUE,
+  display_name VARCHAR(60) NOT NULL,
+  role ENUM('traveler','admin') NOT NULL DEFAULT 'traveler',
+  password_hash VARCHAR(255) NOT NULL COMMENT 'use PHP password_hash(), not plain text',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE reviews (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  destination_id INT UNSIGNED NOT NULL,
+  user_id INT UNSIGNED NOT NULL,
+  rating TINYINT UNSIGNED NOT NULL,
+  comment VARCHAR(300) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (destination_id) REFERENCES destinations(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE favorites (
+  user_id INT UNSIGNED NOT NULL,
+  destination_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (user_id, destination_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (destination_id) REFERENCES destinations(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE trip_stops (
+  user_id INT UNSIGNED NOT NULL,
+  position SMALLINT UNSIGNED NOT NULL,
+  destination_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (user_id, position),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (destination_id) REFERENCES destinations(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+INSERT INTO destinations (id,name,province,region_group,lat,lng,type,budget_php,days,activities,popular,best_start,best_end,description,getting_there,tip) VALUES
+(1,'Baguio','Benguet','L',16.402,120.596,'City',6000,3,'ss,fd,cw,ph',1,11,5,'Cool pine-covered "Summer Capital" with markets, cafés, and Burnham Park.','Bus from Manila, about 6 hrs, or fly to Clark and drive.','Weekends and holidays are packed, so go midweek.'),
+(2,'Sagada','Mountain Province','L',17.084,120.901,'Mountain',6200,3,'hk,cv,cm',1,11,4,'Mountain town known for hanging coffins, limestone caves, and sea-of-clouds sunrises.','Overnight bus from Manila to Bontoc or Sagada, about 12 hrs.','Cave tours need a local guide, and mornings are cold.'),
+(3,'Banaue Rice Terraces','Ifugao','L',16.927,121.057,'Heritage',6500,3,'hk,cw,ph',1,11,5,'UNESCO-listed terraces carved into the Ifugao mountains over centuries.','Overnight bus from Manila, about 9 to 10 hrs.','Visit viewpoints early for clearer skies and fewer tour groups.'),
+(4,'Batad Rice Terraces','Ifugao','L',16.914,121.097,'Heritage',6000,3,'hk,cw,ph',0,11,5,'Amphitheater-shaped terraces reached by a short trek from the road.','From Banaue by jeepney or tricycle to the saddle, then hike 30 to 45 min.','Wear shoes with good grip, since steps get slippery when wet.'),
+(5,'Kiangan','Ifugao','L',16.783,121.096,'Heritage',5500,2,'cw,hk',0,11,5,'Ifugao town with a war memorial and quieter rice-terrace walks.','From Banaue or Lagawe by jeepney, about 1 hr.','Hire a local guide for village treks.'),
+(6,'Buscalan','Kalinga','L',17.383,121.150,'Heritage',6000,3,'cw,hk,ph',0,11,4,'Kalinga village where traditional hand-tapped tattooing is practiced.','Bus to Tabuk or Bontoc, then a ride and short trek to the village.','Be respectful, and arrange tattoo sessions with the artists directly.'),
+(7,'Vigan','Ilocos Sur','L',17.575,120.387,'Heritage',5500,2,'cw,fd,ss,bk',1,11,5,'Preserved Spanish-colonial town with cobblestone Calle Crisologo and horse-drawn calesas.','Bus from Manila, about 8 to 9 hrs, or fly to Laoag and ride south.','Try Vigan empanada and longganisa, and stroll the streets at night.'),
+(8,'Paoay Church & Dunes','Ilocos Norte','L',18.059,120.520,'Heritage',4500,2,'cw,ss,ad',1,11,5,'Baroque UNESCO church and the La Paz sand dunes nearby.','Near Laoag. Tricycle or van from Laoag City, about 30 min.','Book 4x4 and sandboarding on arrival, and go late afternoon.'),
+(9,'Pagudpud','Ilocos Norte','L',18.558,120.790,'Beach',5800,3,'sw,sf,ss',1,3,6,'Northern beach town with white sand at Saud and the Blue Lagoon.','Bus from Manila about 12 hrs, or fly to Laoag and drive 2 hrs.','Surf is rough in the rainy months, so check conditions first.'),
+(10,'Bangui Windmills','Ilocos Norte','L',18.534,120.759,'Nature',4500,2,'ph,bk,ss',1,11,5,'Row of wind turbines along a curving beach, popular for photos.','From Pagudpud by tricycle or van, about 20 to 30 min.','Golden hour gives the best photos.'),
+(11,'Kapurpurawan Rock','Ilocos Norte','L',18.526,120.624,'Nature',4500,2,'ph,ss',0,11,5,'White limestone formations on the Burgos coast.','From Laoag by van or bus to Burgos, about 1 hr.','A short walk or horse ride from the parking area, so wear sun protection.'),
+(12,'Mt. Pulag','Benguet','L',16.597,120.892,'Mountain',5500,2,'hk,cm,ph',1,12,2,'One of Luzon''s highest peaks, known for sea-of-clouds sunrise camps.','Overnight bus to Baguio, then jeepney to the Ranger Station.','Permit and orientation are required, and it can get near freezing.'),
+(13,'Mt. Batulao','Batangas','L',14.050,120.800,'Mountain',2000,1,'hk,cm,ph',1,11,4,'Popular beginner-to-intermediate day hike with grassy ridges.','Bus from Manila to Nasugbu, about 2 to 3 hrs, then get off near the trailhead.','Start early to avoid the heat, since the ridge has little shade.'),
+(14,'Mt. Pico de Loro','Cavite','L',14.235,120.620,'Mountain',2500,1,'hk,cm',0,11,4,'Distinct monolith summit on the Cavite and Batangas border.','From Manila by bus, then tricycle to Ternate or Maragondon.','Climbing the monolith needs a guide and dry conditions.'),
+(15,'Hundred Islands','Pangasinan','L',16.200,120.033,'Island',3500,2,'ih,sw,kc',1,11,5,'Over a hundred limestone islets for island hopping and kayaking.','Bus from Manila to Alaminos, about 5 to 6 hrs, then tricycle to the park.','Book a boat package at the tourism office, and expect crowds on weekends.'),
+(16,'Bolinao','Pangasinan','L',16.390,119.890,'Beach',3500,2,'sw,ss,cv',0,3,6,'Quiet northwest town with beaches, caves, and Patar Beach.','Bus from Manila to Bolinao, about 7 hrs.','Easy to combine with Hundred Islands in one trip.'),
+(17,'San Juan, La Union','La Union','L',16.670,120.330,'Surf',4000,2,'sf,fd,rl',1,11,4,'Surf town with beginner waves, cafés, and a lively beach scene.','Bus from Manila to San Fernando, about 5 to 6 hrs, then tricycle.','Surf schools offer lessons, and waves are best in the dry months.'),
+(18,'Anawangin Cove','Zambales','L',15.000,120.078,'Beach',3800,2,'cm,sw,hk',0,11,5,'Pine-lined cove in Zambales popular for camping.','Bus to San Antonio, then a boat from Pundaquit, about 45 min.','Bring all supplies and carry out your trash.'),
+(19,'Nagsasa Cove','Zambales','L',14.930,120.030,'Beach',3800,2,'cm,sw,hk',0,11,5,'Calmer cove next to Anawangin with a long gray-sand beach.','Boat from Pundaquit, about 1 hr.','Facilities are basic, so plan water and food ahead.'),
+(20,'Potipot Island','Zambales','L',15.667,119.917,'Island',3500,2,'sw,ih',0,3,6,'Small white-sand island off Candelaria, Zambales.','Bus to Candelaria, then a short boat ride.','Good for a quick getaway, but crowded on weekends.'),
+(21,'Subic Bay','Zambales','L',14.821,120.286,'Adventure',4000,2,'ad,wl,ss',0,11,5,'Former naval base with a jungle zoo, dive spots, and beaches.','Bus from Manila to Subic, about 3 hrs.','Combine a nature outing with a wreck dive.'),
+(22,'Mt. Pinatubo Crater','Tarlac','L',15.145,120.350,'Lake',4500,2,'hk,ss,ph',1,11,4,'Crater lake reached by a 4x4 ride and a short trek.','Travel to Capas, Tarlac, then 4x4 to the trailhead.','Book a guided tour and wear sun protection on the exposed trail.'),
+(23,'Bagac','Bataan','L',14.594,120.397,'Heritage',4500,2,'cw,ss',0,11,5,'Coastal Bataan town near heritage houses and quiet beaches.','Bus from Manila to Bagac, about 3 hrs.','Pair it with a visit to the heritage village nearby.'),
+(24,'Clark Freeport','Pampanga','L',15.180,120.560,'City',4000,2,'fd,ss,ad',0,11,5,'Former air base with food, malls, a zoo, and adventure parks.','Fly directly to Clark International Airport.','A handy gateway for Northern Luzon trips.'),
+(25,'Ditumabo Falls','Aurora','L',15.660,121.600,'Waterfall',3500,1,'sw,hk',0,6,11,'Wide waterfall in Aurora, also called Mother Falls.','Drive from Baler to San Luis, then a short trek.','Water volume is higher in the wetter months.'),
+(26,'Baler','Aurora','L',15.759,121.563,'Surf',5500,3,'sf,sw,ss',1,10,2,'Birthplace of Philippine surfing, with long beaches and mellow breaks.','Bus from Manila, about 6 hrs, or van from Cabanatuan.','Surf season is roughly October to February.'),
+(27,'Callao Cave','Cagayan','L',17.672,121.825,'Cave',4500,3,'cv,kc',0,11,5,'Large limestone cave with chambers and a natural skylight.','Fly to Tuguegarao, then drive to Peñablanca, about 45 min.','Combine with river boat rides nearby.'),
+(28,'Anguib Beach','Cagayan','L',18.478,122.220,'Beach',6500,3,'sw,cm',0,3,6,'Remote white-sand beach in Santa Ana, Cagayan.','Fly to Tuguegarao, drive to Santa Ana, then take a boat.','Bring cash and supplies, since services are limited.'),
+(29,'Palaui Island','Cagayan','L',18.500,122.150,'Island',6000,3,'hk,sw,ih',0,3,6,'Protected island with Cape Engaño Lighthouse and quiet beaches.','Drive to Santa Ana, then a short boat to Palaui.','Hike to the lighthouse in the cooler hours.'),
+(30,'Sabtang','Batanes','L',20.330,121.883,'Heritage',14000,5,'cw,ss,hk,ph',0,3,6,'Island with traditional stone houses and rugged coastline.','Fly to Basco, then boat from Ivana to Sabtang, about 45 min.','Weather affects boats, so keep your schedule flexible.'),
+(31,'Batan Island','Batanes','L',20.449,121.970,'Island',15000,5,'ss,hk,cw,ph',1,3,6,'Rolling green hills, stone houses, and windswept coasts.','Fly from Manila to Basco, about 1.5 hrs.','Flights depend on weather, so allow buffer days.'),
+(32,'Tanay','Rizal','L',14.498,121.355,'Waterfall',2500,1,'sw,hk',1,6,11,'Rizal town with falls, caves, and cool viewpoints.','Bus or van from Manila to Tanay, about 2 hrs.','Arrive early on weekends to beat the crowds.'),
+(33,'Pagsanjan Falls','Laguna','L',14.277,121.454,'Waterfall',3000,1,'kc,sw,ad',1,6,11,'Boat ride through a gorge to a waterfall, with local boatmen.','Bus from Manila to Pagsanjan, about 2 hrs.','Agree on the fee before riding, since it includes the paddlers.'),
+(34,'Nagcarlan Underground Cemetery','Laguna','L',14.130,121.415,'Heritage',2500,1,'cw',0,11,5,'Spanish-era crypt and historical site in Laguna.','Bus from Manila to Nagcarlan, about 2.5 hrs.','Visit in the morning, as the site is compact.'),
+(35,'Lucban & Tayabas','Quezon','L',14.113,121.556,'Heritage',3000,1,'cw,fd,ss',0,11,5,'Quezon towns known for the Pahiyas festival, longganisa, and heritage churches.','Bus from Manila to Lucena, then jeepney, about 3 hrs.','Visit in May to see the Pahiyas decorations.'),
+(36,'Borawan Island','Quezon','L',14.667,121.617,'Island',3500,2,'sw,kc',0,3,6,'Small island near Real, Quezon, with white sand and calm water.','Bus to Real, then a short boat ride.','Weekdays are quieter.'),
+(37,'Taal Heritage Town','Batangas','L',13.883,120.930,'Heritage',3000,1,'cw,ss,fd',0,11,5,'Batangas town of old houses and a grand basilica.','Bus from Manila to Taal, about 2.5 hrs.','Try the local embroidery and barako coffee.'),
+(38,'Tagaytay & Taal','Batangas','L',14.115,120.962,'Mountain',3500,2,'ss,hk,fd',1,11,5,'Ridge-top town with views of Taal Volcano and Taal Lake.','Bus or van from Manila, about 1.5 to 2 hrs.','Weekends are busy, so go early for clear views.'),
+(39,'Calatagan','Batangas','L',13.833,120.633,'Beach',4500,2,'sw,dv',0,3,6,'Batangas coastal town with beach resorts and diving.','Drive or bus from Manila to Calatagan, about 3 hrs.','Check sea conditions before booking dives.'),
+(40,'Anilao','Batangas','L',13.760,120.910,'Diving',6000,2,'dv,sn',1,11,5,'Batangas diving hub known for macro marine life.','Bus to Mabini, about 3 hrs, then a boat to dive sites.','Dive sites are best on calm mornings.'),
+(41,'Verde Island','Batangas','L',13.530,121.080,'Island',4000,2,'dv,sn',0,11,5,'Verde Island Passage island with rich marine life.','Boat from Batangas City, about 1 hr.','Stay at a small resort for the best access.'),
+(42,'Puerto Galera','Oriental Mindoro','L',13.500,120.950,'Beach',6500,3,'dv,sn,sw',1,11,5,'Mindoro beach town with Sabang diving and White Beach.','Bus to Batangas Pier, then a ferry to Puerto Galera.','Dive centers run day trips, so book ahead on weekends.'),
+(43,'Apo Reef','Occidental Mindoro','L',12.667,120.467,'Diving',9000,3,'dv,sn,wl',0,3,6,'Large reef system with diving and snorkeling off Sablayan.','Travel to Sablayan, then take a day trip or liveaboard.','Trips depend on weather, so keep your dates flexible.'),
+(44,'Pandan Island','Occidental Mindoro','L',12.840,120.750,'Island',6000,2,'sn,dv',0,3,6,'Small resort island for snorkeling off Sablayan.','From Sablayan by boat, about 15 min.','Great for a quiet, nature-focused stay.'),
+(45,'Marinduque','Marinduque','L',13.447,121.842,'Island',5000,3,'cw,sw,ss',0,3,5,'Heart-shaped island known for the Moriones Festival at Easter.','Ferry from Lucena to Balanacan, about 3 hrs, or fly from Manila.','Plan ahead if visiting during Holy Week.'),
+(46,'Romblon Island','Romblon','L',12.580,122.270,'Island',5000,3,'sw,ph,ss',0,3,6,'Marble-producing island with calm beaches and old forts.','Fly or ferry to Romblon via Batangas or Roxas.','Schedules are limited, so confirm transfers early.'),
+(47,'Sibuyan Island','Romblon','L',12.430,122.600,'Nature',6000,3,'hk,kc,cm',0,11,5,'Mountain island sometimes called the Galapagos of Asia.','Ferry from Batangas via Romblon, or fly to Tablas and cross over.','Travel takes time, so plan 2 to 3 nights.'),
+(48,'Calaguas Islands','Camarines Norte','L',14.033,122.933,'Beach',6500,3,'sw,cm',0,3,6,'Powdery white beaches and calm blue water in Camarines Norte.','Bus to Vinzons or Paracale, then a boat to Mahabang Buhangin.','Bring your own supplies, since amenities are basic.'),
+(49,'Caramoan','Camarines Sur','L',13.770,123.860,'Island',7500,3,'ih,sn,kc',1,3,6,'Limestone islets and lagoons used for island hopping.','Bus to Naga, then van and boat from Sabang Port.','Boat transfers depend on sea conditions.'),
+(50,'CamSur Watersports','Camarines Sur','L',13.580,123.280,'Adventure',4000,2,'ad',1,11,5,'Wakeboarding park with cable systems for all levels.','Fly to Naga and take a van, or drive from Manila.','Beginners can book lessons.'),
+(51,'Puraran Beach','Catanduanes','L',13.630,124.430,'Surf',6000,3,'sf,sw',0,8,10,'Catanduanes surf spot with strong waves and scenic coast.','Fly to Virac, then drive about 1 to 2 hrs.','Surf is challenging, so it suits experienced riders.'),
+(52,'Mayon Volcano','Albay','L',13.257,123.686,'Mountain',5000,2,'ss,hk,ph',1,11,5,'Near-perfect cone volcano with viewpoints and ATV tours.','Fly to Legazpi, then drive to viewpoints.','Clouds hide the summit by midday, so go early.'),
+(53,'Cagsawa Ruins','Albay','L',13.160,123.700,'Heritage',3000,1,'ss,cw,ph',1,11,5,'Remains of a church with a classic view of Mayon.','From Legazpi by tricycle or jeepney, about 20 min.','Visit early morning or late afternoon for photos.'),
+(54,'Donsol','Sorsogon','L',12.910,123.590,'Nature',6000,2,'wl,sn',1,11,6,'Whale shark interaction area off Sorsogon.','Bus to Donsol, or fly to Legazpi and drive about 1 hr.','Whale shark season runs about November to June.'),
+(55,'Bulusan Lake','Sorsogon','L',12.770,124.050,'Lake',3500,2,'kc,hk',0,11,5,'Crater lake in Sorsogon with calm paddling and walking trails.','From Sorsogon City by jeepney or van, about 1 hr.','Go in the morning for calmer water.'),
+(56,'Intramuros','Manila','L',14.589,120.975,'City',3000,1,'cw,ss,fd,bk',1,11,5,'Walled Spanish-era city with forts, churches, and museums.','Manila LRT, taxi, or ride-hailing to Intramuros.','Walk or bike with a guide for the best overview.'),
+(57,'Binondo','Manila','L',14.601,120.974,'City',2500,1,'fd,cw',1,11,5,'Oldest Chinatown with food stalls, temples, and old shops.','Manila LRT-1 to Carriedo, then walk.','Come hungry, and try a food walk for dumplings and hopia.'),
+(58,'El Nido','Palawan','L',11.178,119.392,'Island',7500,3,'ih,sn,kc',1,11,5,'Limestone cliffs, lagoons, and island-hopping tours in Palawan.','Fly to El Nido or Puerto Princesa, then van about 5 to 6 hrs.','Tours A to D cover different lagoons, so book early in peak months.'),
+(59,'Nacpan Beach','Palawan','L',11.290,119.410,'Beach',6500,3,'sw,rl,ph',0,11,5,'Long white-sand beach near El Nido with a relaxed vibe.','From El Nido by tricycle, about 45 min.','Bring cash, since amenities are limited.'),
+(60,'Coron','Palawan','L',11.999,120.204,'Diving',9800,4,'dv,sn,sw',1,11,5,'Shipwreck diving and island hopping in northern Palawan.','Fly to Busuanga, then van about 40 min.','Wreck dives are for certified divers, so check requirements.'),
+(61,'Kayangan Lake','Palawan','L',11.985,120.235,'Lake',9000,3,'sw,ph,ss',1,11,5,'Clear lake in Coron with limestone views and snorkeling.','Part of Coron island-hopping tours by boat.','Go early, and expect entrance fees.'),
+(62,'Culion','Palawan','L',11.850,120.020,'Heritage',6000,3,'cw,ss',0,11,5,'Historic island in Palawan with a former leprosarium.','Boat or flight from Coron or Busuanga.','Learn the island''s history at the museum.'),
+(63,'Puerto Princesa','Palawan','L',9.739,118.735,'City',4500,2,'fd,cw,ss',1,11,5,'Palawan''s capital with Baywalk, markets, and tours.','Fly directly to Puerto Princesa International Airport.','A base for the Underground River and Honda Bay.'),
+(64,'Honda Bay','Palawan','L',9.800,118.800,'Island',4000,1,'ih,sw,sn',1,11,5,'Island-hopping bay with sandbars and snorkeling near Puerto Princesa.','From Sta. Lourdes Wharf by boat.','Bring reef-safe sunscreen.'),
+(65,'Underground River','Palawan','L',10.167,118.917,'Cave',7000,3,'kc,cv,wl',1,11,5,'UNESCO-listed subterranean river with cave formations.','Van from Puerto Princesa to Sabang, then a boat.','Permits sell out, so book ahead in peak season.'),
+(66,'Port Barton','Palawan','L',10.417,119.150,'Beach',5500,3,'sn,ih,sw',0,11,5,'Laid-back bay with calm water and snorkeling spots.','Van from Puerto Princesa or El Nido, about 3 to 4 hrs.','Power can be limited, so bring cash.'),
+(67,'Balabac','Palawan','L',7.980,117.050,'Island',12000,5,'ih,sw,sn,wl',0,3,6,'Southern Palawan archipelago with remote islands and sandbars.','Fly or van to Rizal, then boat to Balabac.','It''s remote, so arrange transport and supplies ahead.'),
+(68,'Tubbataha Reefs','Palawan','L',8.850,119.900,'Diving',25000,5,'dv,wl',0,3,6,'UNESCO reef known for liveaboard diving.','Join a liveaboard from Puerto Princesa during the season.','Dive season is about March to June, so book far ahead.'),
+(69,'Boracay','Aklan','V',11.967,121.925,'Beach',9000,4,'sw,sn,ss,rl',1,11,5,'Famous White Beach with sunsets, water sports, and nightlife.','Fly to Caticlan or Kalibo, then a boat from the Caticlan jetty.','Wind direction changes by season, and Bulabog Beach on the east is used for kitesurfing.'),
+(70,'Kalibo','Aklan','V',11.700,122.367,'City',4000,2,'cw,fd',0,1,1,'Aklan capital and gateway to Boracay, known for the Ati-Atihan festival in January.','Fly to Kalibo International Airport.','Book lodging early if visiting during Ati-Atihan.'),
+(71,'Malalison Island','Antique','V',11.617,122.050,'Island',5000,2,'sw,sn,hk',0,3,6,'Antique island with white-sand beaches and a hill viewpoint.','Boat from Culasi, Antique, about 30 min.','Bring cash and supplies, since facilities are simple.'),
+(72,'Roxas City','Capiz','V',11.585,122.751,'City',3500,2,'fd,sw',0,11,5,'Capiz seafood hub and gateway to Sicogon and Gigantes.','Fly to Roxas City, or ride from Iloilo, about 3 hrs.','Try fresh seafood and visit Sunburst Park.'),
+(73,'Sicogon Island','Iloilo','V',11.490,123.250,'Beach',7000,3,'sw,rl',0,3,6,'Quiet beach island off northeast Iloilo.','Ferry from Roxas City or Estancia to Sicogon.','Resort transfers are usually arranged in advance.'),
+(74,'Concepcion Islands','Iloilo','V',11.217,123.117,'Island',5000,2,'ih,fd',0,3,6,'Cluster of small islands with seafood and sandbars.','Bus to Concepcion, Iloilo, then a boat.','Book boats in advance, and enjoy the fresh seafood.'),
+(75,'Gigantes Islands','Iloilo','V',11.600,123.350,'Island',6500,3,'ih,sw,fd',0,3,6,'Sandbars, scallops, and caves off Carles, Iloilo.','Van from Iloilo City to Carles, then a boat, about 4 to 5 hrs total.','Bring cash, since there are few ATMs.'),
+(76,'Iloilo City','Iloilo','V',10.720,122.562,'City',5000,2,'fd,cw,ss',0,11,5,'Food-rich city with heritage churches and a riverside esplanade.','Fly to Iloilo, or ferry from Bacolod.','Try batchoy and visit the Esplanade at sunset.'),
+(77,'Miagao Church','Iloilo','V',10.646,122.238,'Heritage',3500,1,'cw,ss',1,11,5,'UNESCO-listed baroque fortress church with a richly carved façade.','Jeepney or bus from Iloilo City, about 1 hr.','Visit in the morning for softer light.'),
+(78,'Guimaras','Guimaras','V',10.590,122.630,'Island',4000,2,'fd,sw',0,11,5,'Mango island with quiet beaches and local crafts.','Ferry from Iloilo City, about 15 min.','Time your visit with mango season, April to June.'),
+(79,'Bacolod','Negros Occidental','V',10.677,122.956,'City',4500,2,'fd,cw',1,11,5,'City of the Masskara festival, chicken inasal, and sugar-baron heritage.','Fly to Bacolod-Silay, or ferry from Iloilo.','Try inasal and sweets like piaya.'),
+(80,'Mambukal','Negros Occidental','V',10.550,123.050,'Nature',3000,1,'hk,sw',0,11,5,'Mountain resort with waterfalls and hot springs near Murcia.','Van from Bacolod, about 1 hr.','Pack water shoes for the falls.'),
+(81,'Canlaon Volcano','Negros Occidental','V',10.411,123.132,'Mountain',5000,2,'hk,ph',0,11,5,'Active volcano with trails and highland forests.','From Bacolod or Canlaon City by van.','Check volcano alerts before trekking.'),
+(82,'Danjugan Island','Negros Occidental','V',9.865,122.421,'Island',5500,2,'sn,wl,sw',0,11,5,'Marine reserve island with lagoons and a research center.','Boat from Sipalay, about 30 min.','Support the reserve by following its rules.'),
+(83,'Sipalay','Negros Occidental','V',9.750,122.400,'Beach',5500,3,'sw,sn',0,11,5,'Quiet southern Negros Occidental beaches and diving.','Van from Bacolod, about 4 to 5 hrs.','Bring cash, since services are limited.'),
+(84,'Dumaguete','Negros Oriental','V',9.307,123.306,'City',4500,2,'fd,rl,bk',1,11,5,'University city known for its Rizal Boulevard promenade and as the gateway to Apo Island.','Fly to Dumaguete, or ferry from Cebu.','Try sans rival and watch the sunset by the boulevard.'),
+(85,'Casaroro Falls','Negros Oriental','V',9.250,123.220,'Waterfall',3000,1,'hk,sw',0,6,11,'Slender waterfall reached by a stair hike in Valencia.','Tricycle from Valencia, then steps down the canyon.','Wear shoes with grip, since steps can be slippery.'),
+(86,'Apo Island','Negros Oriental','V',9.072,123.270,'Diving',6000,3,'dv,sn,wl',0,11,5,'Marine sanctuary with turtles and snorkeling.','Boat from Malatapay near Dumaguete, about 30 min.','Day trips and overnight stays are available, so book early.'),
+(87,'Siquijor','Siquijor','V',9.200,123.500,'Island',6000,3,'sw,ss,cw',0,11,5,'Island known for folklore, white beaches, and Cambugahay Falls.','Ferry from Dumaguete or Bohol.','Rent a motorbike to loop the island.'),
+(88,'Cebu City','Cebu','V',10.293,123.902,'Heritage',4000,2,'cw,fd,ss',1,11,5,'One of the country''s oldest cities, with Magellan''s Cross, the Basilica, and Fort San Pedro.','Fly to Mactan-Cebu International Airport.','Try lechon and visit heritage sites early.'),
+(89,'Mactan','Cebu','V',10.310,123.980,'Beach',7000,2,'dv,sw,rl',1,11,5,'Beach resorts, diving, and a gateway island next to Cebu City.','Fly to Mactan-Cebu Airport.','A good base for short dives and day tours.'),
+(90,'Osmeña Peak','Cebu','V',9.793,123.504,'Mountain',3500,1,'hk,ph',1,11,5,'Highest point in Cebu with jagged viewpoints.','From Cebu City by bus to Dalaguete, then habal-habal.','Go at sunrise, since the short trail is exposed.'),
+(91,'Moalboal','Cebu','V',9.950,123.396,'Diving',6500,3,'dv,sn',1,11,5,'Sardine run, turtles, and shore diving off Panagsama Beach.','Bus from Cebu South Bus Terminal, about 3 hrs.','Snorkel straight from the shore, and the sardines stay around much of the year.'),
+(92,'Kawasan Falls','Cebu','V',9.803,123.373,'Waterfall',5500,2,'cy,sw,hk',1,11,5,'Turquoise falls with canyoneering routes in Badian.','Bus to Badian, then tricycle or habal-habal.','Canyoneering needs a licensed guide group.'),
+(93,'Oslob','Cebu','V',9.460,123.380,'Nature',5500,2,'wl,sn,sw',1,11,5,'Known for whale shark interactions off Cebu''s south coast.','Bus from Cebu South Bus Terminal, about 3 to 4 hrs.','Observe ethical guidelines, and consider other wildlife options too.'),
+(94,'Malapascua','Cebu','V',11.330,124.110,'Diving',7500,3,'dv,sn',1,11,5,'Thresher shark diving and quiet beaches in northern Cebu.','Bus to Maya, then a ferry to Malapascua.','Thresher dives start before sunrise.'),
+(95,'Bantayan Island','Cebu','V',11.200,123.717,'Beach',5500,3,'sw,ih,fd',0,11,5,'White-sand island with seafood and slow-paced beaches.','Bus to Hagnaya Port, then a ferry to Santa Fe.','Rent a scooter to loop the island.'),
+(96,'Camotes Islands','Cebu','V',10.650,124.300,'Island',5000,3,'sw,cv',0,11,5,'Cebu islands with lakes, caves, and beaches.','Ferry from Danao or Cebu to Camotes.','Combine Santiago Bay, Timubo Cave, and Lake Danao.'),
+(97,'Chocolate Hills','Bohol','V',9.829,124.139,'Nature',4500,2,'ss,hk,bk',1,11,5,'Hundreds of grass-covered mounds that turn brown in the dry season.','Van from Tagbilaran, about 1.5 hrs.','Go at sunrise for fewer crowds.'),
+(98,'Tarsier Sanctuary','Bohol','V',9.690,123.950,'Nature',4500,2,'wl,ss',1,11,5,'Sanctuary where you can see tarsiers at a respectful distance.','Van from Tagbilaran, about 45 min.','Keep voices low and don''t use flash.'),
+(99,'Panglao','Bohol','V',9.550,123.750,'Beach',7000,3,'dv,sw,ih',1,11,5,'White-sand beaches and dive spots including Balicasag nearby.','Fly to Bohol-Panglao International Airport.','Book island-hopping tours early.'),
+(100,'Balicasag Island','Bohol','V',9.517,123.683,'Diving',6000,1,'dv,sn',1,11,5,'Marine sanctuary known for turtles and drop-offs.','Boat from Alona Beach, Panglao.','Snorkeling is best in the morning.'),
+(101,'Anda','Bohol','V',9.740,124.570,'Beach',5500,3,'sw,rl',0,11,5,'Remote-feeling beaches on Bohol''s southeast.','Van from Tagbilaran, about 2 hrs.','Quieter than Panglao and good for relaxing.'),
+(102,'Danao Adventure Park','Bohol','V',9.900,124.200,'Adventure',4500,1,'ad,cy',0,11,5,'Adventure activities like canyoneering and zip lines in Bohol.','Van from Tagbilaran to Danao, about 2 hrs.','Book packages with a local operator.'),
+(103,'Kalanggaman Island','Leyte','V',11.100,124.370,'Island',4500,2,'sw,sn',0,3,6,'Sandbar island off Palompon, Leyte, with turquoise water.','Van to Palompon, then a boat, about 30 to 45 min.','Boats are limited, so check conditions.'),
+(104,'Tacloban','Leyte','V',11.245,125.004,'Heritage',4000,2,'cw,ss',0,11,5,'Leyte city with historical sites and a gateway to Eastern Visayas.','Fly to Daniel Z. Romualdez Airport.','Visit the memorials and the Sto. Niño Shrine.'),
+(105,'Sogod Bay','Southern Leyte','V',10.380,124.980,'Diving',6500,3,'dv,wl',0,11,5,'Southern Leyte bay known for whale shark encounters and diving.','Van from Maasin, or fly to Tacloban and drive.','Check the season and use local operators.'),
+(106,'Limasawa','Southern Leyte','V',9.933,125.067,'Island',4500,2,'sw,cw',0,11,5,'Island known as the site of the first Mass in the Philippines.','Boat from Liloan or Padre Burgos.','It''s a small island, so pre-arrange transfers.'),
+(107,'Sohoton Caves','Samar','V',11.280,125.070,'Cave',5500,2,'kc,cv',0,11,5,'Samar caves and a natural bridge reached by boat and trails.','Fly to Tacloban, then van to Basey, then a boat.','Hire local guides and check the tides.'),
+(108,'Blanca Aurora Falls','Samar','V',12.077,124.725,'Waterfall',4500,2,'sw,hk',0,6,11,'Multi-tier waterfall in San Jorge, Samar.','Drive from Calbayog or Catbalogan, then a short trek.','Roads can be rough, so check the weather.'),
+(109,'Biri Islands','Northern Samar','V',12.680,124.380,'Nature',7000,3,'ss,sw,ph',0,11,5,'Rock formations carved by waves near San Vicente.','Boat from Lavezares, Northern Samar.','It depends on the weather, so check conditions.'),
+(110,'Homonhon Island','Eastern Samar','V',10.720,125.730,'Island',5500,2,'cw,sw',0,11,5,'Island linked to Magellan''s 1521 landing.','Boat from Guiuan, Eastern Samar.','Combine with Calicoan or Guiuan.'),
+(111,'Calicoan Island','Eastern Samar','V',11.030,125.720,'Surf',6500,3,'sf,sw',0,9,11,'Eastern Samar surf and beaches near Guiuan.','Fly to Tacloban and drive about 4 hrs, or fly to Guiuan.','Surf is best from September to November.'),
+(112,'Sambawan Island','Biliran','V',11.687,124.567,'Island',5000,2,'sw,sn',0,3,6,'Biliran island with limestone cliffs and clear water.','Boat from Almeria, Biliran.','Check swells, since seas can be rough.'),
+(113,'General Luna, Siargao','Surigao del Norte','M',9.790,126.160,'Surf',8900,4,'sf,ih,sw',1,8,11,'Surf capital with Cloud 9 and island-hopping around the lagoons.','Fly to Siargao Airport, or ferry from Surigao City.','Cloud 9 is for experienced surfers, so take lessons nearby.'),
+(114,'Magpupungko Rock Pools','Surigao del Norte','M',9.780,126.150,'Nature',5500,2,'sw,ph',1,11,5,'Tidal rock pools near Pilar that fill at certain tides.','Motorbike or tricycle from General Luna, about 45 min.','Check tide tables, since the pools form best at low to mid tide.'),
+(115,'Naked Island','Surigao del Norte','M',9.720,126.100,'Island',5000,1,'sw,ph',1,11,5,'Sandbar islet with shallow water, part of Siargao tours.','Island-hopping boat from General Luna.','Bring sun protection, as there is no shade.'),
+(116,'Sugba Lagoon','Surigao del Norte','M',9.890,126.030,'Nature',6000,2,'kc,sw',0,11,5,'Clear lagoon near Del Carmen with kayak and paddleboard options.','Boat from Del Carmen, or van from General Luna.','Go early to avoid the heat.'),
+(117,'Bucas Grande','Surigao del Norte','M',9.680,125.980,'Island',6500,3,'kc,sw,cv',0,11,5,'Surigao island with lagoons and Sohoton Cove caves.','Boat from Socorro, Surigao del Norte.','Hire local guides and follow conservation rules.'),
+(118,'Dinagat Islands','Dinagat Islands','M',10.130,125.600,'Island',6000,3,'sw,hk',0,11,5,'Island province with beaches and hills near Siargao.','Ferry from Surigao City.','Boat schedules vary, so confirm in advance.'),
+(119,'Lake Mainit','Surigao del Norte','M',9.450,125.520,'Lake',4500,2,'kc,ss',0,11,5,'Large lake between Surigao and Agusan with calm waters.','Drive from Surigao City, about 1.5 hrs.','Try local fish and paddle the quiet shore.'),
+(120,'Britania Islands','Surigao del Sur','M',8.950,126.050,'Island',5500,2,'ih,sw',0,3,6,'Cluster of rock islets near San Agustin, Surigao del Sur.','Boat from San Agustin, about 30 min.','Bring cash and book boats ahead.'),
+(121,'Tinuy-an Falls','Surigao del Sur','M',8.167,126.283,'Waterfall',4800,2,'sw,ss',0,6,11,'Wide multi-tiered waterfall often called the Niagara of the Philippines.','Fly to Butuan and drive to Bislig, about 4 hrs.','Flow is fuller in the rainy months.'),
+(122,'Enchanted River','Surigao del Sur','M',8.370,126.340,'Nature',5500,2,'sw,sn',0,11,5,'Deep, clear spring that flows to the sea in Hinatuan.','Drive from Tandag to the park entrance.','Swim only when allowed, and note it is very deep.'),
+(123,'Agusan Marsh','Agusan del Sur','M',8.430,125.900,'Nature',5500,3,'kc,wl',0,11,5,'Wildlife sanctuary with floating villages and birds.','Fly to Butuan, then take a boat tour.','Book a guided boat tour and bring binoculars.'),
+(124,'Camiguin','Camiguin','M',9.170,124.720,'Island',6000,3,'sw,hk,ss',1,11,5,'Island of volcanoes, springs, and white sandbars.','Fly to Camiguin, or ferry from Balingoan.','Do the island loop in one day by rented bike or van.'),
+(125,'White Island','Camiguin','M',9.230,124.750,'Island',5000,1,'sw,ph',1,11,5,'Sandbar with views of Hibok-Hibok volcano.','Boat from Agoho or Mambajao.','Bring shade and water, since there are no facilities.'),
+(126,'Katibawasan Falls','Camiguin','M',9.185,124.730,'Waterfall',3000,1,'sw',0,6,11,'Tall waterfall with a cool pool.','Tricycle from Mambajao, about 15 min.','Visit in the morning for fewer people.'),
+(127,'Cagayan de Oro','Misamis Oriental','M',8.454,124.632,'Adventure',4500,2,'kc,ad,fd',1,11,5,'Gateway to whitewater rafting and nearby highlands.','Fly to Laguindingan Airport, then van about 1 hr.','Book rafting with licensed operators.'),
+(128,'Ozamiz Cotta Fort','Misamis Occidental','M',8.150,123.840,'Heritage',3000,1,'cw,ss',0,11,5,'17th-century Spanish-era fort by the sea.','From Ozamiz City center by tricycle.','A quick visit that fits well with a city walk.'),
+(129,'Maria Cristina Falls','Lanao del Norte','M',8.183,124.243,'Waterfall',3500,1,'ss,ph',1,6,11,'Hydroelectric waterfall near Iligan City.','From Iligan City by jeepney or tricycle.','Check viewing hours, since access can be limited.'),
+(130,'Tinago Falls','Lanao del Norte','M',8.190,124.190,'Waterfall',3000,1,'sw,ph',1,6,11,'Waterfall in a ravine reached by steps.','From Iligan City by jeepney.','Wear sturdy sandals, because the steps are steep.'),
+(131,'Dahilayan','Bukidnon','M',8.200,124.850,'Adventure',5000,2,'ad,hk,cm',0,11,5,'Highland adventure area with zip lines and cool weather.','Van from Cagayan de Oro, about 2 hrs.','Wear layers, since mornings are cool.'),
+(132,'Mt. Kitanglad','Bukidnon','M',8.150,124.900,'Mountain',5000,3,'hk,cm',0,11,5,'Mountain range in Bukidnon with trekking routes.','Drive from Cagayan de Oro to Bukidnon, then trek.','Arrange permits and guides ahead.'),
+(133,'Zamboanga City','Zamboanga del Sur','M',6.900,122.070,'Heritage',3500,2,'cw,ss,fd',1,11,5,'City of Fort Pilar, Chavacano culture, and nearby pink-sand islands.','Fly to Zamboanga International Airport.','Check local travel advisories before your trip.'),
+(134,'Great Santa Cruz Island','Zamboanga del Sur','M',6.880,122.050,'Beach',4500,2,'sw,ss',0,11,5,'Beach island known for its pinkish sand.','Boat from Zamboanga City, about 20 min.','Check advisories and visit with a licensed operator.'),
+(135,'Dapitan','Zamboanga del Norte','M',8.650,123.420,'Heritage',4000,2,'cw,ss',0,11,5,'Town linked to José Rizal''s exile, with a shrine and park.','Fly to Dipolog, then travel about 30 min to Dapitan.','Visit the Rizal Shrine and the Dakak area nearby.'),
+(136,'Dipolog','Zamboanga del Norte','M',8.587,123.340,'City',3500,1,'fd,ss',0,11,5,'Zamboanga del Norte city with a sunset boulevard and food spots.','Fly to Dipolog Airport.','Try local seafood along the boulevard.'),
+(137,'Dakak Beach','Zamboanga del Norte','M',8.660,123.460,'Beach',6000,2,'sw,dv',0,11,5,'Resort beach near Dapitan with water activities.','Fly to Dipolog, then drive about 45 min.','Book resort packages ahead.'),
+(138,'Bongao','Tawi-Tawi','M',5.030,119.770,'Mountain',12000,4,'hk,cw',0,11,5,'Tawi-Tawi capital with Bud Bongao for hikes and views.','Fly to Tawi-Tawi, then travel to Bongao.','Check security advisories before traveling.'),
+(139,'Davao City','Davao del Sur','M',7.073,125.613,'City',4500,2,'fd,ss',1,11,5,'Large city with markets, durian, and a gateway to Mt. Apo.','Fly to Francisco Bangoy International Airport.','Try durian and local seafood in the city.'),
+(140,'Eden Nature Park','Davao del Sur','M',7.220,125.370,'Nature',3000,1,'hk,ph,rl',1,11,5,'Mountain park near Davao with ziplines and pine views.','Drive from Davao City, about 1 hr.','Visit on weekdays to avoid crowds.'),
+(141,'Philippine Eagle Center','Davao del Sur','M',7.180,125.420,'Nature',3000,1,'wl,ss',0,11,5,'Conservation center for the Philippine eagle.','Drive from Davao City, about 45 min.','Learn about the conservation efforts on site.'),
+(142,'Mt. Apo','Davao del Sur','M',6.987,125.270,'Mountain',6000,3,'hk,cm',1,11,5,'Highest peak in the Philippines with multiple trekking routes.','Drive to Kidapawan or Sta. Cruz, then trek.','Climbing requires permits and guides, so check the weather.'),
+(143,'Samal Island','Davao del Norte','M',7.080,125.730,'Island',5000,2,'sw,ih',1,11,5,'Davao Gulf island with beaches and resorts.','Short ferry from Davao City.','Rent a motorbike to loop the island.'),
+(144,'Dahican Beach','Davao Oriental','M',6.940,126.270,'Beach',5500,3,'sw,sf,wl',0,11,5,'Davao Oriental beach known for surf and skimboarding.','Fly to Davao and drive to Mati, about 4 hrs.','Waves are gentler for beginners in season.'),
+(145,'Mt. Hamiguitan','Davao Oriental','M',6.730,126.100,'Mountain',5500,3,'hk,cm,wl',0,11,5,'UNESCO-listed mountain range with a unique mossy forest.','Drive from Mati to San Isidro, then trek.','Arrange permits and guides ahead.'),
+(146,'Aliwagwag Falls','Davao Oriental','M',7.760,126.440,'Waterfall',4500,2,'sw,ss',0,6,11,'Tiered falls near Cateel, Davao Oriental.','Drive from Mati or Davao, about 4 to 5 hrs.','Flow is fuller in the rainier months.'),
+(147,'General Santos','South Cotabato','M',6.116,125.172,'City',4500,2,'fd,ss',1,11,5,'Tuna capital with fish ports and fresh seafood.','Fly to General Santos Airport.','Visit the fish port early for the freshest catches.'),
+(148,'Lake Sebu','South Cotabato','M',6.210,124.700,'Lake',5500,3,'ss,cw,kc',0,11,5,'Highland lake home to the T''boli people and weaving traditions.','Van from Koronadal, about 1 to 1.5 hrs.','Try tilapia and watch T''boli weaving.'),
+(149,'Mt. Matutum','South Cotabato','M',6.360,125.070,'Mountain',4500,2,'hk,cm',0,11,5,'Dormant volcano with hiking trails near General Santos.','Drive from General Santos to Tupi.','Start early, because trails are exposed.'),
+(150,'Gumasa Beach','Sarangani','M',5.780,125.230,'Beach',4500,3,'sw,sf',0,11,5,'Black-sand beach known for surf near Glan, Sarangani.','Drive from General Santos, about 2 hrs.','Check surf conditions before heading out.'),
+(151,'Mt. Ulap','Benguet','L',16.283,120.667,'Mountain',2500,1,'hk,ph,cm',0,11,5,'Grassy ridge hike with sea-of-clouds views near Baguio.','Bus to Baguio, then jeepney to Itogon and the Ampucao trailhead.','Start before sunrise and bring a windbreaker.'),
+(152,'Bontoc','Mountain Province','L',17.090,120.977,'Heritage',5000,2,'cw,ss',0,11,5,'Cordillera town with a museum on highland cultures.','Overnight bus from Manila, or van from Baguio, about 6 hrs.','Visit the museum first, then arrange village treks.'),
+(153,'Maligcong Rice Terraces','Mountain Province','L',17.040,120.970,'Heritage',5000,2,'hk,ph,cw',0,11,5,'Stone-walled terraces with easy village hikes.','From Bontoc by jeepney or tricycle, about 30 min.','Terraces are greenest after planting season.'),
+(154,'Kabayan Mummy Caves','Benguet','L',16.622,120.832,'Heritage',4500,2,'cw,hk',0,11,5,'Burial caves with centuries-old Ibaloi mummies.','Bus to Baguio, then van or jeepney to Kabayan, about 3 hrs.','Entry is arranged through the local tourism office.'),
+(155,'Chico River','Kalinga','L',17.410,121.440,'Adventure',5000,2,'ad,kc',0,11,4,'Rafting and kayaking on a scenic Cordillera river.','Fly or bus to Tuguegarao, then van to Tabuk.','Go with licensed operators and check water levels.'),
+(156,'Laoag City','Ilocos Norte','L',18.197,120.594,'City',4000,2,'fd,cw,ss',0,11,5,'Ilocano food stops and the Sinking Bell Tower.','Fly to Laoag or take a long bus from Manila, about 10 hrs.','Try bagnet and Ilocos empanada.'),
+(157,'Pinsal Falls','Ilocos Sur','L',17.150,120.470,'Waterfall',3500,1,'sw,hk',0,6,11,'Cascading falls reached by a short trail.','From Vigan by van or bus to Santa Maria, then a short walk.','Dry months are safer for the trail.'),
+(158,'Santa Maria Church','Ilocos Sur','L',17.363,120.483,'Heritage',3500,1,'cw,ss,ph',0,11,5,'UNESCO hilltop fortress church.','From Vigan by jeepney or van, about 40 min.','Climb the steps early to beat the heat.'),
+(159,'Bantay Church','Ilocos Sur','L',17.583,120.383,'Heritage',3000,1,'cw,ss,ph',0,11,5,'Church and bell tower once used as a watchtower.','Tricycle from Vigan, about 15 min.','Climb the belltower only when it is open.'),
+(160,'Cape Bojeador Lighthouse','Ilocos Norte','L',18.508,120.592,'Heritage',4000,1,'ss,ph',0,11,5,'Spanish-era lighthouse on a coastal hill.','From Laoag by van to Burgos, about 1 hr.','Pair it with Kapurpurawan and Pagudpud.'),
+(161,'Currimao','Ilocos Norte','L',18.017,120.483,'Beach',4000,2,'sw,rl',0,3,6,'Quiet rocky shoreline and calm beach coves.','From Laoag by van, about 45 min.','Bring water shoes for the rocky shore.'),
+(162,'Tangadan Falls','La Union','L',16.730,120.400,'Waterfall',3000,1,'sw,hk',0,6,11,'Jungle falls with a natural swimming pool.','From San Fernando by tricycle to San Gabriel, then a short hike.','Wear grippy sandals since rocks are slick.'),
+(163,'Agoo Basilica','La Union','L',16.317,120.367,'Heritage',3000,1,'cw,ss',0,11,5,'Marian basilica and museum in La Union.','Bus from Manila toward San Fernando, then a jeepney to Agoo.','Combine it with a surf stop in San Juan.'),
+(164,'Manaoag Church','Pangasinan','L',16.043,120.488,'Heritage',3000,1,'cw,ss',1,11,5,'Pilgrimage church for Our Lady of Manaoag.','Bus from Manila to Dagupan or Urdaneta, then a van, about 4 hrs.','Weekends and feast days draw large crowds.'),
+(165,'Dagupan','Pangasinan','L',16.043,120.334,'City',3000,1,'fd,ss',0,11,5,'Known for grilled bangus and fish markets.','Bus from Manila, about 4 to 5 hrs.','Go early to the markets for the freshest bangus.'),
+(166,'La Trinidad','Benguet','L',16.461,120.590,'Nature',3500,1,'fd,ph,ss',1,11,5,'Strawberry farms and Benguet''s vegetable valley.','From Baguio by jeepney, about 20 min.','Strawberries are best from December to March.'),
+(167,'Mayoyao Rice Terraces','Ifugao','L',16.983,121.233,'Heritage',6000,3,'hk,cw,ph',0,11,5,'Remote terraces and a village heritage museum.','From Banaue by jeepney, about 2 to 3 hrs.','Roads are rough, so allow extra time.'),
+(168,'Mt. Arayat','Pampanga','L',15.200,120.740,'Mountain',2000,1,'hk,ph',0,11,5,'Solitary volcano with forest trails.','From Manila by bus to Angeles, then a tricycle to the park.','Hike in the cool morning and bring water.'),
+(169,'Candaba Swamp','Pampanga','L',14.970,120.850,'Nature',2500,1,'wl,ph',0,11,3,'Migratory bird haven in the dry months.','From Manila by bus to Candaba, then a tricycle.','Bring binoculars and go early in the morning.'),
+(170,'Madlum Cave','Bulacan','L',15.100,121.100,'Cave',2500,1,'cv,hk',0,11,5,'Limestone cave with a river running through it.','From Manila by bus to San Miguel, then a tricycle.','Go in the dry months and bring a headlamp.'),
+(171,'Biak-na-Bato','Bulacan','L',15.140,121.040,'Heritage',2500,1,'cw,hk,cv',0,11,5,'Revolutionary hideout with caves and trails.','Bus from Manila to San Miguel, then a tricycle.','Wear sturdy shoes for the cave trails.'),
+(172,'Barasoain Church','Bulacan','L',14.843,120.810,'Heritage',2500,1,'cw,ss',0,11,5,'Site of the First Philippine Republic congress.','Bus from Manila to Malolos, about 1 hr.','Check museum hours before going.'),
+(173,'Mt. Samat','Bataan','L',14.583,120.467,'Heritage',3000,1,'cw,ss,ph',0,11,5,'War memorial shrine with a cross viewpoint.','Bus from Manila to Balanga, then a jeepney, about 3 hrs.','Go on a clear day for the best views.'),
+(174,'Mt. Natib','Bataan','L',14.700,120.400,'Mountain',3000,2,'hk,cm',0,11,5,'Volcanic caldera with forest trekking.','Bus to Balanga, then a ride to the Bagac or Orani trailheads.','Hire a guide since trails are not well marked.'),
+(175,'Pawikan Conservation Center','Bataan','L',14.683,120.270,'Nature',2500,1,'wl,ph',0,11,3,'Sea turtle hatchery along the coast.','Bus to Morong, Bataan, then a short tricycle ride.','Hatchling releases depend on the season.'),
+(176,'Corregidor Island','Cavite','L',14.383,120.567,'Heritage',3500,1,'cw,ss,ph',1,11,5,'WWII fortress island at the mouth of Manila Bay.','Ferry from Manila''s CCP pier, about 1 hr.','Book a tour ahead since it often sells out.'),
+(177,'Aguinaldo Shrine','Cavite','L',14.438,120.900,'Heritage',2500,1,'cw,ss',0,11,5,'Home where independence was declared in 1898.','Bus or jeepney from Manila to Kawit, about 1 hr.','Visit on a weekday for fewer crowds.'),
+(178,'Mt. Maculot','Batangas','L',13.903,121.020,'Mountain',2000,1,'hk,ph',0,11,5,'Rocky summit with views over Taal Lake.','Bus to Batangas, then a tricycle to Cuenca.','Start early since the rocky section is exposed.'),
+(179,'Mt. Talamitam','Batangas','L',14.070,120.770,'Mountain',2000,1,'hk,ph',0,11,5,'Beginner hike over open grassland.','Bus to Nasugbu, then a tricycle to the trailhead.','Bring plenty of water since shade is limited.'),
+(180,'Mt. Gulugod Baboy','Batangas','L',13.730,120.910,'Mountain',2000,1,'hk,ph',0,11,5,'Short ridge hike above Anilao.','Bus to Batangas, then a jeepney to Mabini.','Combine it with a dive or snorkel day in Anilao.'),
+(181,'Fortune Island','Batangas','L',14.013,120.600,'Island',3500,1,'sw,ph,ss',0,3,6,'Greek-style ruins and clear water.','Boat from Nasugbu, about 1 hr.','Book a boat early and watch sea conditions.'),
+(182,'Laiya','Batangas','L',13.655,121.405,'Beach',5000,2,'sw,rl,ss',1,11,5,'Long white-sand beach with resorts.','Bus to San Juan, Batangas, then a tricycle.','Weekends fill up, so go midweek.'),
+(183,'Malabrigo Lighthouse','Batangas','L',13.614,121.183,'Heritage',3500,1,'ss,ph',0,11,5,'Historic lighthouse on a Lobo headland.','Bus to Lobo, Batangas, then a tricycle.','Go in late afternoon for softer light.'),
+(184,'Seven Lakes of San Pablo','Laguna','L',14.067,121.333,'Lake',3000,1,'kc,ph,rl',0,11,5,'Crater lakes with bamboo rafts and cafes.','Bus from Manila to San Pablo, about 2 hrs.','Lake Pandin is the most popular for bamboo rafts.'),
+(185,'Hidden Valley Springs','Laguna','L',14.150,121.350,'Nature',3500,1,'sw,rl',0,11,5,'Forest resort with natural spring pools.','Drive or van from Manila to Calauan, about 2 hrs.','Reservations are required.'),
+(186,'Taytay Falls','Laguna','L',14.150,121.470,'Waterfall',3000,1,'sw,hk',0,6,11,'Broad falls in Majayjay reached by steps.','Bus to Majayjay, then a tricycle and a short climb of steps.','Avoid it after heavy rain.'),
+(187,'Lake Caliraya','Laguna','L',14.310,121.520,'Lake',3000,1,'kc,ad,rl',0,11,5,'Reservoir for kayaking and wakeboarding.','Drive or bus to Lumban, then a tricycle.','Go early before the wind picks up.'),
+(188,'Villa Escudero','Quezon','L',14.016,121.388,'Heritage',3500,1,'cw,rl',0,11,5,'Plantation resort with a waterfall lunch.','Bus to Tiaong, then a tricycle.','Day tour packages include meals.'),
+(189,'Kamay ni Hesus','Quezon','L',14.120,121.570,'Heritage',2500,1,'cw,ss',1,11,5,'Healing shrine with a large Christ statue.','Bus to Lucban from Manila, about 3 hrs.','Pair it with Pahiyas season for extra color.'),
+(190,'Mt. Banahaw','Quezon','L',14.070,121.490,'Mountain',3500,2,'hk,cm',0,11,5,'Sacred mountain with pilgrim trails.','Bus to Lucena, then a van to Dolores.','Check if trails are open, since access is restricted at times.'),
+(191,'Cagbalete Island','Quezon','L',14.210,121.850,'Beach',4000,2,'sw,rl',0,3,6,'Sandbar island with calm shallow water.','Bus to Mauban, then a boat, about 45 min.','Bring cash since there are no ATMs.'),
+(192,'Real','Quezon','L',14.661,121.603,'Surf',4000,2,'sf,sw',0,10,3,'Beginner-friendly surf breaks and falls nearby.','Bus from Manila to Real, Quezon, about 4 hrs.','Check surf conditions if you are a beginner.'),
+(193,'Polillo Island','Quezon','L',14.717,121.933,'Island',5000,3,'sw,sn',0,3,6,'Quiet island with beaches and caves.','Bus to Real, then a ferry, about 2 to 3 hrs.','Ferries depend on the weather.'),
+(194,'Antipolo','Rizal','L',14.586,121.176,'City',2500,1,'ss,fd,cw',1,11,5,'Hilltop cathedral and city views near Manila.','Jeepney or van from Marikina or Cubao, about 1 hr.','Avoid May weekends when pilgrims crowd the cathedral.'),
+(195,'Pililla Wind Farm','Rizal','L',14.480,121.300,'Nature',2500,1,'ph,bk',0,11,5,'Turbines overlooking Laguna de Bay.','Bus or van from Manila to Pililla, Rizal.','Visit near sunset for the best photos.'),
+(196,'Masungi Georeserve','Rizal','L',14.560,121.290,'Nature',3500,1,'hk,ph',1,11,5,'Rope walks and limestone viewpoints.','Van or drive to Baras, Rizal, by reservation only.','Book weeks ahead and wear closed shoes.'),
+(197,'Mt. Daraitan','Rizal','L',14.633,121.417,'Mountain',2500,1,'hk,cv,cm',0,11,5,'Limestone peak with a river and a cave.','Van from Manila to Tanay, then a tricycle, about 3 hrs.','Cross the river carefully after rain.'),
+(198,'Mt. Makiling','Laguna','L',14.130,121.200,'Mountain',2500,1,'hk,wl',0,11,5,'Forest mountain near Los Baños.','Bus to Los Baños, then a jeepney to the trailheads.','Check ranger advisories before hiking.'),
+(199,'Naujan Lake','Oriental Mindoro','L',13.183,121.317,'Lake',4000,2,'kc,wl',0,11,5,'Large lake rich in birdlife.','Bus to Calapan, then a jeepney to Naujan.','Go early for birdwatching.'),
+(200,'Tamaraw Falls','Oriental Mindoro','L',13.420,121.040,'Waterfall',3500,1,'sw,ph',0,6,11,'Twin falls beside the roadside.','From Calapan by jeepney or van, about 2 hrs.','Visit early before tour groups arrive.'),
+(201,'Mt. Halcon','Oriental Mindoro','L',13.280,121.000,'Mountain',8000,5,'hk,cm',0,11,4,'Challenging peak for experienced trekkers.','Bus to Calapan, then a jeepney to Baco.','Hire a guide and prepare for multi-day camping.'),
+(202,'Bulalacao','Oriental Mindoro','L',12.317,121.333,'Beach',5000,3,'sw,sn',0,3,6,'Quiet southern Mindoro beaches and islets.','Bus or jeepney from Calapan, about 5 to 6 hrs.','Bring cash and book boats locally.'),
+(203,'Lubang Island','Occidental Mindoro','L',13.800,120.120,'Island',5000,3,'dv,sn,hk',0,3,6,'Remote island with WWII history.','Boat from Batangas or Calapan, about 3 hrs.','Schedules are limited, so check ferry days.'),
+(204,'Mt. Guiting-Guiting','Romblon','L',12.417,122.533,'Mountain',8000,4,'hk,cm',0,3,5,'Demanding jagged peak on Sibuyan.','Ferry to Sibuyan, then a trek from Magdiwang.','A guide and good fitness are needed.'),
+(205,'Ticao Island','Masbate','L',12.700,123.700,'Island',5500,3,'dv,sn,sw',0,11,5,'Manta rays and quiet coves.','Fly or ferry to Masbate, then a boat to San Jacinto.','Manta sightings depend on the season.'),
+(206,'Cuyo Island','Palawan','L',10.850,121.000,'Island',7000,3,'sw,cw,ss',0,3,6,'Fortified town and beaches in the Cuyo group.','Flight or boat from Puerto Princesa or Iloilo.','Transport is limited, so plan ahead.'),
+(207,'Calauit Safari Park','Palawan','L',12.164,119.944,'Nature',6000,2,'wl,ss',0,11,5,'Giraffes and zebras roaming a Palawan island.','Fly to Busuanga, then a tour by van and boat.','Book through a Coron operator.'),
+(208,'Tabon Caves','Palawan','L',9.280,117.980,'Cave',4500,2,'cv,cw',0,11,5,'Caves tied to some of the oldest remains in the country.','Van from Puerto Princesa to Quezon, about 3 hrs.','Only a few caves are open to visitors.'),
+(209,'Taytay','Palawan','L',10.817,119.517,'Heritage',5000,2,'cw,ss,ih',0,11,5,'Spanish fort and gateway to northern islands.','Van from El Nido, about 2 hrs.','Combine it with trips to nearby islands.'),
+(210,'San Vicente','Palawan','L',10.533,119.283,'Beach',6000,3,'sw,rl,ph',1,11,5,'Long Beach, one of the longest in the Philippines.','Fly to San Vicente Airport or take a van from Puerto Princesa.','Quieter than El Nido, but book early in peak months.'),
+(211,'Ugong Rock','Palawan','L',9.870,118.770,'Adventure',3500,1,'ad,cv,ph',0,11,5,'Climbing and zipline on a limestone rock.','Van from Puerto Princesa, about 1 hr.','Closed shoes are required for climbing.'),
+(212,'Capones Island','Zambales','L',14.940,119.980,'Island',3500,1,'sw,ph,ss',0,3,6,'Lighthouse islet with clear water.','Boat from Pundaquit, about 30 min.','Book a boatman at the beach and expect a short hike.'),
+(213,'Liwliwa','Zambales','L',15.060,120.075,'Surf',4000,2,'sf,sw,cm',0,11,4,'Laid-back surf and camping beach.','Bus to San Felipe, Zambales, then a tricycle.','Surf is best in the cooler months.'),
+(214,'Dingalan','Aurora','L',15.390,121.390,'Beach',4000,2,'sw,ph',0,3,6,'Coves and viewpoints along the Pacific coast.','Bus to Cabanatuan, then a van to Dingalan.','Roads are long, so plan at least two days.'),
+(215,'Tuguegarao','Cagayan','L',17.613,121.727,'City',4000,2,'fd,cw,ss',0,11,5,'Gateway to Cagayan with pancit batil patong.','Fly from Manila or take a long bus, about 10 to 12 hrs.','Try pancit batil patong.'),
+(216,'Fuga Island','Cagayan','L',18.867,121.433,'Island',8000,3,'sw,sn,hk',0,3,6,'Remote island with white beaches.','Boat from Aparri, Cagayan, about 3 to 4 hrs.','Sea conditions can cancel trips.'),
+(217,'Itbayat','Batanes','L',20.783,121.833,'Island',14000,5,'ss,hk,cw,ph',0,3,6,'Rugged northernmost inhabited island.','Flight or boat from Basco, weather permitting.','Allow extra days in case of delays.'),
+(218,'Bagasbas Beach','Camarines Norte','L',14.120,122.970,'Surf',4000,2,'sf,sw',0,11,4,'Black-sand beach popular with surfers.','Bus from Manila to Daet, about 8 hrs.','Surf is best in the cooler months.'),
+(219,'Naga City','Camarines Sur','L',13.620,123.180,'City',3500,2,'fd,cw,ss',0,11,5,'Bicol food and the Peñafrancia pilgrimage.','Fly to Naga or take a bus from Manila, about 8 hrs.','Peñafrancia week fills hotels fast.'),
+(220,'Mt. Isarog','Camarines Sur','L',13.658,123.300,'Mountain',3000,2,'hk,ph',0,11,5,'Forested volcano with falls and trails.','Bus to Naga, then a van to Panicuason.','Hire a guide and start early.'),
+(221,'Lake Buhi','Camarines Sur','L',13.433,123.517,'Lake',3500,1,'kc,ss',0,11,5,'Home of the sinarapan, a tiny fish.','Bus to Naga, then a van to Buhi, about 2 hrs.','Visit early for calm water.'),
+(222,'Legazpi City','Albay','L',13.139,123.744,'City',4000,2,'fd,ss',0,11,5,'Base city with Mayon views.','Fly to Legazpi or take a long bus from Manila.','Mayon views are clearest early in the morning.'),
+(223,'Hoyop-Hoyopan Cave','Albay','L',13.180,123.660,'Cave',3000,1,'cv,ph',0,11,5,'Cave with striking formations in Camalig.','From Legazpi by jeepney to Camalig, about 30 min.','Wear closed shoes and bring a flashlight.'),
+(224,'Rizal Park','Manila','L',14.583,120.979,'City',2500,1,'ss,cw,bk',1,11,5,'Manila''s central park and national monument.','Take the LRT to United Nations Station.','Go early and bring water.'),
+(225,'Bonifacio Global City','Metro Manila','L',14.551,121.050,'City',3500,1,'fd,ss,rl',0,11,5,'Modern district with cafes and street art.','Bus from Ayala or EDSA, about 20 min.','Explore the mural spots on foot.'),
+(226,'Makati','Metro Manila','L',14.555,121.024,'City',3500,1,'fd,ss',0,11,5,'Dining, museums, and nightlife.','MRT or bus along EDSA, or a ride-hail.','Weekends have lighter traffic.'),
+(227,'Quezon City','Metro Manila','L',14.676,121.044,'City',3000,1,'fd,cw,ss',0,11,5,'Food scene, museums, and Art in Island.','MRT or LRT-2 to Cubao, then a local ride.','Check opening times for museums.'),
+(228,'Bomod-ok Falls','Mountain Province','L',17.080,120.900,'Waterfall',5500,2,'hk,sw',0,6,11,'Big falls reached by a rice terrace trek.','Walk about 1.5 hrs from Sagada.','Hire a local guide and expect steep steps.'),
+(229,'Jawili Falls','Aklan','V',11.800,122.200,'Waterfall',3500,1,'sw,hk',0,6,11,'Tiered falls with turquoise pools.','Fly to Kalibo, then a van to Tangalan, about 1 hr.','Visit in the wetter months for fuller flow.'),
+(230,'Bugtong Bato Falls','Antique','V',11.290,122.070,'Waterfall',3500,1,'sw,hk',0,6,11,'Twin falls near Tibiao.','Van from Iloilo or Kalibo to Tibiao, then a short walk.','Pair it with a river trip in Tibiao.'),
+(231,'Mt. Madja-as','Antique','V',11.410,122.090,'Mountain',3500,2,'hk,cm',0,11,4,'Panay''s highest peak and sunrise camp.','Van from Iloilo to Culasi, then a trek, about 2 days.','Hire a guide and bring warm clothes.'),
+(232,'Nogas Island','Antique','V',10.425,121.925,'Island',4500,1,'sn,sw',0,3,6,'Marine sanctuary with white sand.','Boat from Anini-y, about 30 min.','Boats depend on sea conditions.'),
+(233,'Caluya Islands','Antique','V',11.933,121.533,'Island',6000,3,'sw,sn',0,3,6,'Remote island group with clear water.','Boat from Libertad, Antique, about 3 to 4 hrs.','Schedules are limited, so plan ahead.'),
+(234,'Pan de Azucar Island','Iloilo','V',11.470,123.080,'Island',5000,2,'hk,sw,ph',0,3,6,'Cone-shaped island with a hill hike.','Boat from Concepcion, Iloilo, about 30 min.','Go early to climb before the heat.'),
+(235,'Jaro Cathedral','Iloilo','V',10.726,122.558,'Heritage',3000,1,'cw,ss',0,11,5,'Belfry cathedral and city market.','Jeepney or taxi in Iloilo City.','Visit the market nearby for local snacks.'),
+(236,'Molo Church','Iloilo','V',10.697,122.545,'Heritage',2500,1,'cw,ss',0,11,5,'Gothic-style church with twin spires.','Jeepney in Iloilo City, about 20 min from downtown.','Look for the old Molo mansion nearby.'),
+(237,'San Joaquin Church','Iloilo','V',10.583,122.090,'Heritage',3000,1,'cw,ss,ph',0,11,5,'Coral-stone church with a battle relief.','Van or bus from Iloilo City, about 1 hr.','Combine it with Miagao Church on a day trip.'),
+(238,'Panay Church','Capiz','V',11.583,122.750,'Heritage',3000,1,'cw,ss',0,11,5,'Giant bell and old church in Pan-ay.','Jeepney from Roxas City, about 30 min.','Look for the giant bell in the churchyard.'),
+(239,'Silay','Negros Occidental','V',10.800,122.970,'Heritage',3500,1,'cw,fd',0,11,5,'Ancestral houses and museums.','Bus or van from Bacolod, about 20 min.','Visit during the day when houses are open.'),
+(240,'The Ruins','Negros Occidental','V',10.744,122.936,'Heritage',3500,1,'ph,ss',1,11,5,'Mansion ruins glowing at sunset.','Van or taxi from Bacolod, about 30 min.','Go before sunset for golden light.'),
+(241,'Lakawon Island','Negros Occidental','V',10.970,123.250,'Island',4500,1,'sw,rl',0,3,6,'Sandbar island near Cadiz.','Boat from Cadiz, Negros Occidental, about 20 min.','Check tides and book ahead on weekends.'),
+(242,'Mt. Talinis','Negros Oriental','V',9.200,123.230,'Mountain',3500,2,'hk,ph',0,11,4,'Twin-peaked volcano above Dumaguete.','Van from Dumaguete to Valencia, then a trek.','Hire a guide and start before dawn.'),
+(243,'Twin Lakes of Balinsasayao','Negros Oriental','V',9.333,123.167,'Lake',3500,1,'kc,hk',0,11,5,'Two crater lakes in cloud forest.','Van or motorbike from Dumaguete, about 1 hr.','Roads are narrow, so go in dry weather.'),
+(244,'Pulangbato Falls','Negros Oriental','V',9.220,123.190,'Waterfall',3000,1,'sw,hk',0,6,11,'Reddish falls and a hot spring.','Van from Dumaguete to Valencia, then a short walk.','Bring water shoes for the pools.'),
+(245,'Bais City','Negros Oriental','V',9.593,123.121,'Nature',4500,1,'wl,ss',0,11,5,'Dolphin watching and sandbar trips.','Van from Dumaguete, about 1 hr.','Join dolphin tours early in the morning.'),
+(246,'Manjuyod Sandbar','Negros Oriental','V',9.600,123.150,'Beach',3500,1,'sw,ph',0,3,6,'Sandbar in Tañon Strait at low tide.','Van from Dumaguete to Bais, then a boat.','Check low tide before going.'),
+(247,'Dauin','Negros Oriental','V',9.190,123.265,'Diving',5500,3,'dv,sn',1,11,5,'Muck-dive sites and black-sand beaches.','Van from Dumaguete, about 30 min.','Book dives with certified operators.'),
+(248,'Cambugahay Falls','Siquijor','V',9.130,123.630,'Waterfall',3500,1,'sw,ph',1,6,11,'Three-tier falls with rope swings.','From Siquijor town by tricycle or motorbike, about 30 min.','Visit early since weekends get busy.'),
+(249,'Salagdoong Beach','Siquijor','V',9.190,123.650,'Beach',3500,1,'sw,ph',0,11,5,'Beach with a cliff jump platform.','Tricycle or motorbike from Siquijor town, about 30 min.','Check the water depth before jumping from the platform.'),
+(250,'Paliton Beach','Siquijor','V',9.190,123.500,'Beach',3500,1,'sw,ph',1,11,5,'Popular sunset beach with fine sand.','Tricycle or motorbike from Siquijor town, about 20 min.','Time it for sunset.'),
+(251,'Cantabon Cave','Siquijor','V',9.190,123.480,'Cave',3500,1,'cv,hk',0,11,5,'Guided cave trek through narrow passages.','Tricycle or motorbike from Siquijor town, then a guided trek.','Wear closed shoes and bring a headlamp.'),
+(252,'Sumilon Island','Cebu','V',9.440,123.400,'Island',5500,1,'sn,sw',0,3,6,'Sandbar island and marine sanctuary.','Boat from Oslob, about 20 min.','Check sandbar access in advance.'),
+(253,'Tumalog Falls','Cebu','V',9.490,123.395,'Waterfall',3500,1,'sw,ph',1,6,11,'Curtain falls near Oslob.','From Oslob by tricycle, about 20 min.','Visit early to avoid crowds.'),
+(254,'Mantayupan Falls','Cebu','V',10.080,123.530,'Waterfall',3500,1,'sw,ph',0,6,11,'Tall falls with a cool pool.','From Cebu City by van to Barili, about 3 hrs.','Combine it with Kawasan on a southern route.'),
+(255,'Carcar','Cebu','V',10.106,123.640,'Heritage',3000,1,'cw,fd',0,11,5,'Heritage houses and local sweets.','Bus from Cebu South Bus Terminal, about 1.5 hrs.','Try the local chicharon and sweets.'),
+(256,'Pescador Island','Cebu','V',9.930,123.340,'Diving',4000,1,'dv,sn',1,11,5,'Reef wall near Moalboal''s sardine run.','Boat from Moalboal, about 30 min.','Book snorkeling or diving early.'),
+(257,'Gato Island','Cebu','V',11.283,124.150,'Diving',6500,2,'dv,sn',0,11,5,'Cave swim-through and white-tip sharks.','Boat from Malapascua, about 30 min.','Some dive spots need experienced divers.'),
+(258,'Olango Island','Cebu','V',10.267,124.050,'Island',4000,1,'wl,sn,ss',0,11,5,'Bird sanctuary and snorkeling spots.','Boat from Mactan, about 30 min.','Visit the sanctuary at low tide for birds.'),
+(259,'Temple of Leah','Cebu','V',10.340,123.870,'City',3500,1,'ss,ph',0,11,5,'Hilltop Roman-style temple with views.','Taxi or ride-hail from Cebu City, about 30 min.','Go in late afternoon for sunset.'),
+(260,'Simala Shrine','Cebu','V',10.017,123.583,'Heritage',3000,1,'cw,ss',1,11,5,'Castle-like Marian shrine.','Bus from Cebu to Sibonga, about 2 hrs.','Dress modestly for the shrine.'),
+(261,'Loboc River','Bohol','V',9.633,124.000,'Nature',4000,1,'ss,fd,rl',1,11,5,'River cruise with buffet lunch.','From Tagbilaran by van, about 40 min.','Book meal cruises early for peak months.'),
+(262,'Baclayon Church','Bohol','V',9.622,123.915,'Heritage',3000,1,'cw,ss',1,11,5,'One of the country''s oldest stone churches.','From Tagbilaran by jeepney or tricycle, about 20 min.','Check the museum hours.'),
+(263,'Dauis Church','Bohol','V',9.617,123.867,'Heritage',3000,1,'cw,ss',0,11,5,'Church with a holy well inside.','From Tagbilaran by tricycle, about 15 min.','Combine it with Panglao visits.'),
+(264,'Hinagdanan Cave','Bohol','V',9.620,123.800,'Cave',3500,1,'cv,sw',0,11,5,'Cave with a swimming pool.','From Panglao by tricycle, about 15 min.','Go early and bring a flashlight.'),
+(265,'Mag-Aso Falls','Bohol','V',9.790,123.940,'Waterfall',3500,1,'sw,hk',0,6,11,'Cool falls in Antequera.','From Tagbilaran by van to Antequera, about 45 min.','Rainy months make the flow stronger.'),
+(266,'Pamilacan Island','Bohol','V',9.500,123.930,'Island',5500,2,'wl,sn,sw',0,3,6,'Dolphin and whale watching trips.','Boat from Baclayon, about 1 hr.','Join dolphin tours at sunrise.'),
+(267,'Cabilao Island','Bohol','V',9.867,123.700,'Diving',5500,2,'dv,sn',0,11,5,'Hammerhead dive spot off Loon.','Boat from Loon, about 30 min.','Choose a dive operator with local knowledge.'),
+(268,'Ormoc','Leyte','V',11.006,124.608,'City',3500,1,'fd,ss',0,11,5,'West-coast city with falls nearby.','Fly to Tacloban or take a ferry from Cebu to Ormoc.','Try the local pasalubong near the port.'),
+(269,'Palo','Leyte','V',11.160,124.990,'Heritage',3000,1,'cw,ss',0,11,5,'MacArthur Landing Memorial and cathedral.','Short van or taxi ride from Tacloban, about 20 min.','Visit the MacArthur Landing site in the morning.'),
+(270,'Langun-Gobingob Caves','Samar','V',11.617,125.000,'Cave',5500,2,'cv,hk',0,11,5,'One of Asia''s biggest cave systems.','Van from Catbalogan to Calbiga, then a guide.','Arrange tours with the local tourism office.'),
+(271,'Lulugayan Falls','Samar','V',11.580,125.010,'Waterfall',4500,2,'sw,hk',0,6,11,'Wide falls in Calbiga.','Van from Catbalogan to Calbiga, then a trail.','Go in the dry months for safer trails.'),
+(272,'Tarangban Falls','Samar','V',12.067,124.600,'Waterfall',4500,2,'sw,hk',0,6,11,'Three-tier falls near Calbayog.','Van or bus from Catbalogan to Calbayog, then a short ride.','Avoid it after heavy rain.'),
+(273,'Marabut','Samar','V',11.117,125.217,'Nature',5000,2,'ih,sw',0,3,6,'Islets and rock formations off Leyte Gulf.','Van from Tacloban to Marabut, about 3 hrs.','Boat rides depend on tide and wind.'),
+(274,'Guiuan Church','Eastern Samar','V',11.033,125.717,'Heritage',3500,1,'cw,ss',0,11,5,'Baroque church and base for Calicoan.','Van from Tacloban to Guiuan, about 3 to 4 hrs.','Visit the church before going on to Calicoan.'),
+(275,'Balangiga Church','Eastern Samar','V',11.100,125.380,'Heritage',3500,1,'cw,ss',0,11,5,'Church known for the bells of Balangiga.','Van from Tacloban to Balangiga, about 3 hrs.','Check opening times for the museum.'),
+(276,'Capul Island','Northern Samar','V',12.433,124.267,'Island',6500,3,'cw,ss,ph',0,11,5,'Remote island with a distinct language.','Boat from Allen, Northern Samar, about 2 hrs.','Check sea conditions and book stays early.'),
+(277,'Ulan-Ulan Falls','Biliran','V',11.580,124.470,'Waterfall',3500,1,'sw,hk',0,6,11,'Falls on Biliran''s mountain slopes.','From Naval by tricycle or motorbike, then a trail.','Go early for the best light.'),
+(278,'Cloud 9','Surigao del Norte','M',9.810,126.165,'Surf',5000,2,'sf,ph',1,8,11,'Siargao''s famous surf break and boardwalk.','From General Luna on foot or by motorbike.','Surf sessions follow tides, so ask locals.'),
+(279,'Daku Island','Surigao del Norte','M',9.733,126.133,'Island',4500,1,'sw,ph',1,11,5,'Island day trip with a sandbar.','Boat from General Luna, about 30 min.','Join a day tour with Guyam and Naked Island.'),
+(280,'Guyam Island','Surigao del Norte','M',9.770,126.150,'Island',4000,1,'sw,ph',1,11,5,'Tiny palm islet off General Luna.','Boat from General Luna, about 20 min.','Bring cash for the tour fee.'),
+(281,'Surigao City','Surigao del Norte','M',9.784,125.491,'City',4500,2,'fd,ss',0,11,5,'Port city and gateway to Siargao.','Fly to Surigao or take a ferry from Leyte.','Allow a buffer day before island ferries.'),
+(282,'Mabua Pebble Beach','Surigao del Norte','M',9.840,125.490,'Beach',3500,1,'ss,ph',0,11,5,'Beach of smooth rounded stones.','Tricycle from Surigao City, about 20 min.','Wear sandals since stones are rough.'),
+(283,'Butuan','Agusan del Norte','M',8.949,125.543,'Heritage',3500,2,'cw,ss,fd',0,11,5,'Home of ancient balangay boat finds.','Fly to Butuan or take a bus from Cagayan de Oro.','Visit the national museum first.'),
+(284,'Mantigue Island','Camiguin','M',9.131,124.840,'Island',4500,1,'sn,sw',0,11,5,'Marine sanctuary island off Mahinog.','Boat from Mahinog, Camiguin, about 20 min.','Go early for calm water.'),
+(285,'Ardent Hot Springs','Camiguin','M',9.195,124.715,'Nature',3500,1,'rl,sw',0,11,5,'Hot spring pools below the volcano.','Tricycle from Mambajao, about 15 min.','Go in the evening for cooler air.'),
+(286,'Iligan City','Lanao del Norte','M',8.228,124.245,'City',3500,1,'ss,fd',0,11,5,'City of waterfalls.','Bus or van from Cagayan de Oro, about 1.5 hrs.','Pair it with Maria Cristina and Tinago Falls.'),
+(287,'Fort Pilar','Zamboanga del Sur','M',6.903,122.079,'Heritage',2500,1,'cw,ss',1,11,5,'Spanish fort and shrine.','Short taxi or tricycle ride in Zamboanga City.','Visit in the morning before the heat.'),
+(288,'Pasonanca Park','Zamboanga del Sur','M',6.983,122.033,'Nature',3000,1,'hk,ph',0,11,5,'Pine park with a treehouse.','Taxi or jeepney in Zamboanga City, about 20 min.','Weekdays are quieter.'),
+(289,'Lake Wood','Zamboanga del Sur','M',7.817,123.150,'Lake',4500,2,'kc,ss',0,11,5,'Highland lake with calm water.','Van from Pagadian or Zamboanga City, several hours.','Check road conditions locally.'),
+(290,'Pagadian','Zamboanga del Sur','M',7.826,123.437,'City',3500,1,'fd,ss',0,11,5,'Hillside city on Illana Bay.','Fly to Pagadian or take a long bus from Zamboanga City.','Go for the sunset views over the bay.'),
+(291,'Simunul Island','Tawi-Tawi','M',4.940,119.820,'Heritage',12000,4,'cw,ss',0,11,5,'Site of the country''s oldest mosque. Check advisories first.','Flight to Bongao, then a boat.','Check current advisories before going.'),
+(292,'Mt. Kalatungan','Bukidnon','M',7.950,124.800,'Mountain',5500,3,'hk,cm',0,11,4,'Challenging peak with mossy forest.','Van from Malaybalay to Pangantucan, then a trek.','Hire a guide and prepare for cold nights.'),
+(293,'Mt. Malindang','Misamis Occidental','M',8.217,123.633,'Mountain',5000,3,'hk,cm',0,11,4,'Forested peak with a crater lake.','From Ozamiz by van, then a guide for the trek.','Check weather before going up.'),
+(294,'Kidapawan','Cotabato','M',7.008,125.089,'City',3500,1,'ss,fd',0,11,5,'Base for Mt. Apo treks.','Fly to Davao, then a van, about 3 hrs.','Stay overnight before any Mt. Apo trek.'),
+(295,'Maitum','Sarangani','M',6.017,124.483,'Heritage',5000,2,'cw,ss',0,11,5,'Anthropomorphic burial jars and caves.','Drive from General Santos, about 2 hrs.','Visit the local museum for the burial jars.'),
+(296,'Hagimit Falls','Davao del Norte','M',7.050,125.700,'Waterfall',3500,1,'sw',0,6,11,'Falls on Samal Island.','Ferry to Samal from Davao, then a tricycle.','Go early to beat crowds.'),
+(297,'Mati','Davao Oriental','M',6.954,126.217,'City',4500,2,'sf,sw,ss',0,11,5,'City by Pujada Bay near Dahican.','Fly to Davao, then a van, about 4 hrs.','Combine it with Dahican Beach.'),
+(298,'Maragusan Valley','Davao de Oro','M',7.300,126.100,'Mountain',4500,2,'hk,ph',0,11,5,'Highland valley with cool air and views.','Van from Davao City, about 4 hrs.','Roads are winding, so start early.'),
+(299,'Malagos Garden Resort','Davao del Sur','M',7.190,125.450,'Nature',3000,1,'wl,ph,rl',0,11,5,'Bird show and chocolate museum.','Van or taxi from Davao City, about 40 min.','Book the bird show in advance.'),
+(300,'Asik-Asik Falls','Cotabato','M',7.383,124.567,'Waterfall',4500,2,'sw,ph',1,11,5,'Falls streaming from a cliff wall.','Van from Kidapawan or Cotabato City, then a short trek.','Roads can be rough, so leave early.');

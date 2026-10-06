@@ -33,7 +33,7 @@
       <h1>From Batanes to Tawi-Tawi, find the place that <em>fits</em> your trip.</h1>
       <p class="lede">Set your budget, style, and travel month. Destinify scores every place in its catalog, from crowd favorites to quiet corners few people visit, and ranks them for you.</p>
       <div class="cta"><a href="#results" class="btn btn-c">See my matches</a><button class="btn btn-o" id="surprise">Surprise me</button></div>
-      <div class="stats"><div><b id="sN">0</b><span>destinations</span></div><div><b>3</b><span>island groups</span></div><div><b id="sA">0</b><span>activities</span></div><div><b id="sT">0</b><span>destination types</span></div></div>
+      <div class="stats"><div><b id="sN">0</b><span>destinations</span></div><div><b id="sR">0</b><span>regions</span></div><div><b id="sA">0</b><span>activities</span></div><div><b id="sT">0</b><span>destination types</span></div></div>
     </div>
     <div class="art"><svg viewBox="0 0 420 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <circle cx="330" cy="90" r="48" fill="#e8b750" opacity=".92"/><circle cx="330" cy="90" r="72" fill="#e8b750" opacity=".12"/>
@@ -46,8 +46,8 @@
   <div class="wrap"><div class="panel">
     <div class="fields">
       <div class="f"><label for="q">Search</label><input type="search" id="q" placeholder="Name or province"></div>
-      <div class="f"><label for="rb">Budget per person: <span id="rv">₱8,000</span></label><input type="range" id="rb" min="2000" max="30000" step="500" value="8000"></div>
-      <div class="f"><label for="pg">Region</label><select id="pg"><option value="">Anywhere</option><option value="L">Luzon &amp; Palawan</option><option value="V">Visayas</option><option value="M">Mindanao</option></select></div>
+      <div class="f"><label for="rb">Budget per person: <span id="rv">₱8,000</span></label><input type="range" id="rb" min="1000" max="30000" step="500" value="8000"></div>
+      <div class="f"><label for="pg">Island group</label><select id="pg"><option value="">Anywhere</option><option value="L">Luzon &amp; Palawan</option><option value="V">Visayas</option><option value="M">Mindanao</option></select></div>
       <div class="f"><label for="pd">Trip length</label><select id="pd"><option value="any">Any length</option><option value="1-2">1–2 days</option><option value="3-4">3–4 days</option><option value="5-9">5 days or more</option></select></div>
       <div class="f"><label for="pm">Travel month</label><select id="pm"></select></div>
     </div>
@@ -70,7 +70,7 @@
 </div></section>
 
 <section class="insights" id="insights"><div class="wrap">
-  <div class="head"><div><h2>The catalog by the numbers</h2><p>How the 500 destinations break down by region, type, and season.</p></div></div>
+  <div class="head"><div><h2>The catalog by the numbers</h2><p>How the 675 destinations break down by island group, region, type, and season.</p></div></div>
   <div id="ins"></div>
 </div></section>
 
@@ -94,7 +94,7 @@
   </div>
 </div></section>
 
-<footer><div class="wrap"><span>© 2026 Destinify. A system proposal by Huerto, Benlester N.</span><span>Budgets, best months, and travel details are approximate prototype data. Photos are loaded from Wikipedia and Wikimedia Commons under their own licenses.</span></div></footer>
+<footer><div class="wrap"><span>© 2026 Destinify. A system proposal by Huerto, Benlester N.</span><span>Budgets, best months, and travel details are approximate prototype data. Photos are loaded from Wikipedia and Wikimedia Commons under their own licenses. Places without a free photo show a generated illustration.</span></div></footer>
 
 <div class="cbar" id="cbar"><span><b id="cn">0</b> selected (max 3)</span><button class="btn btn-c" id="cmpOpen" style="padding:8px 18px">Compare</button><button class="btn btn-o" id="cmpClr" style="padding:8px 16px">Clear</button></div>
 
@@ -116,5 +116,7 @@
 <script src="assets/features5.js"></script>
 <script src="assets/features6.js"></script>
 <script src="assets/features7.js"></script>
+<script src="assets/regions.js"></script>
+<script src="assets/features8.js"></script>
 </body>
 </html>

@@ -57,7 +57,7 @@ let AL=null,ALn=-1;
 function aliases(){if(AL&&ALn==D.length)return AL;AL=[];ALn=D.length;D.forEach(d=>{const ks=new Set([norm(d.n)]);d.n.split(/[,&]/).forEach(x=>ks.add(norm(x)));ks.forEach(k=>{if(k.length>=5)AL.push({k,d,re:new RegExp("\\b"+reEsc(k)+"\\b")})})});return AL}
 function findDest(t){let b=null;for(const a of aliases()){if(hid().includes(a.d.n))continue;if(a.re.test(t)&&(!b||a.k.length>b.k.length||(a.k.length==b.k.length&&a.d.o>b.d.o)))b=a}return b&&b.d}
 
-function parse(raw){let s=raw.toLowerCase().replace(/island hopping/g,"hopping");const t=norm(s),p={words:[],types:[],acts:[],prov:null,provLabel:"",reg:null,budget:null,days:null,month:null,pop:null,cheap:false,cheapen:false,kw:[]};
+function parse(raw){let s=raw.toLowerCase().replace(/island hopping/g,"hopping");const t=norm(s),p={words:[],types:[],acts:[],prov:null,provLabel:"",reg:null,rg:null,tt:null,budget:null,days:null,month:null,pop:null,cheap:false,cheapen:false,kw:[]};
  let m=s.match(/(\d+)\s*(?:-|to)?\s*(\d+)?\s*(?:days?|nights?)\b/),s2=s;
  if(m){p.days=Math.max(+m[1],+(m[2]||0));s2=s.replace(m[0]," ")}
  if(/\bweekend\b/.test(s))p.days=2;else if(/\bday ?trip\b|\bone day\b/.test(s))p.days=1;else if(/\b(a|one|1) week\b/.test(s))p.days=7;
@@ -71,20 +71,23 @@ function parse(raw){let s=raw.toLowerCase().replace(/island hopping/g,"hopping")
  let bk=null;for(const k of provKeys())if(new RegExp("\\b"+reEsc(k)+"\\b").test(t)&&(!bk||k.length>bk.length))bk=k;
  if(bk){p.prov=bk;const d=D.find(x=>norm(x.p).includes(bk));p.provLabel=d?d.p:bk}
  if(!p.prov){if(/\bluzon\b/.test(t))p.reg="L";else if(/\bvisayas\b/.test(t))p.reg="V";else if(/\bmindanao\b/.test(t))p.reg="M"}
+ const RGX=[["NCR",/\b(ncr|metro manila|national capital region)\b/],["CAR",/\b(cordillera|car region)\b/],["R1",/\b(ilocos region|region (1|i|one))\b/],["R2",/\b(cagayan valley|region (2|ii|two))\b/],["R3",/\b(central luzon|region (3|iii|three))\b/],["R4A",/\b(calabarzon|region (4a|4 a|iv a|iva))\b/],["R4B",/\b(mimaropa|region (4b|4 b|iv b|ivb))\b/],["R5",/\b(bicol|region (5|v|five))\b/],["R6",/\b(western visayas|region (6|vi|six))\b/],["NIR",/\b(negros island region|nir)\b/],["R7",/\b(central visayas|region (7|vii|seven))\b/],["R8",/\b(eastern visayas|region (8|viii|eight))\b/],["R9",/\b(zamboanga peninsula|region (9|ix|nine))\b/],["R10",/\b(northern mindanao|region (10|x|ten))\b/],["R11",/\b(davao region|region (11|xi|eleven))\b/],["R12",/\b(soccsksargen|region (12|xii|twelve))\b/],["R13",/\b(caraga|region (13|xiii|thirteen))\b/],["BARMM",/\b(barmm|bangsamoro)\b/]];
+ for(const[c,r]of RGX)if(r.test(t)){p.rg=c;break}
+ if(/\b(tiktok|tik tok|viral|trending|instagrammable|aesthetic|photogenic|fyp)\b/.test(t))p.tt=true;
  p.words=t.split(" ").filter(w=>TY.some(x=>x[1].test(w))||AC.some(x=>x[1].test(w))).map(w=>w.slice(0,Math.max(4,w.length-2)));
  TY.forEach(([k,r])=>{if(r.test(t))p.types.push(k)});AC.forEach(([k,r])=>{if(r.test(t))p.acts.push(k)});
  if(/\b(popular|famous|must see|must visit|touristy|iconic)\b/.test(s))p.pop=1;
  if(/\b(hidden|gem|gems|offbeat|off the beaten|quiet|less crowded|undiscovered|underrated|secret)\b/.test(s))p.pop=0;
- const used=new RegExp("\\b("+Object.keys(MON).join("|")+"|luzon|visayas|mindanao|hidden|gem|gems|popular|famous|offbeat|quiet|underrated|secret|undiscovered)\\b");
+ const used=new RegExp("\\b("+Object.keys(MON).join("|")+"|luzon|visayas|mindanao|hidden|gem|gems|popular|famous|offbeat|quiet|underrated|secret|undiscovered|calabarzon|ncr|mimaropa|barmm|bangsamoro|caraga|bicol|cordillera|soccsksargen|tiktok|viral|trending|aesthetic|instagrammable|photogenic|fyp|region)\\b");
  p.kw=t.split(" ").filter(w=>w.length>=4&&!/^\d/.test(w)&&!STOP.has(w)&&!used.test(w)&&!TY.some(x=>x[1].test(w))&&!AC.some(x=>x[1].test(w))&&!(bk&&bk.split(" ").includes(w))).map(stem);
  return p}
-const hasC=p=>p.types.length||p.acts.length||p.prov||p.reg||p.budget!=null||p.days!=null||p.month!=null||p.pop!=null;
+const hasC=p=>p.types.length||p.acts.length||p.prov||p.reg||p.rg||p.tt||p.budget!=null||p.days!=null||p.month!=null||p.pop!=null;
 
 /* ---------- chatbot engine ---------- */
 let ctx=null,lastRes=null,shown=0,nextQ=null;
-const DEFQ=["Beaches under ₱6,000","Hidden gems in Mindanao","Museums in Manila","Plan 5 days under ₱20,000","Best time for Siargao"];
+const DEFQ=["Beaches under ₱6,000","TikTok spots in CALABARZON","Museums in Manila","Plan 5 days under ₱20,000","Hidden gems in Mindanao"];
 const card=d=>`<button class="xc-card" data-xcd="${d.i}"><b>${esc(d.n)}</b><small>${esc(d.p)} · ${esc(d.t)} · ${P(d.b)} · ${d.d}d</small></button>`;
-const inScope=(d,p)=>(!p.prov||norm(d.p).includes(p.prov))&&(!p.reg||d.g==p.reg);
+const inScope=(d,p)=>(!p.prov||norm(d.p).includes(p.prov))&&(!p.reg||d.g==p.reg)&&(!p.rg||d.r==p.rg)&&(!p.tt||d.tt);
 function score(d,p){const dn=norm(d.n+" "+(d.desc||""));return(p.types.includes(d.t)?5:0)+p.acts.filter(a=>d.a.includes(a)).length*3+(p.month&&d.mo.includes(p.month)?3:0)+(p.pop!=null&&(d.o==1)==!!p.pop?2:0)+(d.o?1:0)+p.kw.filter(w=>dn.includes(w)).length*4+(p.words||[]).filter(w=>dn.includes(w)).length*3+star(d)*.2}
 function rec(p,center){let base=live().filter(d=>inScope(d,p)&&(p.budget==null||d.b<=p.budget)&&(!center||(hav(center,d)<=120)));
  const has={month:p.month!=null,pop:p.pop!=null,acts:p.acts.length>0,days:p.days!=null,types:p.types.length>0},off=new Set(),relaxed=[];
@@ -93,6 +96,7 @@ function rec(p,center){let base=live().filter(d=>inScope(d,p)&&(p.budget==null||
  for(const k of["month","pop","acts","days","types"]){if(res.length>=3)break;if(!has[k])continue;off.add(k);relaxed.push(k);res=base.filter(ok)}
  const bits=[];if(p.types.length)bits.push(p.types.join("/").toLowerCase());if(p.acts.length)bits.push(p.acts.map(a=>A[a].toLowerCase()).join("/"));
  if(center)bits.push("near "+center.n);else if(p.prov)bits.push("in "+p.provLabel);else if(p.reg)bits.push("in "+G[p.reg]);
+ if(p.rg)bits.push("in "+((REGIONS.find(r=>r.c==p.rg)||{}).s||p.rg));if(p.tt)bits.push("TikTok-famous");
  if(p.budget!=null)bits.push("up to "+P(p.budget));if(p.days!=null)bits.push("within "+p.days+" day"+(p.days>1?"s":""));if(p.month!=null)bits.push("for "+MN[p.month-1]);if(p.pop!=null)bits.push(p.pop?"popular":"hidden gems");
  if(!res.length){const cheap=live().filter(d=>inScope(d,p)).sort((a,b)=>a.b-b.b).slice(0,3);nextQ=["Start over"];return`I could not find a match${bits.length?" for "+esc(bits.join(" · ")):""}. ${cheap.length?"The cheapest in that area start at "+P(cheap[0].b)+":</p>"+cheap.map(card).join(""):"Try a bigger area or budget."}`}
  res.sort((a,b)=>p.cheap?a.b-b.b:score(b,p)-score(a,p)||b.o-a.o);lastRes=res;shown=Math.min(5,res.length);
@@ -122,7 +126,7 @@ function destAns(d,t,p){const q=[`Similar to ${d.n}`,`How to get to ${d.n}`,`Tip
  return`<b>${esc(d.n)}</b> <span class="xc-tag">${esc(d.t)}</span><br>${esc(d.p)} · ${esc(G[d.g])}<br>${esc(d.desc||"")}<br>About ${P(d.b)} for ${d.d} day${d.d>1?"s":""}. Best months: ${rng(d)}.${mn}<br>Good for: ${esc(d.a.map(a=>A[a]).join(", "))}.<button class="xc-act" data-xcd="${d.i}">Open details</button><button class="xc-act" data-xct="${d.i}">${st.trip.includes(d.i)?"Remove from trip":"Add to my trip"}</button>`}
 function merge(p,t){let m=p;
  const topic=p.types.length||p.acts.length||p.kw.length||p.prov||p.reg,fresh=/\b(plan|itinerary|build)\b/.test(t),cue=/^(and|also|what about|how about|only|but|with|in|for|under|cheaper|more|less|make it|change)\b/.test(t);
- if(ctx&&(cue||(!topic&&!fresh))){m={...ctx};["types","acts","kw","words"].forEach(k=>{if(p[k].length)m[k]=p[k]});["prov","provLabel","reg","budget","days","month","pop"].forEach(k=>{if(p[k]!=null&&p[k]!=="")m[k]=p[k]});if(p.prov)m.reg=null;if(p.reg)m.prov=null}
+ if(ctx&&(cue||(!topic&&!fresh))){m={...ctx};["types","acts","kw","words"].forEach(k=>{if(p[k].length)m[k]=p[k]});["prov","provLabel","reg","rg","tt","budget","days","month","pop"].forEach(k=>{if(p[k]!=null&&p[k]!=="")m[k]=p[k]});if(p.prov)m.reg=null;if(p.reg)m.prov=null}
  if(p.cheapen){const base=m.budget||(lastRes&&lastRes.length?lastRes[Math.floor(lastRes.length/2)].b:6000);m.budget=Math.max(1500,Math.round(base*.7/500)*500)}
  ctx=m;return m}
 function reply(text){const raw=String(text).trim(),t=norm(raw);nextQ=null;if(!t)return"Type a question and I will help.";
