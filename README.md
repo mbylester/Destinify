@@ -26,10 +26,16 @@ It is a static front-end prototype: no build step, no backend, no API keys. Open
 - Region and starting-point info, Google Maps and Directions buttons, and a "Know before you go" note on every detail page
 - Every destination shows a picture: Wikipedia and Wikimedia Commons photos, then a generated illustration if none is found
 
+**My trip, Favorites, and travel tips**
+- My trip shows photos, region, cost, live weather, and travel time between stops. Drag to reorder, tap a stop to open it, and open directions
+- A trip budget meter, a packing list built from your stops, calendar export, print, and share link
+- Favorites has stats, filters (TikTok, beach and sea, nature, culture), sorting, and one-tap add to trip
+- Travel tips has eight sections: best time, weather, money, getting around, an interactive packing checklist, safety and health, culture and food, and a regional cheat sheet
+
 **Search and assistant**
 - Search button in the header (also `Ctrl+K` or `/`) with live results across names, provinces, types, and activities, plus a region filter
 - A "Search" button under the search field in the filter panel
-- Chatbot (bottom-right) that suggests places by budget, region, type, activity, or month, answers questions about a place, and plans a trip by days and budget. It runs in the browser from the catalog, so it needs no server or API key
+- Chatbot (bottom-right) with a topics menu, voice input, and photo cards. It suggests places by budget, region, type, activity, or month, compares places, estimates costs, answers questions about food, money, safety, culture and transport, and plans a trip by days and budget. It runs in the browser from the catalog, so it needs no server or API key
 
 **Two color modes**
 - **Basic mode** uses the Dawn Rose look: a soft peach-and-rose sunrise over Mayon, with plum text and magenta accents
@@ -103,11 +109,12 @@ Destinify/
     ├── features7.js    Basic / Dark mode switch
     ├── regions.js      Regions, starting points, and the TikTok-famous list
     ├── features8.js    Region filter, starting-point budgets, TikTok spots, detail extras
+    ├── features9.js    My trip, Favorites, and Travel tips upgrades
     ├── icon-192.png
     └── icon-512.png
 ```
 
-Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`, `regions.js`, and `features8.js`. Each feature file builds on the one before it, so keep that order.
+Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`, `regions.js`, `features8.js`, and `features9.js`. Each feature file builds on the one before it, so keep that order.
 
 ---
 
