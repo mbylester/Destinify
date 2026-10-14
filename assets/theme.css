@@ -148,3 +148,13 @@ body .xs-c.on{background:var(--t900);color:#fff}
 .pk input{margin-top:4px;accent-color:var(--coral)}
 .pk input:checked+span{text-decoration:line-through;opacity:.55}
 @media(prefers-reduced-motion:reduce){.xts,.xfc,.tpc,.xmeter i{transition:none}.xfc:hover{transform:none}}
+
+/* ---- v12.1: header stays tidy at every width ---- */
+[hidden]{display:none!important}
+.nav{flex-wrap:wrap;row-gap:8px}
+.navr{flex-wrap:wrap;justify-content:flex-end;gap:8px}
+@media(min-width:1181px){.navr{flex-wrap:nowrap}}
+.navr .btn,.navr .ib,.xmode button{white-space:nowrap}
+.navr .btn{padding:8px 14px;font-size:13px}
+@media(max-width:1280px){.links{gap:14px}.links a{font-size:13px}}
+@media(max-width:1100px){.links{display:none}}

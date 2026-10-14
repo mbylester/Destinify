@@ -160,7 +160,7 @@ function monthsAns(p){const l=scopeList(p);if(!l.length)return null;const c=Arra
  const nm=p.provLabel||(p.rg&&(R2[p.rg]||{}).s)||(p.reg&&G[p.reg])||(p.types[0]?p.types[0].toLowerCase()+" spots":"the Philippines");
  const top=l.filter(d=>d.o||d.tt).slice(0,4);nextQ=["Plan 4 days in "+(p.provLabel||nm),"Beaches in "+nm,"Start over"];
  return`For <b>${esc(nm)}</b>, most places are best in <b>${rngSet(set)}</b>. Each destination has its own best months and a 5-day forecast on its page.`+top.map(card).join("")}
-const R2=Object.fromEntries((typeof REGIONS!="undefined"?REGIONS:[]).map(r=>[r.c,r]));
+const R2=new Proxy({},{get:(_,k)=>(typeof REGIONS!="undefined"?REGIONS:[]).find(r=>r.c==k)});
 function regionAns(p){const code=p.rg||(p.prov&&(D.find(d=>norm(d.p).includes(p.prov))||{}).r);const l=live().filter(d=>p.rg?d.r==p.rg:inScope(d,p));if(!l.length)return null;
  const nm=p.rg?(R2[p.rg]||{}).n:p.provLabel,avg=Math.round(l.reduce((s,d)=>s+(d.b0!=null?d.b0:d.b),0)/l.length/100)*100,ty={};l.forEach(d=>ty[d.t]=(ty[d.t]||0)+1);
  const top=Object.entries(ty).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0].toLowerCase()+" ("+x[1]+")").join(", "),c=Array(13).fill(0);l.forEach(d=>d.mo.forEach(m=>c[m]++));const mx=Math.max(...c),set=new Set();c.forEach((x,m)=>{if(m&&x>=.6*mx)set.add(m)});
