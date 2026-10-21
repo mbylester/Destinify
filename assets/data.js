@@ -2,7 +2,7 @@
    Format: name|province|group|lat|lng|type|budget PHP|days|activities|popular(1/0)|best months (start-end, optional, default 11-5)
    Groups: L = Luzon & Palawan, V = Visayas, M = Mindanao
    Budgets, best months and coordinates are approximate prototype data. */
-const RAW=`Baguio|Benguet|L|16.402|120.596|City|6000|3|ss fd cw ph|1
+var RAW=`Baguio|Benguet|L|16.402|120.596|City|6000|3|ss fd cw ph|1
 Sagada|Mountain Province|L|17.084|120.901|Mountain|6200|3|hk cv cm|1|11-4
 Banaue Rice Terraces|Ifugao|L|16.927|121.057|Heritage|6500|3|hk cw ph|1
 Batad Rice Terraces|Ifugao|L|16.914|121.097|Heritage|6000|3|hk cw ph|0

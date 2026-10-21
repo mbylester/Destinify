@@ -1,0 +1,5 @@
+# Keep the API folder private: no directory listing, and config/helper files cannot be opened from the browser.
+Options -Indexes
+<FilesMatch "^(config\.php|config\.sample\.php|bootstrap\.php|regions_map\.php)$">
+    Require all denied
+</FilesMatch>

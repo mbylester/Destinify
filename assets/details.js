@@ -1,6 +1,6 @@
 /* Destinify destination details: name|description|how to get there|tip
    General guidance only. Always confirm fees, schedules, permits, and advisories with official sources before you travel. */
-const DET=`Baguio|Cool pine-covered "Summer Capital" with markets, cafés, and Burnham Park.|Bus from Manila, about 6 hrs, or fly to Clark and drive.|Weekends and holidays are packed, so go midweek.
+var DET=`Baguio|Cool pine-covered "Summer Capital" with markets, cafés, and Burnham Park.|Bus from Manila, about 6 hrs, or fly to Clark and drive.|Weekends and holidays are packed, so go midweek.
 Sagada|Mountain town known for hanging coffins, limestone caves, and sea-of-clouds sunrises.|Overnight bus from Manila to Bontoc or Sagada, about 12 hrs.|Cave tours need a local guide, and mornings are cold.
 Banaue Rice Terraces|UNESCO-listed terraces carved into the Ifugao mountains over centuries.|Overnight bus from Manila, about 9 to 10 hrs.|Visit viewpoints early for clearer skies and fewer tour groups.
 Batad Rice Terraces|Amphitheater-shaped terraces reached by a short trek from the road.|From Banaue by jeepney or tricycle to the saddle, then hike 30 to 45 min.|Wear shoes with good grip, since steps get slippery when wet.

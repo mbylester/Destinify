@@ -93,6 +93,7 @@ Destinify/
 ├── index.html          Page layout and script loading order
 ├── manifest.json       PWA manifest
 ├── sw.js               Service worker (network first, offline fallback)
+├── api/                PHP backend (MySQL)
 └── assets/
     ├── style.css       Styles, light and dark themes
     ├── theme.css       Basic (Dawn Rose) and Dark (Golden Hour) colors, loaded after style.css
@@ -110,6 +111,7 @@ Destinify/
     ├── regions.js      Regions, starting points, and the TikTok-famous list
     ├── features8.js    Region filter, starting-point budgets, TikTok spots, detail extras
     ├── features9.js    My trip, Favorites, and Travel tips upgrades
+    ├── api-bridge.js   Connects the site to the PHP backend when it is available
     ├── icon-192.png
     └── icon-512.png
 ```
@@ -117,6 +119,28 @@ Destinify/
 Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`, `regions.js`, `features8.js`, and `features9.js`. Each feature file builds on the one before it, so keep that order.
 
 ---
+
+## Backend (PHP + MySQL)
+
+The site works two ways. With no backend (for example on GitHub Pages) it uses `data.js` and the browser's own storage. With the PHP backend running (for example on XAMPP) it switches to MySQL automatically, and the footer shows **Database: connected**.
+
+**With the backend**
+- Destinations, regions, TikTok flags and hidden places come from MySQL
+- Real accounts with hashed passwords, and each user's trip and favorites are saved to the database
+- Reviews are shared between users
+- Admin actions (add a destination, hide or restore one) are saved to the database
+
+**Set up on XAMPP**
+1. Put the `api` folder in `C:\xampp\htdocs\Destinify\api`.
+2. Copy `api\config.sample.php` to `api\config.php`. The defaults match a fresh XAMPP (user `root`, no password).
+3. In phpMyAdmin, open **Import** and import `destinify.sql`. It creates the `destinify_app` database.
+4. Open `http://localhost/Destinify/api/health.php`. You should see `"ok":true` and the number of destinations.
+5. Open `http://localhost/Destinify/`, then **Sign in**, then **Create account**.
+6. To make yourself an admin, run this in phpMyAdmin: `UPDATE users SET role='admin' WHERE username='yourusername';`
+
+`api/config.php` holds your database password and is listed in `.gitignore`, so it is not uploaded to GitHub. GitHub Pages cannot run PHP, so the live GitHub site stays in no-backend mode.
+
+**API files** (`api/`): `bootstrap.php` (shared setup), `destinations.php`, `auth.php`, `state.php` (trip and favorites), `reviews.php`, `admin.php`, `health.php`, and `regions_map.php`. The browser side is `assets/api-bridge.js`.
 
 ## Editing the data
 
