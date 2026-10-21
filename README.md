@@ -2,7 +2,9 @@
 
 **Find your next Philippine escape.** Destinify is a destination-matching web app for the Philippines. Set your budget, travel style, and travel month, and it scores and ranks **675 destinations**, from crowd favorites to quiet corners few people visit, from Batanes to Tawi-Tawi.
 
-Destinify is a deployable static web app for discovering destinations across the Philippines. It runs in the browser without a build step, and it can be served locally or deployed to a static host with optional PHP/MySQL support for saved accounts, trips, and admin features.
+It is a static front-end prototype: no build step, no backend, no API keys. Open it in a browser and it works.
+
+> A system proposal by Huerto, Benlester N.
 
 ---
 
