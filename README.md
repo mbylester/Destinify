@@ -4,6 +4,9 @@
 
 Destinify is a deployable static web app for discovering destinations across the Philippines. It runs in the browser without a build step, and it can be served locally or deployed to a static host with optional PHP/MySQL support for saved accounts, trips, and admin features.
 
+
+**Contents:** [Features](#features) · [Run it locally](#run-it-locally) · [Deploy](#deploy) · [Project structure](#project-structure) · [Backend](#backend-php--mysql) · [Accounts and admin](#accounts-roles-and-the-admin-console) · [Configuration](#configuration) · [Editing the data](#editing-the-data) · [Data notes](#data-notes-and-limits)
+
 ---
 
 ## Features
@@ -70,8 +73,7 @@ Destinify is a deployable static web app for discovering destinations across the
 **Extras**
 - Festivals and events calendar by month
 - Catalog insights (breakdown by region, type, and season)
-- Accounts with Traveler and Admin roles (demo, stored in the browser)
-- Admin dashboard: add or hide destinations, view stats, download a CSV report
+- Accounts with Traveler and Admin roles, a profile with photo, and an admin console (see below)
 - Dark mode and responsive layout
 - Installable PWA with offline fallback
 
@@ -91,6 +93,23 @@ Then open `http://localhost:8000/`.
 
 ---
 
+## Deploy
+
+**Static hosting (GitHub Pages, Netlify, any web host).** Upload the project folder as it is. The site runs without a backend and keeps each visitor's accounts, trips, favorites and reviews in their own browser. It must be served over HTTPS for install, offline mode and the copy buttons.
+
+1. Push to GitHub, then **Settings > Pages** and choose the `main` branch.
+2. Open the published address and hard refresh (Ctrl+Shift+R) the first time.
+
+**PHP hosting with MySQL.** Upload the whole folder including `api/`, create the database from `database/destinify.sql`, and set `api/config.php` (see Backend). This gives real shared accounts and admin tools.
+
+**Before you go live**
+- Open the Admin console, then **Reports and backup**, and follow the deployment checklist
+- Set `CFG.contactEmail` (see Configuration)
+- Read the About, Privacy and Terms text in `features10.js` and adjust it to your situation
+- Confirm festival dates, fees and travel details you rely on with official sources
+
+---
+
 ## Project structure
 
 ```
@@ -98,6 +117,8 @@ Destinify/
 ├── index.html          Page layout and script loading order
 ├── manifest.json       PWA manifest
 ├── sw.js               Service worker (network first, offline fallback)
+├── robots.txt          Search engine rules
+├── 404.html            Page not found
 ├── api/                PHP backend (MySQL)
 └── assets/
     ├── style.css       Styles, light and dark themes
@@ -106,7 +127,7 @@ Destinify/
     ├── details.js      Description, getting there, and tip per destination
     ├── images.js       Wikipedia photo loader and title overrides
     ├── app.js          Core logic: matching, cards, map, trip planner
-    ├── features.js     Accounts, reviews, match weights, trip builder, admin
+    ├── features.js     Accounts, reviews, match weights, trip builder
     ├── features2.js    Quiz, recommendations, calendar and print export, profile, PWA
     ├── features3.js    Photo gallery and live weather
     ├── features4.js    Drag-and-drop trips, day planner, heatmap, smarter picks
@@ -117,11 +138,15 @@ Destinify/
     ├── features8.js    Region filter, starting-point budgets, TikTok spots, detail extras
     ├── features9.js    My trip, Favorites, and Travel tips upgrades
     ├── api-bridge.js   Connects the site to the PHP backend when it is available
+    ├── features10.js   Launch kit: trip actions, profile, admin console, feedback, tour, install
+    ├── logo.svg        Destinify logo
+    ├── og-image.png    Social preview image
+    ├── apple-touch-icon.png
     ├── icon-192.png
     └── icon-512.png
 ```
 
-Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`, `regions.js`, `features8.js`, and `features9.js`. Each feature file builds on the one before it, so keep that order.
+Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`, `regions.js`, `features8.js`, and `features9.js`, then `features10.js`. Each feature file builds on the one before it, so keep that order.
 
 ---
 
@@ -193,13 +218,38 @@ Add a row to `FEST` with `n` (name), `d` (destination name exactly as in `data.j
 
 ---
 
-## Demo accounts and admin
+## Accounts, roles and the admin console
 
-Accounts are **demo only** and live in the browser's `localStorage`. Passwords are hashed with SHA-256 before they are stored, but there is no server.
+Destinify has two roles, **Traveler** and **Admin**, and it stores accounts in one of two ways:
 
-- Admin demo login: `admin` / `admin123`
+| | No backend (static hosting) | With the PHP + MySQL backend |
+|---|---|---|
+| Accounts | Saved in the visitor's own browser | Saved in MySQL, passwords hashed on the server |
+| Trips, favorites, reviews | Saved per browser | Saved per account and shared across devices |
+| Admin | Built-in test admin for trying the console | Promote a real account (see Backend below) |
 
-If you deploy this publicly, change or remove the default admin account first. Anyone can read it in the source.
+**Traveler profile.** Photo upload, display name, full name, email, phone, home city, bio, usual budget and favorite trip types, with a button that applies those preferences to the search. With the backend, the display name and password are saved to MySQL, and the other profile details stay in the browser.
+
+**Admin console** (Admin button in the header)
+- **Overview:** counts, breakdown charts by island group and type, top rated and most saved places, and recent admin activity
+- **Destinations:** search, add, edit and hide or restore places
+- **Reviews and feedback:** moderate reviews and read feedback
+- **Users:** change roles and remove accounts
+- **Reports and backup:** CSV exports (destinations, reviews, users), JSON backup and restore, and a deployment checklist
+
+With the backend connected, adding and hiding destinations sync to MySQL. Editing built-in places, deleting reviews and managing other accounts are done in phpMyAdmin.
+
+---
+
+## Configuration
+
+At the top of `assets/features10.js`:
+
+```js
+const CFG={contactEmail:""};
+```
+
+Set `contactEmail` to receive messages from the **Send feedback** form by email. Leave it empty to keep feedback in the sender's browser only.
 
 ---
 
@@ -219,13 +269,14 @@ If you deploy this publicly, change or remove the default admin account first. A
 - Budgets, best months, coordinates, travel times, and festival dates are **approximate prototype data**, not official figures.
 - Always confirm fees, permits, schedules, festival dates, and travel advisories with official sources (DOT, local tourism offices, PAGASA) before you travel.
 - Photos belong to their authors and are used under their own Wikipedia and Wikimedia Commons licenses. A credit link is shown with each one.
-- Reviews, accounts, trips, and favorites are stored in your own browser, so they are not shared between devices.
+- Without the backend, reviews, accounts, trips, favorites and profile details are stored in your own browser, so they are not shared between devices.
 
 ---
 
 ## Roadmap
 
-- Move accounts, reviews, and trips to a PHP/MySQL backend (each `localStorage` call in `features.js` maps to an endpoint)
+- Save the extra profile details (photo, phone, bio, preferences) in MySQL
+- Add admin endpoints to edit destinations and delete reviews when connected to the database
 - Fill in coordinates and details with checked, official sources
 - Add more festivals and events
 - Add more Mindanao destinations to balance the catalog
