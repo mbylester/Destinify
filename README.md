@@ -2,9 +2,7 @@
 
 **Find your next Philippine escape.** Destinify is a destination-matching web app for the Philippines. Set your budget, travel style, and travel month, and it scores and ranks **675 destinations**, from crowd favorites to quiet corners few people visit, from Batanes to Tawi-Tawi.
 
-It is a static front-end prototype: no build step, no backend, no API keys. Open it in a browser and it works.
-
-> A system proposal by Huerto, Benlester N.
+Destinify is a deployable static web app for discovering destinations across the Philippines. It runs in the browser without a build step, and it can be served locally or deployed to a static host with optional PHP/MySQL support for saved accounts, trips, and admin features.
 
 ---
 
@@ -56,6 +54,13 @@ It is a static front-end prototype: no build step, no backend, no API keys. Open
 - Day-by-day planner with drag-and-drop and an overpacked-day warning
 - Auto trip builder (give it days and a budget)
 - Copy itinerary, share link, calendar export (`.ics`), and print itinerary
+
+**Launch kit (v13)**
+- New sunrise logo, favicon, app icons and social preview image; `robots.txt` and a friendly `404.html`
+- My trip actions give clear feedback: optimize route, see on map, calendar (.ics), print, copy itinerary and share (native share sheet where available)
+- Profile with photo upload and details (full name, email, phone, home city, bio, usual budget, favorite trip types) and a "use my preferences in search" button
+- Admin console with Overview charts, destination search, add, edit and hide, review moderation, users, CSV exports, backup and restore, an activity log, and a deployment checklist
+- About, Privacy, Terms and Send feedback in the footer, a first-visit tour, and an Install app link. Set `CFG.contactEmail` at the top of `assets/features10.js` to receive feedback by email
 
 **Map**
 - Leaflet map with clustered pins, colored by region and sized by popularity
