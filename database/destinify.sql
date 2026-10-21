@@ -366,3 +366,18 @@ INSERT INTO destinations (id,name,province,region_group,lat,lng,type,budget_php,
 (298,'Maragusan Valley','Davao de Oro','M',7.300,126.100,'Mountain',4500,2,'hk,ph',0,11,5,'Highland valley with cool air and views.','Van from Davao City, about 4 hrs.','Roads are winding, so start early.'),
 (299,'Malagos Garden Resort','Davao del Sur','M',7.190,125.450,'Nature',3000,1,'wl,ph,rl',0,11,5,'Bird show and chocolate museum.','Van or taxi from Davao City, about 40 min.','Book the bird show in advance.'),
 (300,'Asik-Asik Falls','Cotabato','M',7.383,124.567,'Waterfall',4500,2,'sw,ph',1,11,5,'Falls streaming from a cliff wall.','Van from Kidapawan or Cotabato City, then a short trek.','Roads can be rough, so leave early.');
+
+-- Extra profile details (photo, contact, preferences)
+CREATE TABLE IF NOT EXISTS user_profiles (
+  user_id INT UNSIGNED NOT NULL PRIMARY KEY,
+  full_name VARCHAR(100) NOT NULL DEFAULT '',
+  email VARCHAR(150) NOT NULL DEFAULT '',
+  phone VARCHAR(30) NOT NULL DEFAULT '',
+  home_city VARCHAR(80) NOT NULL DEFAULT '',
+  bio VARCHAR(200) NOT NULL DEFAULT '',
+  budget INT UNSIGNED NOT NULL DEFAULT 8000,
+  fav_types VARCHAR(300) NOT NULL DEFAULT '',
+  avatar MEDIUMTEXT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_profile_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -36,13 +36,15 @@ async function share(){const url=location.origin+location.pathname+"#trip="+st.t
  if(navigator.share){try{await navigator.share({title:"My Destinify trip",text:tripText(),url});return}catch(e){if(e&&e.name=="AbortError")return}}
  if(await cp(url))toast("Share link copied")}
 /* ---------- profile ---------- */
-const PR=()=>LS("dprof")||{},prof=u=>PR()[u.u]||{},setProf=(u,o)=>{const a=PR();a[u.u]={...a[u.u],...o};LS("dprof",a)};
+const PR=()=>LS("dprof")||{},dbP=()=>{const m=DBAPI.me();return m?(m.profile||(m.profile={})):{}};
+const prof=u=>API()?(DBAPI.me()&&DBAPI.me().username==u.u?dbP():{}):(PR()[u.u]||{});
+const setProf=(u,o)=>{if(API()){Object.assign(dbP(),o);return DBAPI.post("auth.php?action=profile",{name:u.n,profile:o}).then(r=>{if(!r.ok)toast(r.error||"Could not save to the database")})}const a=PR();a[u.u]={...a[u.u],...o};LS("dprof",a)};
 const initials=n=>(n||"?").trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase();
 const av=(u,c="")=>{const p=prof(u);return p.avatar?`<img class="xav ${c}" src="${p.avatar}" alt="">`:`<span class="xav ${c}">${esc(initials(u.n))}</span>`};
 const navAv=()=>{const b=$("xProf"),u=U();if(b&&u)b.innerHTML=`${av(u,"sm")}<span>${esc(u.n.split(" ")[0])}</span>`};
 function profile(){const u=U();if(!u)return;const p=prof(u),rv=Object.values(DX.rev()).flat().filter(r=>r.u==u.n).length;
  DX.show("My profile",`<div class="xpf"><div class="xpa"><div id="xpav">${av(u,"lg")}</div><label class="btn btn-l" style="cursor:pointer">Change photo<input type="file" id="xpf" accept="image/*" hidden></label>${p.avatar?'<button class="btn btn-l" data-x10="rmav">Remove photo</button>':""}</div>
- <div><h4 class="xph">${esc(u.n)}<small>@${esc(u.u)} · ${u.role}${p.since?" · member since "+new Date(p.since).toLocaleDateString(undefined,{month:"short",year:"numeric"}):""}</small></h4><div class="xps"><div><b>${(u.trip||[]).length}</b><span>trip stops</span></div><div><b>${(u.fav||[]).length}</b><span>favorites</span></div><div><b>${rv}</b><span>reviews</span></div></div></div></div>
+ <div><h4 class="xph">${esc(u.n)}<small>@${esc(u.u)} · ${u.role}${p.since?" · member since "+new Date(+p.since).toLocaleDateString(undefined,{month:"short",year:"numeric"}):""}</small></h4><div class="xps"><div><b>${(u.trip||[]).length}</b><span>trip stops</span></div><div><b>${(u.fav||[]).length}</b><span>favorites</span></div><div><b>${rv}</b><span>reviews</span></div></div></div></div>
  <div id="xerr" class="note" style="color:var(--coral-d)"></div><div class="xg">
  <div><label class="note">Display name</label><input id="pn" class="form-control" value="${esc(u.n)}"></div><div><label class="note">Full name</label><input id="xpfn" class="form-control" value="${esc(p.full||"")}"></div>
  <div><label class="note">Email</label><input id="xpem" type="email" class="form-control" value="${esc(p.email||"")}"></div><div><label class="note">Phone</label><input id="xpph" class="form-control" value="${esc(p.phone||"")}"></div>
@@ -52,9 +54,11 @@ function profile(){const u=U();if(!u)return;const p=prof(u),rv=Object.values(DX.
  <label class="note mt-2">Favorite trip types</label><div class="tags" id="xpty">${TYPES.map(t=>`<button class="chip${(p.types||[]).includes(t)?" on":""}" data-x10="pty" data-v="${t}">${t}</button>`).join("")}</div>
  <label class="note mt-2">New password (leave blank to keep)</label><input id="pw" type="password" class="form-control" autocomplete="new-password">
  <div class="macts mt-3"><button class="btn btn-c" data-x10="psave">Save profile</button><button class="btn btn-l" data-x10="papply">Use my preferences in search</button></div><button hidden data-x2="psave" id="xpsv"></button>`)}
-function psave(){const u=U(),pw=$("pw").value,n=V("pn"),em=V("xpem");
+async function psave(){const u=U(),pw=$("pw").value,n=V("pn"),em=V("xpem");
  if(!n)return err("Display name can't be empty.");if(pw&&pw.length<6)return err("Password needs 6+ characters.");if(em&&!/^\S+@\S+\.\S+$/.test(em))return err("That email doesn't look right.");
- setProf(u,{full:V("xpfn"),email:em,phone:V("xpph"),home:$("xphc").value,bio:V("xpbio"),budget:+$("xpbd").value,types:[...document.querySelectorAll("#xpty .chip.on")].map(x=>x.dataset.v),since:prof(u).since||Date.now()});
+ const info={full:V("xpfn"),email:em,phone:V("xpph"),home:$("xphc").value,bio:V("xpbio"),budget:+$("xpbd").value,types:[...document.querySelectorAll("#xpty .chip.on")].map(x=>x.dataset.v)};
+ if(API()){const r=await DBAPI.post("auth.php?action=profile",{name:n,password:pw,profile:info});if(!r.ok)return err(r.error||"Could not save your profile.");location.reload();return}
+ setProf(u,{...info,since:prof(u).since||Date.now()});
  if(n!=u.n||pw){$("xpsv").click();setTimeout(()=>{navAv();toast("Profile saved")},500)}else{DX.nav();navAv();DX.M().hide();toast("Profile saved")}}
 function papply(){const p=prof(U());DX.M().hide();$("rb").value=p.budget||8000;$("rb").dispatchEvent(new Event("input"));
  st.types=new Set((p.types||[]).filter(t=>TYPES.includes(t)));document.querySelectorAll("[data-t]").forEach(b=>b.classList.toggle("on",st.types.has(b.dataset.t)));st.shown=12;render();$("results").scrollIntoView({behavior:"smooth"});toast("Search set to your preferences")}

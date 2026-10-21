@@ -172,5 +172,5 @@
     var f = document.querySelector("footer .wrap");
     if (f) f.insertAdjacentHTML("beforeend", '<span style="opacity:.75">Database: connected (' + IDS.length + ' places)</span>');
   });
-  window.DBAPI = { on: true, ids: IDS, me: function () { return ME; } };
+  window.DBAPI = { on: true, ids: IDS, me: function () { return ME; }, post: post };
 })();

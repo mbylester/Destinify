@@ -228,7 +228,7 @@ Destinify has two roles, **Traveler** and **Admin**, and it stores accounts in o
 | Trips, favorites, reviews | Saved per browser | Saved per account and shared across devices |
 | Admin | Built-in test admin for trying the console | Promote a real account (see Backend below) |
 
-**Traveler profile.** Photo upload, display name, full name, email, phone, home city, bio, usual budget and favorite trip types, with a button that applies those preferences to the search. With the backend, the display name and password are saved to MySQL, and the other profile details stay in the browser.
+**Traveler profile.** Photo upload, display name, full name, email, phone, home city, bio, usual budget and favorite trip types, with a button that applies those preferences to the search. With the backend, everything is saved to MySQL (the photo and details live in a `user_profiles` table that the API creates automatically), so a profile follows the account to any device.
 
 **Admin console** (Admin button in the header)
 - **Overview:** counts, breakdown charts by island group and type, top rated and most saved places, and recent admin activity
@@ -275,7 +275,6 @@ Set `contactEmail` to receive messages from the **Send feedback** form by email.
 
 ## Roadmap
 
-- Save the extra profile details (photo, phone, bio, preferences) in MySQL
 - Add admin endpoints to edit destinations and delete reviews when connected to the database
 - Fill in coordinates and details with checked, official sources
 - Add more festivals and events
