@@ -115,3 +115,14 @@ function state_for(int $uid): array
         'fav'  => array_map('intval', $f->fetchAll(PDO::FETCH_COLUMN)),
     ];
 }
+
+// Audit trail for admin actions. Logging must never stop the action it records.
+function admin_log(int $uid, string $msg): void
+{
+    try {
+        db()->exec('CREATE TABLE IF NOT EXISTS admin_log (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, user_id INT UNSIGNED NULL,
+            message VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+        db()->prepare('INSERT INTO admin_log (user_id, message) VALUES (?, ?)')->execute([$uid, mb_substr($msg, 0, 250)]);
+    } catch (Throwable $e) {
+    }
+}

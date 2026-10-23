@@ -83,7 +83,7 @@
     var r = get("drev") || {};
     Object.keys(r).forEach(function (i) {
       var before = revCount[i] || 0, list = r[i] || [];
-      if (list.length <= before) return;
+      if (list.length <= before) { revCount[i] = list.length; return; }
       list.slice(before).forEach(function (x) {
         if (x.u === ME.name && IDS[i]) post("reviews.php", { destination_id: IDS[i], rating: x.r, comment: x.c });
       });

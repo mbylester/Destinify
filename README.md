@@ -120,6 +120,9 @@ Destinify/
 ├── robots.txt          Search engine rules
 ├── 404.html            Page not found
 ├── api/                PHP backend (MySQL)
+├── database/           destinify.sql (fresh install) and upgrade.sql (existing database)
+├── docs/               DATA_REVIEW.md: what was checked in the data, with sources
+├── tools/              build_sql.py (builds the SQL) and check_data.py (data checks)
 └── assets/
     ├── style.css       Styles, light and dark themes
     ├── theme.css       Basic (Dawn Rose) and Dark (Golden Hour) colors, loaded after style.css
@@ -138,6 +141,7 @@ Destinify/
     ├── features8.js    Region filter, starting-point budgets, TikTok spots, detail extras
     ├── features9.js    My trip, Favorites, and Travel tips upgrades
     ├── api-bridge.js   Connects the site to the PHP backend when it is available
+    ├── stable-ids.js   Permanent destination ids (slugs), so saved data survives changes to data.js
     ├── features10.js   Launch kit: trip actions, profile, admin console, feedback, tour, install
     ├── logo.svg        Destinify logo
     ├── og-image.png    Social preview image
@@ -158,17 +162,21 @@ The site works two ways. With no backend (for example on GitHub Pages) it uses `
 - Destinations, regions, TikTok flags and hidden places come from MySQL
 - Real accounts with hashed passwords, and each user's trip and favorites are saved to the database
 - Reviews are shared between users
-- Admin actions (add a destination, hide or restore one) are saved to the database
+- Admin actions are saved to the database: add, edit and hide destinations, delete reviews, change user roles, delete users, with an audit log
+- Travelers can delete their own reviews
 
 **Set up on XAMPP**
 1. Put the `api` folder in `C:\xampp\htdocs\Destinify\api`.
 2. Copy `api\config.sample.php` to `api\config.php`. The defaults match a fresh XAMPP (user `root`, no password).
-3. In phpMyAdmin, open **Import** and import `destinify.sql`. It creates the `destinify_app` database.
+3. In phpMyAdmin, open **Import** and import `database/destinify.sql`. It creates the `destinify_app` database with all destinations, regions and tables.
+   - **Already have a database?** Import `database/upgrade.sql` instead. It adds the new columns, tables and destinations and keeps your users, reviews, favorites and trips. It is safe to run more than once.
 4. Open `http://localhost/Destinify/api/health.php`. You should see `"ok":true` and the number of destinations.
 5. Open `http://localhost/Destinify/`, then **Sign in**, then **Create account**.
 6. To make yourself an admin, run this in phpMyAdmin: `UPDATE users SET role='admin' WHERE username='yourusername';`
 
 `api/config.php` holds your database password and is listed in `.gitignore`, so it is not uploaded to GitHub. GitHub Pages cannot run PHP, so the live GitHub site stays in no-backend mode.
+
+**Keeping the database in sync with `data.js`.** The SQL files are generated, so they cannot drift from the site's own data. After you edit `assets/data.js`, `details.js` or `regions.js`, run `python tools/build_sql.py` and import the new `database/upgrade.sql`. Existing destination ids are kept, so saved trips, favorites and reviews keep pointing at the same places.
 
 **API files** (`api/`): `bootstrap.php` (shared setup), `destinations.php`, `auth.php`, `state.php` (trip and favorites), `reviews.php`, `admin.php`, `health.php`, and `regions_map.php`. The browser side is `assets/api-bridge.js`.
 
@@ -273,9 +281,25 @@ Set `contactEmail` to receive messages from the **Send feedback** form by email.
 
 ---
 
+## Stable destination ids
+
+Every destination has a permanent id made from its name (for example `el-nido`, `paoay-church-and-dunes`). Trips, favorites, reviews, the day plan and share links are saved by that id, never by the place's position in `data.js`, so you can insert, reorder or delete rows without breaking anything people saved. Data saved by the older version (by position) is converted automatically the first time it is read, and an old numeric share link still opens.
+
+- **Rename a place:** add the old id to `ALIASES` at the top of `assets/stable-ids.js`, for example `{"old-id":"new-id"}`.
+- **Two places with the same name:** pin one id by hand in `PINNED`.
+- A place removed from `data.js` is simply hidden, and reviews written for it are kept in case it comes back.
+- With the backend, the database id is the permanent key.
+
+## Data checks
+
+`python tools/check_data.py` checks every row (structure, coordinates against GeoNames, budget outliers). `docs/DATA_REVIEW.md` lists what was verified against which source, what was corrected, and what could not be verified (budgets in particular are estimates, not official prices).
+
+---
+
 ## Roadmap
 
-- Add admin endpoints to edit destinations and delete reviews when connected to the database
-- Fill in coordinates and details with checked, official sources
+- Check budgets and fees against official local sources for the most visited places
+- Add `source` and `last reviewed` fields to each destination
+- Review the 26 coastal places in PAGASA Type I areas whose best months run into June
 - Add more festivals and events
 - Add more Mindanao destinations to balance the catalog

@@ -15,7 +15,7 @@ if(typeof DET!=="undefined")DET.trim().split("\n").forEach(l=>{const[n,desc,go,t
 const TYPES=[...new Set(D.map(x=>x.t))].sort();
 const st={q:"",b:8000,g:"",d:"any",mon:0,types:new Set(),acts:new Set(),tab:"all",sort:"match",shown:12,trip:[],cmp:new Set(),pax:2,sty:2,me:null,cur:null};
 try{st.trip=JSON.parse(localStorage.getItem("dtrip")||"[]").filter(i=>D[i])}catch(e){}
-const hm=location.hash.match(/trip=([\d,]+)/);if(hm)st.trip=hm[1].split(",").map(Number).filter(i=>D[i]);
+const hm=location.hash.match(/trip=([\w,.-]+)/);if(hm)st.trip=hm[1].split(",").map(x=>DID.idx(x)).filter(i=>i!==null&&D[i]);
 var save=()=>{try{localStorage.setItem("dtrip",JSON.stringify(st.trip))}catch(e){}};
 document.documentElement.dataset.theme=(()=>{try{return localStorage.getItem("dtheme")||"light"}catch(e){return"light"}})();
 
@@ -192,7 +192,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)r
  else if(t.id=="resetBtn")reset();
  else if(t.id=="optBtn")optimize();
  else if(t.id=="copyBtn")copy(tripText(),t,"Copy itinerary");
- else if(t.id=="shareBtn")copy(location.origin+location.pathname+"#trip="+st.trip.join(","),t,"Copy share link");
+ else if(t.id=="shareBtn")copy(location.origin+location.pathname+"#trip="+st.trip.map(i=>D[i].id).join(","),t,"Copy share link");
  else if(t.id=="clrBtn"){st.trip=[];save();render()}
  else if(t.id=="cmpOpen")openCompare();
  else if(t.id=="cmpClr"){st.cmp.clear();render()}

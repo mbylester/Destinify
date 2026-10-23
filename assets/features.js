@@ -6,7 +6,7 @@ const sha=async s=>{try{return[...new Uint8Array(await crypto.subtle.digest("SHA
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let users=LS("dusers")||[],U=null,rev=LS("drev")||{},cus=LS("dcustom")||[],hid=LS("dhide")||[];
 const adm=()=>U&&U.role=="admin",V=id=>$(id).value.trim();
-const addD=o=>D.push({i:D.length,n:o.n,p:o.p,g:o.g,la:o.la,ln:o.ln,t:o.t,b:o.b,d:o.d,a:o.a,o:o.o,mo:[11,12,1,2,3,4,5],desc:o.desc});
+const addD=o=>D.some(x=>x.n==o.n)||D.push({i:D.length,n:o.n,p:o.p,g:o.g,la:o.la,ln:o.ln,t:o.t,b:o.b,d:o.d,a:o.a,o:o.o,mo:(()=>{const a=[];for(let m=o.bs||11;;m=m%12+1){a.push(m);if(m==(o.be||5))break}return a})(),desc:o.desc});
 cus.forEach(addD);
 const _l=list;list=()=>_l().filter(d=>!hid.includes(d.n));
 const _s=save;save=()=>{_s();if(U){U.trip=st.trip.slice();LS("dusers",users)}};
@@ -31,7 +31,7 @@ $("ac").parentElement.insertAdjacentHTML("afterend",`<details class="grp" style=
 document.addEventListener("input",e=>{const k=e.target.dataset.w;if(!k)return;W[k]=+e.target.value;norm();LS("dw",W);for(const x in W)$("xw"+x).textContent=Math.round(MX[x]);render()});
 /* reviews */
 const avg=i=>{const r=rev[i]||[];return r.length?r.reduce((s,x)=>s+x.r,0)/r.length:0};
-const revH=d=>{const r=rev[d.i]||[];return `<h4>TRAVELER REVIEWS${r.length?` · ${avg(d.i).toFixed(1)} ★ (${r.length})`:""}</h4>${r.slice(-5).reverse().map(x=>`<div class="info"><b>${esc(x.u)}</b> · ${"★".repeat(x.r)}<p>${esc(x.c)}</p></div>`).join("")||'<p class="note">No reviews yet.</p>'}${U?`<div class="ctl"><label>Rating <select id="xrs">${[5,4,3,2,1].map(n=>`<option>${n}</option>`).join("")}</select></label></div><textarea id="xrt" class="form-control" rows="3" style="display:block;width:100%;min-height:0;resize:vertical" maxlength="300" placeholder="Share your experience"></textarea><button class="btn btn-c mt-2" data-x="rv" data-id="${d.i}">Post review</button>`:'<p class="note">Sign in to post a review.</p>'}`};
+const revH=d=>{const r=rev[d.i]||[];return `<h4>TRAVELER REVIEWS${r.length?` · ${avg(d.i).toFixed(1)} ★ (${r.length})`:""}</h4>${r.map((x,k)=>({x,k})).slice(-5).reverse().map(({x,k})=>`<div class="info"><b>${esc(x.u)}</b> · ${"★".repeat(x.r)}${U&&x.u==U.n?` <button class="btn btn-l" style="padding:1px 10px;font-size:11.5px;float:right" data-x="rvdel" data-id="${d.i}" data-k="${k}">Delete</button>`:""}<p>${esc(x.c)}</p></div>`).join("")||'<p class="note">No reviews yet.</p>'}${U?`<div class="ctl"><label>Rating <select id="xrs">${[5,4,3,2,1].map(n=>`<option>${n}</option>`).join("")}</select></label></div><textarea id="xrt" class="form-control" rows="3" style="display:block;width:100%;min-height:0;resize:vertical" maxlength="300" placeholder="Share your experience"></textarea><button class="btn btn-c mt-2" data-x="rv" data-id="${d.i}">Post review</button>`:'<p class="note">Sign in to post a review.</p>'}`};
 const _od=openDetail;openDetail=i=>{_od(i);$("dmc").insertAdjacentHTML("beforeend",`<div class="dsc" id="xrev">${revH(D[i])}</div>`)};
 /* auto trip builder */
 const _rt=renderTrip;renderTrip=()=>{_rt();$("tripBody").insertAdjacentHTML("beforeend",`<div class="xbox"><h4>BUILD A TRIP FOR ME</h4><div class="xg"><input id="xdy" type="number" min="1" max="30" value="7" class="form-control" aria-label="Days"><input id="xbd" type="number" min="1000" step="500" value="${st.b*3}" class="form-control" aria-label="Total budget per person"></div><p class="note">Days, then total budget per person (PHP). Picks nearby high-scoring places.</p><button class="btn btn-d" data-x="build">Build trip</button></div>`)};
@@ -57,7 +57,9 @@ document.addEventListener("click",async e=>{const t=e.target.closest("[data-x]")
  else if(x=="hide"&&adm()){const n=$("ah").value.replace(" (hidden)","");hid=hid.includes(n)?hid.filter(h=>h!=n):[...hid,n];LS("dhide",hid);render();admH()}
  else if(x=="csv"&&adm()){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv([["Name","Province","Type","Budget","Days","Popular","Avg rating","Reviews","Times in trips"],...D.map(d=>[d.n,d.p,d.t,d.b,d.d,d.o?"yes":"no",avg(d.i).toFixed(1),(rev[d.i]||[]).length,users.filter(u=>(u.trip||[]).includes(d.i)).length])])],{type:"text/csv"}));a.download="destinify-report.csv";a.click()}
  else if(x=="build")build();
- else if(x=="rv"&&U){const i=+t.dataset.id,c=V("xrt");if(!c)return;(rev[i]=rev[i]||[]).push({u:U.n,r:+$("xrs").value,c,t:Date.now()});LS("drev",rev);$("xrev").innerHTML=revH(D[i])}});
+ else if(x=="rv"&&U){const i=+t.dataset.id,c=V("xrt");if(!c)return;(rev[i]=rev[i]||[]).push({u:U.n,r:+$("xrs").value,c,t:Date.now()});LS("drev",rev);$("xrev").innerHTML=revH(D[i])}
+ else if(x=="rvdel"&&U){const i=+t.dataset.id,k=+t.dataset.k,x0=(rev[i]||[])[k];if(!x0||x0.u!=U.n)return;const done=()=>{rev[i].splice(k,1);LS("drev",rev);$("xrev").innerHTML=revH(D[i])};
+  if(window.DBAPI&&DBAPI.on){if(!x0.id)return alert("Please reload the page first, then delete your review.");DBAPI.post("reviews.php",{action:"delete",id:x0.id}).then(r=>r.ok?done():alert(r.error||"Could not delete the review"))}else done()}});
 window.DX={avg,rev:()=>rev,U:()=>U,show,M,V,LS,esc,hid:()=>hid,users:()=>users,saveUsers:()=>LS("dusers",users),sha,nav};
 render();
 })();

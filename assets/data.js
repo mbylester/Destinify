@@ -56,7 +56,7 @@ Puraran Beach|Catanduanes|L|13.630|124.430|Surf|6000|3|sf sw|0|8-10
 Mayon Volcano|Albay|L|13.257|123.686|Mountain|5000|2|ss hk ph|1
 Cagsawa Ruins|Albay|L|13.160|123.700|Heritage|3000|1|ss cw ph|1
 Donsol|Sorsogon|L|12.910|123.590|Nature|6000|2|wl sn|1|11-6
-Bulusan Lake|Sorsogon|L|12.770|124.050|Lake|3500|2|kc hk|0
+Bulusan Lake|Sorsogon|L|12.770|124.050|Lake|3500|2|kc hk|0|3-6
 Intramuros|Manila|L|14.589|120.975|City|3000|1|cw ss fd bk|1
 Binondo|Manila|L|14.601|120.974|City|2500|1|fd cw|1
 El Nido|Palawan|L|11.178|119.392|Island|7500|3|ih sn kc|1
@@ -67,7 +67,7 @@ Culion|Palawan|L|11.850|120.020|Heritage|6000|3|cw ss|0
 Puerto Princesa|Palawan|L|9.739|118.735|City|4500|2|fd cw ss|1
 Honda Bay|Palawan|L|9.800|118.800|Island|4000|1|ih sw sn|1
 Underground River|Palawan|L|10.167|118.917|Cave|7000|3|kc cv wl|1
-Port Barton|Palawan|L|10.417|119.150|Beach|5500|3|sn ih sw|0
+Port Barton|Palawan|L|10.415|119.175|Beach|5500|3|sn ih sw|0
 Balabac|Palawan|L|7.980|117.050|Island|12000|5|ih sw sn wl|0|3-6
 Tubbataha Reefs|Palawan|L|8.850|119.900|Diving|25000|5|dv wl|0|3-6
 Boracay|Aklan|V|11.967|121.925|Beach|9000|4|sw sn ss rl|1
@@ -106,25 +106,25 @@ Anda|Bohol|V|9.740|124.570|Beach|5500|3|sw rl|0
 Danao Adventure Park|Bohol|V|9.900|124.200|Adventure|4500|1|ad cy|0
 Kalanggaman Island|Leyte|V|11.100|124.370|Island|4500|2|sw sn|0|3-6
 Tacloban|Leyte|V|11.245|125.004|Heritage|4000|2|cw ss|0
-Sogod Bay|Southern Leyte|V|10.380|124.980|Diving|6500|3|dv wl|0
-Limasawa|Southern Leyte|V|9.933|125.067|Island|4500|2|sw cw|0
-Sohoton Caves|Samar|V|11.280|125.070|Cave|5500|2|kc cv|0
+Sogod Bay|Southern Leyte|V|10.380|124.980|Diving|6500|3|dv wl|0|3-6
+Limasawa|Southern Leyte|V|9.933|125.067|Island|4500|2|sw cw|0|3-6
+Sohoton Caves|Samar|V|11.280|125.070|Cave|5500|2|kc cv|0|3-6
 Blanca Aurora Falls|Samar|V|12.077|124.725|Waterfall|4500|2|sw hk|0|6-11
-Biri Islands|Northern Samar|V|12.680|124.380|Nature|7000|3|ss sw ph|0
-Homonhon Island|Eastern Samar|V|10.720|125.730|Island|5500|2|cw sw|0
+Biri Islands|Northern Samar|V|12.680|124.380|Nature|7000|3|ss sw ph|0|3-6
+Homonhon Island|Eastern Samar|V|10.720|125.730|Island|5500|2|cw sw|0|3-6
 Calicoan Island|Eastern Samar|V|11.030|125.720|Surf|6500|3|sf sw|0|9-11
 Sambawan Island|Biliran|V|11.687|124.567|Island|5000|2|sw sn|0|3-6
 General Luna, Siargao|Surigao del Norte|M|9.790|126.160|Surf|8900|4|sf ih sw|1|8-11
-Magpupungko Rock Pools|Surigao del Norte|M|9.780|126.150|Nature|5500|2|sw ph|1
-Naked Island|Surigao del Norte|M|9.720|126.100|Island|5000|1|sw ph|1
-Sugba Lagoon|Surigao del Norte|M|9.890|126.030|Nature|6000|2|kc sw|0
-Bucas Grande|Surigao del Norte|M|9.680|125.980|Island|6500|3|kc sw cv|0
+Magpupungko Rock Pools|Surigao del Norte|M|9.780|126.150|Nature|5500|2|sw ph|1|3-6
+Naked Island|Surigao del Norte|M|9.720|126.100|Island|5000|1|sw ph|1|3-6
+Sugba Lagoon|Surigao del Norte|M|9.890|126.030|Nature|6000|2|kc sw|0|3-6
+Bucas Grande|Surigao del Norte|M|9.680|125.980|Island|6500|3|kc sw cv|0|3-6
 Dinagat Islands|Dinagat Islands|M|10.130|125.600|Island|6000|3|sw hk|0
-Lake Mainit|Surigao del Norte|M|9.450|125.520|Lake|4500|2|kc ss|0
+Lake Mainit|Surigao del Norte|M|9.450|125.520|Lake|4500|2|kc ss|0|3-6
 Britania Islands|Surigao del Sur|M|8.950|126.050|Island|5500|2|ih sw|0|3-6
 Tinuy-an Falls|Surigao del Sur|M|8.167|126.283|Waterfall|4800|2|sw ss|0|6-11
-Enchanted River|Surigao del Sur|M|8.370|126.340|Nature|5500|2|sw sn|0
-Agusan Marsh|Agusan del Sur|M|8.430|125.900|Nature|5500|3|kc wl|0
+Enchanted River|Surigao del Sur|M|8.370|126.340|Nature|5500|2|sw sn|0|3-6
+Agusan Marsh|Agusan del Sur|M|8.430|125.900|Nature|5500|3|kc wl|0|3-6
 Camiguin|Camiguin|M|9.170|124.720|Island|6000|3|sw hk ss|1
 White Island|Camiguin|M|9.230|124.750|Island|5000|1|sw ph|1
 Katibawasan Falls|Camiguin|M|9.185|124.730|Waterfall|3000|1|sw|0|6-11
@@ -271,19 +271,19 @@ Pamilacan Island|Bohol|V|9.500|123.930|Island|5500|2|wl sn sw|0|3-6
 Cabilao Island|Bohol|V|9.867|123.700|Diving|5500|2|dv sn|0|11-5
 Ormoc|Leyte|V|11.006|124.608|City|3500|1|fd ss|0
 Palo|Leyte|V|11.160|124.990|Heritage|3000|1|cw ss|0
-Langun-Gobingob Caves|Samar|V|11.617|125.000|Cave|5500|2|cv hk|0
+Langun-Gobingob Caves|Samar|V|11.617|125.000|Cave|5500|2|cv hk|0|3-6
 Lulugayan Falls|Samar|V|11.580|125.010|Waterfall|4500|2|sw hk|0|6-11
 Tarangban Falls|Samar|V|12.067|124.600|Waterfall|4500|2|sw hk|0|6-11
 Marabut|Samar|V|11.117|125.217|Nature|5000|2|ih sw|0|3-6
-Guiuan Church|Eastern Samar|V|11.033|125.717|Heritage|3500|1|cw ss|0
-Balangiga Church|Eastern Samar|V|11.100|125.380|Heritage|3500|1|cw ss|0
-Capul Island|Northern Samar|V|12.433|124.267|Island|6500|3|cw ss ph|0
+Guiuan Church|Eastern Samar|V|11.033|125.717|Heritage|3500|1|cw ss|0|3-6
+Balangiga Church|Eastern Samar|V|11.100|125.380|Heritage|3500|1|cw ss|0|3-6
+Capul Island|Northern Samar|V|12.433|124.267|Island|6500|3|cw ss ph|0|3-6
 Ulan-Ulan Falls|Biliran|V|11.580|124.470|Waterfall|3500|1|sw hk|0|6-11
 Cloud 9|Surigao del Norte|M|9.810|126.165|Surf|5000|2|sf ph|1|8-11
-Daku Island|Surigao del Norte|M|9.733|126.133|Island|4500|1|sw ph|1
-Guyam Island|Surigao del Norte|M|9.770|126.150|Island|4000|1|sw ph|1
-Surigao City|Surigao del Norte|M|9.784|125.491|City|4500|2|fd ss|0
-Mabua Pebble Beach|Surigao del Norte|M|9.840|125.490|Beach|3500|1|ss ph|0
+Daku Island|Surigao del Norte|M|9.733|126.133|Island|4500|1|sw ph|1|3-6
+Guyam Island|Surigao del Norte|M|9.770|126.150|Island|4000|1|sw ph|1|3-6
+Surigao City|Surigao del Norte|M|9.784|125.491|City|4500|2|fd ss|0|3-6
+Mabua Pebble Beach|Surigao del Norte|M|9.840|125.490|Beach|3500|1|ss ph|0|3-6
 Butuan|Agusan del Norte|M|8.949|125.543|Heritage|3500|2|cw ss fd|0
 Mantigue Island|Camiguin|M|9.131|124.840|Island|4500|1|sn sw|0
 Ardent Hot Springs|Camiguin|M|9.195|124.715|Nature|3500|1|rl sw|0
@@ -394,10 +394,10 @@ Cadlao Island|Palawan|L|11.2000|119.4000|Island|7000|1|kc sn ph|0
 Taraw Cliff|Palawan|L|11.1833|119.4000|Adventure|5500|1|hk ph ad|0
 Maquinit Hot Spring|Palawan|L|11.9833|120.1667|Nature|5000|1|rl|0
 Subic Beach Matnog|Sorsogon|L|12.5833|124.0833|Beach|4000|2|sw rl|0|3-6
-Sorsogon City|Sorsogon|L|12.9714|124.0058|City|3500|1|fd ss|0
-Virac|Catanduanes|L|13.5833|124.2333|City|4500|2|ss fd|0
+Sorsogon City|Sorsogon|L|12.9714|124.0058|City|3500|1|fd ss|0|3-6
+Virac|Catanduanes|L|13.5833|124.2333|City|4500|2|ss fd|0|3-6
 Maribina Falls|Catanduanes|L|13.6000|124.3000|Waterfall|4500|1|sw hk|0|6-11
-Bato Church|Catanduanes|L|13.6030|124.3400|Heritage|4000|1|cw ss|0
+Bato Church|Catanduanes|L|13.6030|124.3400|Heritage|4000|1|cw ss|0|3-6
 Masbate City|Masbate|L|12.3667|123.6167|City|4500|2|ss fd|0
 Daraga Church|Albay|L|13.1583|123.7000|Heritage|3000|1|cw ss ph|1
 Ligñon Hill Nature Park|Albay|L|13.1500|123.7333|Nature|3500|1|hk ph ad|0
@@ -450,7 +450,7 @@ Bojo River Cruise|Cebu|V|10.2167|123.5500|Nature|3500|1|kc ss|0
 Moalboal White Beach|Cebu|V|9.9500|123.3833|Beach|5000|2|sw rl|0
 Tingko Beach|Cebu|V|9.7000|123.5000|Beach|4000|1|sw rl|0
 Boljoon Church|Cebu|V|9.6167|123.4833|Heritage|3000|1|cw ss ph|0
-Maasin Cathedral|Southern Leyte|V|10.1333|124.8333|Heritage|3500|1|cw ss|0
+Maasin Cathedral|Southern Leyte|V|10.1333|124.8333|Heritage|3500|1|cw ss|0|3-6
 Lazi Church|Siquijor|V|9.1333|123.6000|Heritage|3000|1|cw ss ph|0
 Enchanted Balete Tree|Siquijor|V|9.1500|123.6167|Nature|3000|1|ph ss|0
 Bukilat Cave|Cebu|V|10.6000|124.4000|Cave|4500|1|cv ph|0
@@ -462,7 +462,7 @@ Cabugao Gamay Island|Iloilo|V|11.6000|123.3667|Island|6500|2|ih sw ph|1|3-6
 Tangke Lagoon|Iloilo|V|11.6167|123.3333|Nature|6500|1|sw ph|1
 Bucari Pine Forest|Iloilo|V|10.7500|122.3833|Nature|3500|1|rl cm ph|0
 Banacon Island|Bohol|V|10.1833|124.1167|Island|4000|1|kc ph|0
-Calbayog City|Samar|V|12.0667|124.6000|City|3500|1|fd ss|0
+Calbayog City|Samar|V|12.0667|124.6000|City|3500|1|fd ss|0|3-6
 Pacifico Beach|Surigao del Norte|M|9.9600|126.0600|Beach|6000|2|sf sw ph|0|8-11
 Davao Crocodile Park|Davao del Sur|M|7.0975|125.6322|Nature|3500|1|wl ss|1
 People's Park Davao|Davao del Sur|M|7.0733|125.6128|City|2500|1|rl ss|0
@@ -471,7 +471,7 @@ Monfort Bat Cave|Davao del Norte|M|7.0700|125.7200|Cave|4000|1|wl ss|0
 Talikud Island|Davao del Norte|M|6.9167|125.7000|Island|5500|2|sn dv sw|0|3-6
 Kablon Farm|South Cotabato|M|6.3333|124.9500|Nature|3000|1|ss fd ph|0
 General Santos Fish Port|South Cotabato|M|6.0833|125.1333|City|3000|1|fd ph|0
-Tandag|Surigao del Sur|M|9.0783|126.1986|City|4000|2|ss fd|0
+Tandag|Surigao del Sur|M|9.0783|126.1986|City|4000|2|ss fd|0|3-6
 Malaybalay|Bukidnon|M|8.1467|125.1275|City|3500|1|ss fd|0
 Del Monte Pineapple Plantation|Bukidnon|M|8.3667|124.8667|Nature|3500|1|ss ph|0
 Monastery of the Transfiguration|Bukidnon|M|8.1167|125.1000|Heritage|3000|1|cw rl|0
@@ -490,7 +490,7 @@ Pujada Island|Davao Oriental|M|6.9000|126.3000|Island|5000|1|sw sn|0|3-6
 Tagum City|Davao del Norte|M|7.4478|125.8078|City|3500|1|ss fd|0
 Gaston Park|Misamis Oriental|M|8.4803|124.6475|City|2500|1|ss rl|0
 Gardens of Malasag|Misamis Oriental|M|8.5000|124.7000|Nature|3000|1|hk ph|0
-Del Carmen Mangrove Forest|Surigao del Norte|M|9.8667|125.9667|Nature|4500|1|kc ph|0
+Del Carmen Mangrove Forest|Surigao del Norte|M|9.8667|125.9667|Nature|4500|1|kc ph|0|3-6
 Balangay Shrine Museum|Agusan del Norte|M|8.9300|125.5300|Heritage|3000|1|cw ss|0
 Our Lady of Triumph Cathedral|Misamis Occidental|M|8.1458|123.8447|Heritage|3000|1|cw ss|0
 Rizal Shrine Dapitan|Zamboanga del Norte|M|8.6542|123.4222|Heritage|3000|1|cw ss|0
@@ -498,7 +498,7 @@ Dipolog Boulevard|Zamboanga del Norte|M|8.5833|123.3333|City|2500|1|rl ss|0
 Seven Falls Lake Sebu|South Cotabato|M|6.2017|124.6700|Waterfall|5500|2|hk ph ad|0
 Lake Seloton|South Cotabato|M|6.2000|124.6833|Lake|5000|2|kc ss cw|0
 Cagwait White Beach|Surigao del Sur|M|8.9333|126.2833|Beach|4500|2|sw rl|0|3-6
-Bislig City|Surigao del Sur|M|8.2133|126.3228|City|4500|2|ss fd|0
+Bislig City|Surigao del Sur|M|8.2133|126.3228|City|4500|2|ss fd|0|3-6
 Cabadbaran|Agusan del Norte|M|9.1167|125.5333|City|3500|1|ss cw|0
 Oroquieta City|Misamis Occidental|M|8.4833|123.8000|City|3500|1|ss fd|0
 Dipolog Cathedral|Zamboanga del Norte|M|8.5844|123.3414|Heritage|2500|1|cw ss|0
@@ -628,7 +628,7 @@ Mt. Asog|Camarines Sur|L|13.4500|123.4500|Mountain|3500|2|hk ph|0|11-4
 Apuao Grande Island|Camarines Norte|L|14.1833|123.0167|Island|5000|2|sw sn|0|3-6
 Twin Rock Beach|Catanduanes|L|13.5833|124.3000|Beach|4500|1|sw ph|0|3-6
 Mt. Bulusan|Sorsogon|L|12.7683|124.0508|Mountain|4000|2|hk ph|0|11-4
-Rizal Beach Gubat|Sorsogon|L|12.9167|124.1167|Beach|3500|1|sw rl|0
+Rizal Beach Gubat|Sorsogon|L|12.9167|124.1167|Beach|3500|1|sw rl|0|3-6
 Burias Island|Masbate|L|13.1500|122.9000|Island|5000|2|sw sn|0|3-6
 Albay Park and Wildlife|Albay|L|13.1450|123.7333|Nature|2000|1|wl rl|0
 Naga Basilica|Camarines Sur|L|13.6200|123.1900|Heritage|2500|1|cw ph|0
@@ -671,9 +671,9 @@ Tudaya Falls|Davao del Sur|M|6.8167|125.3333|Waterfall|3500|1|sw hk|0|6-11
 Lake Holon|South Cotabato|M|6.1000|124.8700|Lake|7000|3|hk cm ph|1|11-4
 Mt. Parker|South Cotabato|M|6.0833|124.8667|Mountain|6000|3|hk cm|0|11-4
 Little Santa Cruz Island|Zamboanga del Sur|M|6.8833|122.0600|Island|4500|1|sw ph|0
-Sohoton Cove|Surigao del Norte|M|9.6667|125.9667|Nature|6500|2|kc sw cv|1
+Sohoton Cove|Surigao del Norte|M|9.6667|125.9667|Nature|6500|2|kc sw cv|1|3-6
 Pearl Farm Beach Resort|Davao del Norte|M|6.9667|125.7167|Beach|6000|1|sw rl|0
-Tayangban Cave Pool|Surigao del Norte|M|9.8500|126.0833|Cave|4500|1|cv sw|1
+Tayangban Cave Pool|Surigao del Norte|M|9.8500|126.0833|Cave|4500|1|cv sw|1|3-6
 Lake Lanao|Lanao del Sur|M|7.8833|124.2500|Lake|4500|2|ph ss|0
 Grand Mosque Cotabato|Maguindanao|M|7.2133|124.2500|Heritage|3500|1|cw ph|0
 Lake Venado|Cotabato|M|6.9833|125.2833|Lake|6500|3|hk cm ph|0|11-4`;
