@@ -28,7 +28,7 @@ const authView=(m,api)=>{const up=m=="up",p=api?"b":"x",a=api?"data-xb":"data-x"
  <div class="xfld"><span class="xfi">${IC.user}</span><input id="${p}u" class="form-control" placeholder="Username" aria-label="Username" autocomplete="username" autocapitalize="none" spellcheck="false"></div>
  ${pwField(p+"p","Password (6+ characters)",up?"new-password":"current-password",up)}
  <button type="button" class="btn btn-c xcta" ${a}="${up?"up":"in"}" data-primary>${up?"Create my account":"Sign in"}</button>
- <p class="xfine">${IC.shield}<span>${api?"Your account is stored in the Destinify database. Passwords are hashed, never saved as plain text.":"Demo accounts live in this browser only. Admin demo login: admin / admin123."}</span></p></div>`};
+ <p class="xfine">${IC.shield}<span>${api?"Your account is stored in the Destinify database. Passwords are hashed, never saved as plain text.":"Demo accounts live in this browser only. Sign in to the live site for saved trips."}</span></p></div>`};
 const authOpen=(m,api)=>{show(m=="in"?"Sign in":"Create account",authView(m,api),{cls:"xv xv-auth",icon:IC.compass,sub:m=="in"?"Welcome back. Pick up your trip where you left off.":"Save trips, favorites and reviews across visits."});setTimeout(()=>{const i=document.querySelector("#xmc .xauth input");i&&i.focus()},380)};
 const authH=m=>authOpen(m,false);
 document.body.insertAdjacentHTML("beforeend",'<div id="xcf" class="xcfo" hidden><div class="xcfb" role="alertdialog" aria-modal="true" aria-labelledby="xcft" aria-describedby="xcfm"><div class="xcfi" id="xcfi"></div><h4 id="xcft"></h4><p id="xcfm"></p><div class="xcfa"><button type="button" class="btn btn-l" id="xcfn"></button><button type="button" class="btn btn-c" id="xcfy"></button></div></div></div>');
@@ -59,7 +59,7 @@ async function auth(m){const u=V("xu").toLowerCase(),p=$("xp").value,e=t=>$("xer
  if(m=="in"){if(!f||f.p!=h)return e("Wrong username or password.");login(f)}
  else{if(f)return e("That username is taken.");const n={u,n:V("xn")||u,role:"traveler",p:h,trip:st.trip.slice()};users.push(n);LS("dusers",users);login(n)}
  M().hide()}
-(async()=>{if(!users.some(x=>x.role=="admin")){users.push({u:"admin",n:"Admin",role:"admin",p:await sha("admin123"),trip:[]});LS("dusers",users)}
+(async()=>{
  const s=LS("dsess"),f=users.find(x=>x.u==s);if(f)login(f)})();
 /* weights */
 $("ac").parentElement.insertAdjacentHTML("afterend",`<details class="grp" style="display:block"><summary style="cursor:pointer;font-weight:600;color:var(--soft)">Fine-tune how matches are scored</summary><div class="xw mt-3">${[["t","Type"],["a","Activities"],["b","Budget"],["du","Trip length"],["s","Season"]].map(([k,n])=>`<div><label>${n}: <b id="xw${k}">${Math.round(MX[k])}</b>%</label><input type="range" min="1" max="60" value="${W[k]}" data-w="${k}"></div>`).join("")}</div><p class="note">Weights are rescaled to total 100%. Defaults: 30 / 25 / 20 / 10 / 15.</p></details>`);

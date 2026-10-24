@@ -51,8 +51,13 @@ function db(): PDO
     return $pdo;
 }
 
+// Session cookie: HttpOnly, SameSite=Lax, and Secure whenever the page is served over HTTPS.
+// Behind a proxy that ends TLS, PHP cannot see HTTPS, so set 'force_https_cookie' => true in config.php.
+$isHttps = (!empty($_SERVER['HTTPS']) && strtolower((string)$_SERVER['HTTPS']) !== 'off') || !empty($CFG['force_https_cookie']);
+ini_set('session.use_strict_mode', '1');   // refuse session ids the server did not issue
+ini_set('session.use_only_cookies', '1');
 session_name($CFG['session_name'] ?? 'destinify_sid');
-session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'httponly' => true, 'samesite' => 'Lax']);
+session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'httponly' => true, 'secure' => $isHttps, 'samesite' => 'Lax']);
 session_start();
 
 function body(): array
@@ -73,15 +78,57 @@ function need_post(): void
     }
 }
 
+// Short fingerprint of a password hash. It is stored in the session so that changing the password
+// ends every other session of that account (their stored fingerprint no longer matches).
+function pw_stamp(string $hash): string
+{
+    return substr(hash('sha256', $hash), 0, 32);
+}
+
 function me(): ?array
 {
     if (empty($_SESSION['uid'])) {
         return null;
     }
-    $s = db()->prepare('SELECT id, username, display_name, role FROM users WHERE id = ?');
+    $s = db()->prepare('SELECT id, username, display_name, role, password_hash FROM users WHERE id = ?');
     $s->execute([(int)$_SESSION['uid']]);
     $u = $s->fetch();
-    return $u ? $u : null;
+    if (!$u || !hash_equals(pw_stamp((string)$u['password_hash']), (string)($_SESSION['pv'] ?? ''))) {
+        $_SESSION = [];   // deleted account, or the password changed after this session started
+        return null;
+    }
+    unset($u['password_hash']);
+    return $u;
+}
+
+function client_ip(): string
+{
+    return (string)($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');   // never trust X-Forwarded-For unless you control the proxy
+}
+
+// Simple rate limiter backed by the rate_limits table (see database/destinify.sql).
+// throttle_check() stops the request with 429 once $max hits happened in the last $window seconds.
+function throttle_check(string $bucket, int $max, int $window): void
+{
+    $q = db()->prepare('SELECT COUNT(*) FROM rate_limits WHERE bucket = ? AND created_at > (NOW() - INTERVAL ? SECOND)');
+    $q->execute([$bucket, $window]);
+    if ((int)$q->fetchColumn() >= $max) {
+        header('Retry-After: ' . $window);
+        fail('Too many attempts. Please wait a few minutes and try again.', 429);
+    }
+}
+
+function throttle_hit(string $bucket): void
+{
+    db()->prepare('INSERT INTO rate_limits (bucket) VALUES (?)')->execute([$bucket]);
+    if (random_int(1, 100) === 1) {   // keep the table small
+        db()->exec('DELETE FROM rate_limits WHERE created_at < (NOW() - INTERVAL 1 DAY)');
+    }
+}
+
+function throttle_clear(string $bucket): void
+{
+    db()->prepare('DELETE FROM rate_limits WHERE bucket = ?')->execute([$bucket]);
 }
 
 function need_login(): array

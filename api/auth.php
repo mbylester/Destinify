@@ -124,34 +124,59 @@ if ($action === 'register') {
     if (mb_strlen($name) > 60) {
         $name = mb_substr($name, 0, 60);
     }
+    if (strlen($pw) > 200) {
+        fail('Password is too long.');
+    }
+    $rb = 'reg:ip:' . client_ip();
+    throttle_check($rb, 5, 3600);   // 5 new accounts per IP per hour
     $c = db()->prepare('SELECT id FROM users WHERE username = ?');
     $c->execute([$username]);
     if ($c->fetch()) {
         fail('That username is taken.', 409);
     }
+    $hash = password_hash($pw, PASSWORD_DEFAULT);
     $ins = db()->prepare('INSERT INTO users (username, display_name, role, password_hash) VALUES (?, ?, ?, ?)');
-    $ins->execute([$username, $name, 'traveler', password_hash($pw, PASSWORD_DEFAULT)]);
+    $ins->execute([$username, $name, 'traveler', $hash]);
+    throttle_hit($rb);
     $uid = (int)db()->lastInsertId();
     session_regenerate_id(true);
     $_SESSION['uid'] = $uid;
+    $_SESSION['pv'] = pw_stamp($hash);
     out(['ok' => true, 'user' => ['id' => $uid, 'username' => $username, 'name' => $name, 'role' => 'traveler']]);
 }
 
 if ($action === 'login') {
+    $uname = strtolower(trim((string)($b['username'] ?? '')));
+    $bu = 'login:user:' . mb_substr($uname, 0, 40);
+    $bi = 'login:ip:' . client_ip();
+    throttle_check($bu, 5, 900);    // 5 failures per username per 15 minutes
+    throttle_check($bi, 20, 900);   // 20 failures per IP per 15 minutes
     $s = db()->prepare('SELECT * FROM users WHERE username = ?');
-    $s->execute([strtolower(trim((string)($b['username'] ?? '')))]);
+    $s->execute([$uname]);
     $u = $s->fetch();
-    if (!$u || !password_verify((string)($b['password'] ?? ''), $u['password_hash'])) {
-        usleep(400000); // slows down password guessing
+    $given = substr((string)($b['password'] ?? ''), 0, 200);
+    // Always run one bcrypt check so a missing username takes about as long as a wrong password.
+    $dummy = '$2y$10$Bxjh1twxj6DgL/ptPbHiUOKVphWXI1pKnEqQcbDVyCceGkSUFKImO';   // valid bcrypt hash of a throwaway string
+    $ok = password_verify($given, $u ? (string)$u['password_hash'] : $dummy) && $u;
+    if (!$ok) {
+        throttle_hit($bu);
+        throttle_hit($bi);
+        usleep(400000);
         fail('Wrong username or password.', 401);
     }
+    throttle_clear($bu);
     session_regenerate_id(true);
     $_SESSION['uid'] = (int)$u['id'];
+    $_SESSION['pv'] = pw_stamp((string)$u['password_hash']);
     out(['ok' => true, 'user' => pub($u)]);
 }
 
 if ($action === 'logout') {
     $_SESSION = [];
+    if (ini_get('session.use_cookies')) {
+        $p = session_get_cookie_params();
+        setcookie(session_name(), '', ['expires' => time() - 3600, 'path' => $p['path'], 'secure' => $p['secure'], 'httponly' => true, 'samesite' => 'Lax']);
+    }
     session_destroy();
     out(['ok' => true]);
 }
@@ -169,6 +194,23 @@ if ($action === 'profile') {
     if ($pw !== '' && strlen($pw) < 6) {
         fail('Password must be at least 6 characters.');
     }
+    if (strlen($pw) > 200) {
+        fail('Password is too long.');
+    }
+    if ($pw !== '') {
+        // Changing the password needs the current one, so a stolen session cannot take over the account.
+        $bp = 'pwchange:user:' . (int)$u['id'];
+        throttle_check($bp, 5, 900);
+        $h = db()->prepare('SELECT password_hash FROM users WHERE id = ?');
+        $h->execute([(int)$u['id']]);
+        $curHash = (string)$h->fetchColumn();
+        if (!password_verify(substr((string)($b['current_password'] ?? ''), 0, 200), $curHash)) {
+            throttle_hit($bp);
+            usleep(400000);
+            fail('Your current password is not correct.', 403);
+        }
+        throttle_clear($bp);
+    }
     if (isset($b['profile']) && is_array($b['profile'])) {
         $e = save_profile((int)$u['id'], $b['profile']);
         if ($e !== null) {
@@ -176,8 +218,11 @@ if ($action === 'profile') {
         }
     }
     if ($pw !== '') {
+        $newHash = password_hash($pw, PASSWORD_DEFAULT);
         db()->prepare('UPDATE users SET display_name = ?, password_hash = ? WHERE id = ?')
-            ->execute([$name, password_hash($pw, PASSWORD_DEFAULT), (int)$u['id']]);
+            ->execute([$name, $newHash, (int)$u['id']]);
+        session_regenerate_id(true);               // this browser stays signed in...
+        $_SESSION['pv'] = pw_stamp($newHash);      // ...every other session of the account is now invalid
     } else {
         db()->prepare('UPDATE users SET display_name = ? WHERE id = ?')->execute([$name, (int)$u['id']]);
     }

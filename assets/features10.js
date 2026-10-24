@@ -61,19 +61,19 @@ function profile(){const u=U();if(!u)return;const p=prof(u),I=DX.ic,rv=Object.va
  ${fld("home","Home city",`<select id="xphc" class="form-select">${ORIGINS.map(o=>`<option${p.home==o.n?" selected":""}>${esc(o.n)}</option>`).join("")}</select>`)}
  <div class="xff"><label class="xl">Usual budget per person <b id="xpbv" class="xbv">${P(p.budget||8000)}</b></label><input id="xpbd" type="range" min="2000" max="30000" step="500" value="${p.budget||8000}" class="form-range xrng" aria-label="Usual budget per person"><div class="xrl"><span>${P(2000)}</span><span>${P(30000)}</span></div></div></div>
  <label class="xl">Favorite trip types <small class="xcnt">tap to select</small></label><div class="tags" id="xpty">${TYPES.map(t=>`<button type="button" class="chip${(p.types||[]).includes(t)?" on":""}" data-x10="pty" data-v="${t}" aria-pressed="${(p.types||[]).includes(t)}">${t}</button>`).join("")}</div></section>
- <section class="xsec"><h5>${I.shield}Security</h5>${DX.pwField("pw","New password (leave blank to keep)","new-password",true)}</section>
+ <section class="xsec"><h5>${I.shield}Security</h5>${API()?DX.pwField("pwc","Current password (needed to change it)","current-password",false):""}${DX.pwField("pw","New password (leave blank to keep)","new-password",true)}</section>
  <div class="xsticky"><button type="button" class="btn btn-c" data-x10="psave">${I.check}Save profile</button><button type="button" class="btn btn-l" data-x10="papply">${I.sliders}Use my preferences in search</button><button type="button" class="btn btn-l xso" data-x10="signout">${I.logout}Sign out</button></div><button hidden data-x2="psave" id="xpsv"></button>`,{cls:"xv xv-prof"})}
 async function psave(){const u=U(),pw=$("pw").value,n=V("pn"),em=V("xpem");
  if(!n)return err("Display name can't be empty.");if(pw&&pw.length<6)return err("Password needs 6+ characters.");if(em&&!/^\S+@\S+\.\S+$/.test(em))return err("That email doesn't look right.");
  const info={full:V("xpfn"),email:em,phone:V("xpph"),home:$("xphc").value,bio:V("xpbio"),budget:+$("xpbd").value,types:[...document.querySelectorAll("#xpty .chip.on")].map(x=>x.dataset.v)};
- if(API()){const r=await DBAPI.post("auth.php?action=profile",{name:n,password:pw,profile:info});if(!r.ok)return err(r.error||"Could not save your profile.");location.reload();return}
+ if(API()){const r=await DBAPI.post("auth.php?action=profile",{name:n,password:pw,current_password:($("pwc")||{}).value||"",profile:info});if(!r.ok)return err(r.error||"Could not save your profile.");location.reload();return}
  setProf(u,{...info,since:prof(u).since||Date.now()});
  if(n!=u.n||pw){$("xpsv").click();setTimeout(()=>{navAv();toast("Profile saved")},500)}else{DX.nav();navAv();DX.M().hide();toast("Profile saved")}}
 function papply(){const p=prof(U());DX.M().hide();$("rb").value=p.budget||8000;$("rb").dispatchEvent(new Event("input"));
  st.types=new Set((p.types||[]).filter(t=>TYPES.includes(t)));document.querySelectorAll("[data-t]").forEach(b=>b.classList.toggle("on",st.types.has(b.dataset.t)));st.shown=12;render();$("results").scrollIntoView({behavior:"smooth"});toast("Search set to your preferences")}
 document.addEventListener("click",e=>{if(e.target.closest('[data-x2="prof"]')){e.stopImmediatePropagation();e.preventDefault();profile()}},true);
 /* ---------- admin console ---------- */
-let AT="over",DQ="",DF="all",DG="all",DL=40,EDIT=null,defPw=null;DX.sha("admin123").then(h=>defPw=h);
+let AT="over",DQ="",DF="all",DG="all",DL=40,EDIT=null;
 const hid=()=>DX.hid(),rev=()=>DX.rev(),users=()=>DX.users(),custom=()=>LS("dcustom")||[],ED=()=>LS("dedit")||{};
 const rated=d=>{const r=rev()[d.i]||[];return r.length?r.reduce((s,x)=>s+x.r,0)/r.length:0};
 const log=m=>{const a=LS("dlog")||[];a.unshift({t:Date.now(),u:U().u,m});LS("dlog",a.slice(0,80))};
@@ -83,8 +83,8 @@ const bar=r=>{const m=Math.max(1,...r.map(x=>x[1]));return r.map(([n,v])=>`<div 
 const rngM=(f,t)=>{const r=[];let m=f;for(let i=0;i<12;i++){r.push(m);if(m==t)break;m=m%12+1}return r};
 const mSpan=mo=>{mo=(mo&&mo.length)?mo:[11,12,1,2,3,4,5];const f=mo.find(k=>!mo.includes(k==1?12:k-1))||mo[0];let t=f;while(mo.includes(t%12+1)&&t%12+1!=f)t=t%12+1;return[f,t]};
 const mSel=(id,v)=>`<select id="${id}" class="form-select">${MN.map((m,k)=>`<option value="${k+1}"${v==k+1?" selected":""}>${m}</option>`).join("")}</select>`;
-const chk=()=>{const ok=(b,t,n)=>`<li>${b?"✅":"⚠️"} ${t}${!b&&n?` <small>${n}</small>`:""}</li>`,a0=users().find(u=>u.u=="admin");
- return `<ul class="xchk">${ok(location.protocol=="https:"||location.hostname=="localhost","Served over HTTPS","Needed for install, offline mode and the copy buttons")}${ok(!!(navigator.serviceWorker&&navigator.serviceWorker.controller),"Offline cache active","Reload once after deploying")}${ok(API(),"Database connected","Static mode keeps data in each visitor's own browser")}${ok(!!CFG.contactEmail,"Feedback email set","Set CFG.contactEmail at the top of features10.js")}${API()||!a0?"":ok(a0.p!=defPw,"Demo admin password changed","Sign in as admin, open Profile, set a new password")}</ul>`};
+const chk=()=>{const ok=(b,t,n)=>`<li>${b?"✅":"⚠️"} ${t}${!b&&n?` <small>${n}</small>`:""}</li>`;
+ return `<ul class="xchk">${ok(location.protocol=="https:"||location.hostname=="localhost","Served over HTTPS","Needed for install, offline mode and the copy buttons")}${ok(!!(navigator.serviceWorker&&navigator.serviceWorker.controller),"Offline cache active","Reload once after deploying")}${ok(API(),"Database connected","Static mode keeps data in each visitor's own browser")}${ok(!!CFG.contactEmail,"Feedback email set","Set CFG.contactEmail at the top of features10.js")}${ok(!users().some(u=>u.u=="admin"&&!API()),"No built-in test admin","Remove any demo admin before launch")}</ul>`};
 const editForm=i=>{const nw=i=="new",d=nw?{n:"",p:"",g:"L",t:TYPES[0],b:5000,d:2,a:[],o:0,la:12,ln:122,desc:"",mo:[11,12,1,2,3,4,5]}:D[i],I=DX.ic,[mf,mt]=mSpan(d.mo);
  const f=(l,inner,hint)=>`<div class="xff"><label class="xl">${l}</label>${inner}${hint?`<small class="xhint">${hint}</small>`:""}</div>`;
  return `<div class="xbox xed"><div class="xedh"><h4>${nw?I.plus+"Add destination":I.edit+"Edit "+esc(d.n)}</h4><button type="button" class="xlnk" data-x10="dcancel">Close</button></div><div id="xerr" class="xerr" role="alert"></div><div class="xg2">

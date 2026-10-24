@@ -8,4 +8,6 @@ return [
     'db_user'      => 'root',
     'db_pass'      => '',
     'session_name' => 'destinify_sid',
+    // Set to true on a live HTTPS site (needed when a proxy or host ends TLS before PHP). Keep false for http://localhost.
+    'force_https_cookie' => false,
 ];

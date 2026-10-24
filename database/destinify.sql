@@ -5,7 +5,7 @@ USE destinify_app;
 SET NAMES utf8mb4;
 
 SET FOREIGN_KEY_CHECKS=0;
-DROP TABLE IF EXISTS admin_log, user_profiles, trip_stops, favorites, reviews, users, destinations, regions;
+DROP TABLE IF EXISTS rate_limits, admin_log, user_profiles, trip_stops, favorites, reviews, users, destinations, regions;
 SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE regions (
@@ -83,6 +83,12 @@ CREATE TABLE user_profiles (
   avatar MEDIUMTEXT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT fk_profile_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE rate_limits (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  bucket VARCHAR(80) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_bucket_time (bucket, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE admin_log (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
