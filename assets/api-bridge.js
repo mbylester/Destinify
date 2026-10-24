@@ -83,7 +83,7 @@
     var r = get("drev") || {};
     Object.keys(r).forEach(function (i) {
       var before = revCount[i] || 0, list = r[i] || [];
-      if (list.length <= before) { revCount[i] = list.length; return; }
+      if (list.length <= before) return;
       list.slice(before).forEach(function (x) {
         if (x.u === ME.name && IDS[i]) post("reviews.php", { destination_id: IDS[i], rating: x.r, comment: x.c });
       });
@@ -95,7 +95,7 @@
     if (!c.length || !ME || ME.role !== "admin") return;
     c.forEach(function (o) {
       if (pushedCustom[o.n]) return; pushedCustom[o.n] = 1;
-      post("admin.php", { action: "add", name: o.n, province: o.p, g: o.g, lat: o.la, lng: o.ln, type: o.t, budget: o.b, days: o.d, activities: o.a, popular: o.o, description: o.desc })
+      post("admin.php", { action: "add", name: o.n, province: o.p, g: o.g, lat: o.la, lng: o.ln, type: o.t, budget: o.b, days: o.d, activities: o.a, popular: o.o, description: o.desc, start: o.mo && o.mo.length ? o.mo[0] : 11, end: o.mo && o.mo.length ? o.mo[o.mo.length - 1] : 5 })
         .then(function (r) {
           put("dcustom", (get("dcustom") || []).filter(function (x) { return x.n !== o.n; }));   // the database is the source of truth
           if (r.ok) { var i = D.findIndex(function (x) { return x.n === o.n; }); if (i >= 0) IDS[i] = r.id; }
@@ -126,17 +126,7 @@
   };
 
   /* ---------- 4. real sign-in and sign-up ---------- */
-  function authModal(mode) {
-    var up = mode === "up";
-    DX.show(up ? "Create account" : "Sign in",
-      '<div id="xerr" class="note" style="color:var(--coral-d)"></div>' +
-      (up ? '<input id="bn" class="form-control mb-2" placeholder="Display name">' : "") +
-      '<input id="bu" class="form-control mb-2" placeholder="Username" autocomplete="username">' +
-      '<input id="bp" type="password" class="form-control mb-3" placeholder="Password (6+ characters)" autocomplete="' + (up ? "new-password" : "current-password") + '">' +
-      '<button class="btn btn-c" data-xb="' + (up ? "up" : "in") + '">' + (up ? "Sign up" : "Sign in") + '</button> ' +
-      '<button class="btn btn-l" data-xb="' + (up ? "swi" : "swu") + '">' + (up ? "I have an account" : "Create account") + '</button>' +
-      '<p class="note mt-3">Your account is stored in the Destinify database. Passwords are hashed, never saved as plain text.</p>');
-  }
+  function authModal(mode) { DX.authOpen(mode === "up" ? "up" : "in", true); }
   var err = function (t) { var e = document.getElementById("xerr"); if (e) e.textContent = t; };
   function authAction(a) {
     if (a === "swu") return authModal("up");
@@ -160,7 +150,7 @@
     var t = e.target.closest ? e.target : null; if (!t) return;
     if (t.closest('[data-x="auth"]')) {
       e.stopImmediatePropagation(); e.preventDefault();
-      if (ME) post("auth.php?action=logout").then(function () { put("dsess", ""); location.reload(); }); else authModal("in");
+      if (ME) DX.signOut(); else authModal("in");
       return;
     }
     if (t.closest('[data-x2="psave"]')) { e.stopImmediatePropagation(); e.preventDefault(); saveProfile(); return; }
