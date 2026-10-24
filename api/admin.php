@@ -1,11 +1,45 @@
 <?php
-// Admin only. GET returns counts. POST action=add creates a destination, action=hide hides or restores one.
+// Admin only. GET returns counts (?list=users or ?list=reviews returns those lists).
+// POST actions: add (new destination), hide (hide or restore one), role, deluser, delreview.
 require __DIR__ . '/bootstrap.php';
 
 $u = need_admin();
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
     $p = db();
+    $list = (string)($_GET['list'] ?? '');
+    if ($list === 'users') {
+        $sql = 'SELECT u.id, u.username, u.display_name, u.role, UNIX_TIMESTAMP(u.created_at) AS created,
+                    (SELECT COUNT(*) FROM trip_stops t WHERE t.user_id = u.id) AS trips,
+                    (SELECT COUNT(*) FROM favorites f WHERE f.user_id = u.id) AS favs,
+                    (SELECT COUNT(*) FROM reviews r WHERE r.user_id = u.id) AS reviews';
+        try {
+            $rows = $p->query($sql . ', (SELECT email FROM user_profiles pr WHERE pr.user_id = u.id) AS email FROM users u ORDER BY u.id')->fetchAll();
+        } catch (Throwable $e) {
+            $rows = $p->query($sql . ', \'\' AS email FROM users u ORDER BY u.id')->fetchAll();
+        }
+        $users = [];
+        foreach ($rows as $r) {
+            $users[] = [
+                'id' => (int)$r['id'], 'u' => $r['username'], 'n' => $r['display_name'], 'role' => $r['role'],
+                'trips' => (int)$r['trips'], 'favs' => (int)$r['favs'], 'reviews' => (int)$r['reviews'],
+                'email' => (string)($r['email'] ?? ''), 'created' => (int)$r['created'],
+            ];
+        }
+        out(['ok' => true, 'users' => $users, 'me' => (int)$u['id']]);
+    }
+    if ($list === 'reviews') {
+        $rows = $p->query(
+            'SELECT r.id, r.destination_id, r.rating, r.comment, UNIX_TIMESTAMP(r.created_at) AS t, u.display_name, d.name AS dest
+             FROM reviews r JOIN users u ON u.id = r.user_id LEFT JOIN destinations d ON d.id = r.destination_id
+             ORDER BY r.id DESC LIMIT 200'
+        )->fetchAll();
+        $rev = [];
+        foreach ($rows as $r) {
+            $rev[] = ['id' => (int)$r['id'], 'dest' => (string)$r['dest'], 'u' => $r['display_name'], 'r' => (int)$r['rating'], 'c' => $r['comment'], 't' => (int)$r['t'] * 1000];
+        }
+        out(['ok' => true, 'reviews' => $rev]);
+    }
     out([
         'ok'           => true,
         'destinations' => (int)$p->query('SELECT COUNT(*) FROM destinations')->fetchColumn(),
@@ -94,6 +128,40 @@ if ($action === 'hide') {
     $hide = !empty($b['hidden']) ? 1 : 0;
     $q = db()->prepare('UPDATE destinations SET hidden = ? WHERE id = ?');
     $q->execute([$hide, $did]);
+    out(['ok' => true]);
+}
+
+if ($action === 'delreview') {
+    $rid = (int)($b['review_id'] ?? 0);
+    $q = db()->prepare('DELETE FROM reviews WHERE id = ?');
+    $q->execute([$rid]);
+    if ($q->rowCount() < 1) {
+        fail('That review no longer exists.', 404);
+    }
+    out(['ok' => true]);
+}
+
+if ($action === 'role' || $action === 'deluser') {
+    $uid = (int)($b['user_id'] ?? 0);
+    if ($uid === (int)$u['id']) {
+        fail($action === 'role' ? 'You cannot change your own role.' : 'You cannot delete your own account here.');
+    }
+    $t = db()->prepare('SELECT id, role FROM users WHERE id = ?');
+    $t->execute([$uid]);
+    $target = $t->fetch();
+    if (!$target) {
+        fail('That user no longer exists.', 404);
+    }
+    $admins = (int)db()->query("SELECT COUNT(*) FROM users WHERE role = 'admin'")->fetchColumn();
+    if ($target['role'] === 'admin' && $admins < 2) {
+        fail('Keep at least one admin.');
+    }
+    if ($action === 'role') {
+        $role = ($b['role'] ?? '') === 'admin' ? 'admin' : 'traveler';
+        db()->prepare('UPDATE users SET role = ? WHERE id = ?')->execute([$role, $uid]);
+        out(['ok' => true, 'role' => $role]);
+    }
+    db()->prepare('DELETE FROM users WHERE id = ?')->execute([$uid]);
     out(['ok' => true]);
 }
 
