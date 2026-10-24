@@ -23,7 +23,7 @@ const need=T=>{const s=new Set(TRIP_PACK.all);T.forEach(d=>(TRIP_PACK[d.t]||[]).
 function emptyTrip(){const pool=D.filter(d=>d.tt&&d.o),k=(new Date().getDate()*7)%Math.max(1,pool.length),pick=[...pool.slice(k),...pool.slice(0,k)].slice(0,6);
  return `<div class="xempty"><div class="xemoji">🧳</div><h4>Your trip starts here</h4><p>Tap <b>+ Trip</b> on any destination. Then drag stops to reorder, see travel time between them, check the weather, and export to your calendar.</p>
  <div class="xchips">${pick.map(d=>`<button class="chip" data-x5="trip" data-id="${d.i}">+ ${esc(d.n)}</button>`).join("")}</div>
- <div class="macts" style="justify-content:center"><button class="btn btn-c" data-tab="tt" data-bs-dismiss="offcanvas" onclick="document.getElementById('results').scrollIntoView()">🔥 Browse TikTok spots</button><button class="btn btn-l" data-x2="quiz" data-bs-dismiss="offcanvas">Take the quiz</button></div></div>${buildBox()}`}
+ <div class="macts" style="justify-content:center"><button class="btn btn-c" data-tab="tt" data-bs-dismiss="offcanvas" data-scroll="results">🔥 Browse TikTok spots</button><button class="btn btn-l" data-x2="quiz" data-bs-dismiss="offcanvas">Take the quiz</button></div></div>${buildBox()}`}
 const buildBox=()=>`<div class="xbox"><h4>BUILD A TRIP FOR ME</h4><div class="xg"><input id="xdy" type="number" min="1" max="30" value="7" class="form-control" aria-label="Days"><input id="xbd" type="number" min="1000" step="500" value="${st.b*3}" class="form-control" aria-label="Total budget per person"></div><p class="note">Days, then total budget per person (PHP). Picks nearby high-scoring places.</p><button class="btn btn-d" data-x="build">Build trip</button></div>`;
 const renderTripX=()=>{const body=$("tripBody"),T=st.trip.map(i=>D[i]).filter(Boolean);
  if(!T.length){body.innerHTML=emptyTrip();hydrate(body);return}
@@ -53,7 +53,7 @@ document.addEventListener("change",e=>{if(e.target.id=="xtb"){const v=+e.target.
 let fvf="all",fvs="added";
 const FLT={all:()=>1,tt:d=>d.tt,sea:d=>["Beach","Island","Diving","Surf"].includes(d.t),nature:d=>["Nature","Waterfall","Mountain","Lake","Cave","Adventure"].includes(d.t),culture:d=>["Heritage","City"].includes(d.t)};
 function myFav(){const el=$("favBody");if(!el)return;const a=favs().filter(i=>D[i]).map(i=>D[i]);$("favN").textContent=a.length;
- if(!a.length){el.innerHTML=`<div class="xempty"><div class="xemoji">💗</div><h4>No favorites yet</h4><p>Tap the heart on any destination to save it here. Then compare, sort and move your picks into a trip.</p><div class="macts" style="justify-content:center"><button class="btn btn-c" data-bs-dismiss="offcanvas" onclick="document.getElementById('results').scrollIntoView()">Browse destinations</button></div></div>`;return}
+ if(!a.length){el.innerHTML=`<div class="xempty"><div class="xemoji">💗</div><h4>No favorites yet</h4><p>Tap the heart on any destination to save it here. Then compare, sort and move your picks into a trip.</p><div class="macts" style="justify-content:center"><button class="btn btn-c" data-bs-dismiss="offcanvas" data-scroll="results">Browse destinations</button></div></div>`;return}
  let l=a.filter(FLT[fvf]||FLT.all);if(fvs=="price")l.sort((x,y)=>x.b-y.b);else if(fvs=="az")l.sort((x,y)=>x.n.localeCompare(y.n));
  const avg=Math.round(a.reduce((s,d)=>s+d.b,0)/a.length/100)*100,regs=new Set(a.map(rname).filter(Boolean)).size,ttn=a.filter(d=>d.tt).length;
  const chip=(k,t)=>`<button class="chip${fvf==k?" on":""}" data-fvf="${k}">${t}</button>`;

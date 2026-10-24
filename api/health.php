@@ -5,8 +5,7 @@ require __DIR__ . '/bootstrap.php';
 try {
     $p = db();
     $n = (int)$p->query('SELECT COUNT(*) FROM destinations')->fetchColumn();
-    $u = (int)$p->query('SELECT COUNT(*) FROM users')->fetchColumn();
-    out(['ok' => true, 'php' => PHP_VERSION, 'destinations' => $n, 'users' => $u]);
+    out(['ok' => true, 'destinations' => $n]);   // no PHP version or user count: this page is public
 } catch (PDOException $e) {
     fail('Connected, but the tables are missing. Import destinify.sql in phpMyAdmin.', 500);
 }

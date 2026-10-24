@@ -80,7 +80,7 @@ L.control.layers({Street:osm,Terrain:topo,Satellite:sat}).addTo(map);
 map.on("click",()=>map.scrollWheelZoom.enable());map.on("mouseout",()=>map.scrollWheelZoom.disable());
 const cluster=L.markerClusterGroup({maxClusterRadius:45,showCoverageOnHover:false}).addTo(map);
 let mk={},route,meMk;
-const popup=d=>`<b>${d.n}</b><br>${d.p} · ${d.t}<br>${P(d.b)} · ${d.d} day${d.d>1?"s":""}<br><b style="font-size:14px">${d.s}% match</b><br><a href="#" onclick="openDetail(${d.i});return false">View details</a>`;
+const popup=d=>`<b>${d.n}</b><br>${d.p} · ${d.t}<br>${P(d.b)} · ${d.d} day${d.d>1?"s":""}<br><b style="font-size:14px">${d.s}% match</b><br><a href="#" data-open="${d.i}">View details</a>`;
 function drawMap(arr){cluster.clearLayers();mk={};
  arr.forEach(d=>{const m=L.circleMarker([d.la,d.ln],{radius:d.o?9:6,color:"#0a2622",weight:st.trip.includes(d.i)?4:1.5,fillColor:GC[d.g],fillOpacity:.35+.6*d.s/100}).bindPopup(popup(d));mk[d.i]=m;cluster.addLayer(m)});
  if(route)map.removeLayer(route);

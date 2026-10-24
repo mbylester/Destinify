@@ -2,7 +2,7 @@
    The chatbot needs no server and no API key: it answers from the catalog (data.js, details.js)
    and the general tips from the Travel tips section. Edit FAQ below to change its general answers. */
 (()=>{
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const reEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 const norm=s=>String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\bmount\b/g,"mt").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim();
 const hid=()=>{try{return DX.hid()}catch(e){return[]}};

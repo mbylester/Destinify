@@ -107,6 +107,10 @@ Then open `http://localhost:8000/`.
 - Set `CFG.contactEmail` (see Configuration)
 - Read the About, Privacy and Terms text in `features10.js` and adjust it to your situation
 - Confirm festival dates, fees and travel details you rely on with official sources
+- On Apache, keep the root `.htaccess`: it blocks `.git`, `database/`, `tools/` and `docs/`, and sends the security headers. After upload, check `https://yoursite/.git/HEAD` and `https://yoursite/database/destinify.sql` return 404
+- Run `python tools/add_sri.py` once (needs internet). It pins the CDN scripts and styles with integrity hashes in `index.html`
+- Set `'force_https_cookie' => true` in `api/config.php` on an HTTPS site
+- The Content-Security-Policy in `index.html` (and `.htaccess`) lists the only sites the page may load from. If you add a new CDN, API or map tile source, add it there too, or the browser will block it
 
 ---
 
@@ -170,7 +174,7 @@ The site works two ways. With no backend (for example on GitHub Pages) it uses `
 2. Copy `api\config.sample.php` to `api\config.php`. The defaults match a fresh XAMPP (user `root`, no password).
 3. In phpMyAdmin, open **Import** and import `database/destinify.sql`. It creates the `destinify_app` database with all destinations, regions and tables.
    - **Already have a database?** Import `database/upgrade.sql` instead. It adds the new columns, tables and destinations and keeps your users, reviews, favorites and trips. It is safe to run more than once.
-4. Open `http://localhost/Destinify/api/health.php`. You should see `"ok":true` and the number of destinations.
+4. Open `http://localhost/Destinify/api/health.php`. You should see `"ok":true` and the number of destinations. The page is public, so it shows nothing else.
 5. Open `http://localhost/Destinify/`, then **Sign in**, then **Create account**.
 6. To make yourself an admin, run this in phpMyAdmin: `UPDATE users SET role='admin' WHERE username='yourusername';`
 

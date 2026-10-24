@@ -3,7 +3,7 @@
 (()=>{
 const LS=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
 const sha=async s=>{try{return[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,"0")).join("")}catch(e){return btoa(s)}};
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let users=LS("dusers")||[],U=null,rev=LS("drev")||{},cus=LS("dcustom")||[],hid=LS("dhide")||[];
 const adm=()=>U&&U.role=="admin",V=id=>$(id).value.trim();
 const addD=o=>D.push({i:D.length,n:o.n,p:o.p,g:o.g,la:o.la,ln:o.ln,t:o.t,b:o.b,d:o.d,a:o.a,o:o.o,mo:o.mo&&o.mo.length?o.mo:[11,12,1,2,3,4,5],desc:o.desc});

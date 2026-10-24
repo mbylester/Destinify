@@ -13,7 +13,12 @@ async function cp(t){try{await navigator.clipboard.writeText(t);return 1}catch(e
  try{const a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();const ok=document.execCommand("copy");a.remove();if(ok)return 1}catch(e){}
  prompt("Copy this text:",t);return 0}
 const dl=(n,txt,type)=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type}));a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},600)};
-const csv=r=>r.map(x=>x.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+/* Click handlers that used to be inline onclick="..." (inline scripts are blocked by the CSP) */
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-open],[data-scroll]");if(!t)return;
+ if(t.dataset.open!==undefined){e.preventDefault();openDetail(+t.dataset.open)}
+ else{const x=document.getElementById(t.dataset.scroll);x&&x.scrollIntoView()}});
+const csvCell=c=>{let s=String(c);if(/^[=+\-@\t\r]/.test(s))s="'"+s;return `"${s.replace(/"/g,'""')}"`};
+const csv=r=>r.map(x=>x.map(csvCell).join(",")).join("\n");
 /* ---------- My trip: reliable actions ---------- */
 const stopsT=()=>st.trip.map(i=>D[i]).filter(Boolean);
 const _rt=renderTrip;renderTrip=()=>{_rt();const b=$("tripBody"),a=b.querySelector(".xact");
