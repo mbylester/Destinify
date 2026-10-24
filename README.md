@@ -173,16 +173,25 @@ The site works two ways. With no backend (for example on GitHub Pages) it uses `
 1. Put the `api` folder in `C:\xampp\htdocs\Destinify\api`.
 2. Copy `api\config.sample.php` to `api\config.php`. The defaults match a fresh XAMPP (user `root`, no password).
 3. In phpMyAdmin, open **Import** and import `database/destinify.sql`. It creates the `destinify_app` database with all destinations, regions and tables.
-   - **Already have a database?** Import `database/upgrade.sql` instead. It adds the new columns, tables and destinations and keeps your users, reviews, favorites and trips. It is safe to run more than once.
+   - **Already have a database?** Export a backup first, then import `database/upgrade.sql` instead. It adds the new columns, tables and destinations and keeps your users, reviews, favorites and trips. It only works when your database was built from the `destinify.sql` in this repository. It checks that first and stops with an error if not (see [Upgrading an existing database](#upgrading-an-existing-database)).
 4. Open `http://localhost/Destinify/api/health.php`. You should see `"ok":true` and the number of destinations. The page is public, so it shows nothing else.
 5. Open `http://localhost/Destinify/`, then **Sign in**, then **Create account**.
 6. To make yourself an admin, run this in phpMyAdmin: `UPDATE users SET role='admin' WHERE username='yourusername';`
 
 `api/config.php` holds your database password and is listed in `.gitignore`, so it is not uploaded to GitHub. GitHub Pages cannot run PHP, so the live GitHub site stays in no-backend mode.
 
-**Keeping the database in sync with `data.js`.** The SQL files are generated, so they cannot drift from the site's own data. After you edit `assets/data.js`, `details.js` or `regions.js`, run `python tools/build_sql.py` and import the new `database/upgrade.sql`. Existing destination ids are kept, so saved trips, favorites and reviews keep pointing at the same places.
+**Keeping the database in sync with `data.js`.** The SQL files are generated, so they cannot drift from the site's own data. After you edit `assets/data.js`, `details.js` or `regions.js`, run `python tools/build_sql.py`, commit the new `database/*.sql`, and import `database/upgrade.sql`. The script keeps the destination ids that are already in the repository's `destinify.sql` and gives new places new ids at the end. If you remove or rename a place it stops and lists it (its id would disappear and could be reused). Run it with `--allow-removals` only when you mean it. Never edit the SQL files by hand: the next run overwrites them. Add new tables to `TABLES` in `tools/build_sql.py`.
 
-**API files** (`api/`): `bootstrap.php` (shared setup), `destinations.php`, `auth.php`, `state.php` (trip and favorites), `reviews.php`, `admin.php`, `health.php`, and `regions_map.php`. The browser side is `assets/api-bridge.js`.
+### Upgrading an existing database
+
+Saved trips, favorites and reviews store a destination **id**, so ids must mean the same place everywhere. "Ids are kept" means kept relative to the `destinify.sql` committed in this repository. A database built from an older copy of that file can number places differently.
+
+`upgrade.sql` therefore starts with a safety check. It compares every place by name, and if a name has a different id (or an id belongs to a different place) it stops before changing anything, with an error that mentions `STOP_ids_differ_see_README_Upgrading`. You will see this in phpMyAdmin as `#1062 - Duplicate entry '1' for key 'STOP_ids_differ_see_README_Upgrading'`.
+
+If that happens:
+1. **Export a backup** of the database (phpMyAdmin > Export).
+2. **Only test data?** Import `database/destinify.sql`. It drops and rebuilds every table, so accounts, reviews and trips are lost. Create your account again and make it admin with `UPDATE users SET role='admin' WHERE username='you';`.
+3. **Real users or reviews?** Do not force the upgrade. The ids in `reviews`, `favorites` and `trip_stops` must first be moved to the new ids, matched by place name. Do that on a copy of the backup and check a few reviews afterwards.
 
 ## Editing the data
 
@@ -292,7 +301,7 @@ Every destination has a permanent id made from its name (for example `el-nido`, 
 - **Rename a place:** add the old id to `ALIASES` at the top of `assets/stable-ids.js`, for example `{"old-id":"new-id"}`.
 - **Two places with the same name:** pin one id by hand in `PINNED`.
 - A place removed from `data.js` is simply hidden, and reviews written for it are kept in case it comes back.
-- With the backend, the database id is the permanent key.
+- With the backend, the database id is the permanent key. It never changes for a place that is still in `data.js`, but a database built from an older `destinify.sql` may use different ids (see [Upgrading an existing database](#upgrading-an-existing-database)).
 
 ## Data checks
 
