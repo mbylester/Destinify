@@ -117,6 +117,29 @@
   function authAction(a) {
     if (a === "swu") return authModal("up");
     if (a === "swi") return authModal("in");
+    if (a === "forgot") return DX.forgotOpen();
+    if (a === "fpsend") {
+      var fu = (document.getElementById("fu") || {}).value || "";
+      if (!fu.trim()) return err("Type your username first.");
+      return post("auth.php?action=forgot", { username: fu.trim() }).then(function (r) {
+        if (!r.ok) return err(r.error || "Something went wrong.");
+        var ok = document.getElementById("xok"), f = document.getElementById("xfpf");
+        err("");
+        if (f) f.hidden = true;
+        if (ok) { ok.hidden = false; ok.textContent = "Request sent. If that username exists, the admin will see it and send you a private link to choose a new password. Please contact the site admin to let them know."; }
+      });
+    }
+    if (a === "rpsave") {
+      var p1 = (document.getElementById("rp1") || {}).value || "", p2 = (document.getElementById("rp2") || {}).value || "";
+      if (p1.length < 6) return err("Password needs 6+ characters.");
+      if (p1 !== p2) return err("The two passwords are not the same.");
+      return post("auth.php?action=reset", { token: window.DXRESET || "", password: p1 }).then(function (r) {
+        if (!r.ok) return err(r.error || "Could not save the password.");
+        try { history.replaceState(null, "", location.pathname + location.hash); } catch (e) {}
+        DX.authOpen("in", true);
+        setTimeout(function () { err("Password changed. Sign in with your new password."); var e2 = document.getElementById("xerr"); if (e2) e2.classList.add("ok"); }, 50);
+      });
+    }
     var u = document.getElementById("bu").value.trim(), p = document.getElementById("bp").value, n = (document.getElementById("bn") || {}).value || "";
     if (!u || p.length < 6) return err("Enter a username and a password of 6+ characters.");
     var guest = { trip: get("dtrip") || [], fav: get("dfav") || [] };

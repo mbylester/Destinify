@@ -5,7 +5,7 @@ USE destinify_app;
 SET NAMES utf8mb4;
 
 SET FOREIGN_KEY_CHECKS=0;
-DROP TABLE IF EXISTS site_settings, rate_limits, admin_log, user_profiles, trip_stops, favorites, reviews, users, destinations, regions;
+DROP TABLE IF EXISTS site_events, password_resets, site_settings, rate_limits, admin_log, user_profiles, trip_stops, favorites, reviews, users, destinations, regions;
 SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE regions (
@@ -54,6 +54,7 @@ CREATE TABLE reviews (
   comment VARCHAR(300) NOT NULL,
   photo MEDIUMTEXT NULL COMMENT 'optional photo, a resized image as a data URL',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  edited_at TIMESTAMP NULL DEFAULT NULL,
   FOREIGN KEY (destination_id) REFERENCES destinations(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -101,6 +102,26 @@ CREATE TABLE site_settings (
   k VARCHAR(40) NOT NULL PRIMARY KEY COMMENT 'contact_email, content',
   v MEDIUMTEXT NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE password_resets (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  token_hash CHAR(64) NULL COMMENT 'NULL while it is only a request waiting for an admin',
+  via VARCHAR(10) NOT NULL DEFAULT 'user',
+  requested_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  expires_at DATETIME NULL,
+  used_at DATETIME NULL,
+  INDEX idx_token (token_hash),
+  INDEX idx_user (user_id),
+  CONSTRAINT fk_reset_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE site_events (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  kind VARCHAR(10) NOT NULL COMMENT 'view or search',
+  ref VARCHAR(120) NOT NULL COMMENT 'destination id, or the search words',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_kind_time (kind, created_at),
+  INDEX idx_kind_ref (kind, ref)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO regions (code,name,short) VALUES

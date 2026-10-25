@@ -1,9 +1,11 @@
 <?php
 // Reviews: GET ?all=1 returns every review grouped by destination id. POST adds one (sign-in required),
-// optionally with one photo, or deletes one (action "delete": an admin can delete any review, a traveler only their own).
+// optionally with one photo, edits one (action "edit": only its author), or deletes one
+// (action "delete": an admin can delete any review, a traveler only their own).
 require __DIR__ . '/bootstrap.php';
 
 $hasPhoto = reviews_have_photo();
+$hasEdited = reviews_have_edited();
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
     $viewer = me();
@@ -11,6 +13,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
     $rows = db()->query(
         'SELECT r.id, r.destination_id, r.user_id, r.rating, r.comment, r.created_at, u.display_name'
         . ($hasPhoto ? ", (r.photo IS NOT NULL AND r.photo <> '') AS has_photo" : ', 0 AS has_photo')
+        . ($hasEdited ? ', (r.edited_at IS NOT NULL) AS was_edited' : ', 0 AS was_edited')
         . ' FROM reviews r JOIN users u ON u.id = r.user_id ORDER BY r.id'
     )->fetchAll();
     $by = [];
@@ -20,6 +23,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
             't' => (int)strtotime((string)$r['created_at']) * 1000,
             'mine' => $vid > 0 && (int)$r['user_id'] === $vid,
         ];
+        if ((int)$r['was_edited'] === 1) {
+            $one['e'] = 1;
+        }
         if ((int)$r['has_photo'] === 1) {
             $one['p'] = 'api/review_photo.php?id=' . (int)$r['id'];
         }
@@ -49,6 +55,59 @@ if (($b['action'] ?? '') === 'delete') {
         admin_log((int)$u['id'], 'Deleted review #' . $rid);
     }
     out(['ok' => true]);
+}
+
+if (($b['action'] ?? '') === 'edit') {
+    // Only the author can change a review. "photo" missing keeps the photo, "" removes it, a data URL replaces it.
+    $rid = (int)($b['id'] ?? 0);
+    $q = db()->prepare('SELECT user_id FROM reviews WHERE id = ?');
+    $q->execute([$rid]);
+    $owner = $q->fetchColumn();
+    if ($owner === false) {
+        fail('Review not found.', 404);
+    }
+    if ((int)$owner !== (int)$u['id']) {
+        fail('You can only edit your own reviews.', 403);
+    }
+    $rating = (int)($b['rating'] ?? 0);
+    $comment = clean_text($b['comment'] ?? '', 300);
+    if ($rating < 1 || $rating > 5) {
+        fail('Rating must be 1 to 5.');
+    }
+    if ($comment === '') {
+        fail('Write a short comment.');
+    }
+    $set = 'rating = ?, comment = ?';
+    $args = [$rating, $comment];
+    $newPhoto = null;
+    if (array_key_exists('photo', $b)) {
+        if (!$hasPhoto) {
+            fail('Photo uploads are not available on this server yet. Ask the admin to run database/upgrade.sql.', 503);
+        }
+        $newPhoto = valid_photo($b['photo']);   // null when empty
+        $set .= ', photo = ?';
+        $args[] = $newPhoto;
+    }
+    if ($hasEdited) {
+        $set .= ', edited_at = NOW()';
+    }
+    $args[] = $rid;
+    db()->prepare('UPDATE reviews SET ' . $set . ' WHERE id = ?')->execute($args);
+    $res = ['ok' => true, 'id' => $rid];
+    if (array_key_exists('photo', $b)) {
+        if ($newPhoto !== null) {
+            $res['p'] = 'api/review_photo.php?id=' . $rid . '&v=' . time();   // new address, so browsers do not show the old picture
+        }
+    } else {
+        $ph = $hasPhoto ? db()->prepare("SELECT (photo IS NOT NULL AND photo <> '') FROM reviews WHERE id = ?") : null;
+        if ($ph) {
+            $ph->execute([$rid]);
+            if ((int)$ph->fetchColumn() === 1) {
+                $res['p'] = 'api/review_photo.php?id=' . $rid;
+            }
+        }
+    }
+    out($res);
 }
 
 $did = (int)($b['destination_id'] ?? 0);

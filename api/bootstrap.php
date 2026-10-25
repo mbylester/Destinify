@@ -185,6 +185,66 @@ function reviews_have_photo(): bool
     }
 }
 
+// True when reviews.edited_at exists (added automatically the first time, like reviews.photo).
+function reviews_have_edited(): bool
+{
+    static $ok = null;
+    if ($ok !== null) {
+        return $ok;
+    }
+    try {
+        $p = db();
+        if ($p->query("SHOW COLUMNS FROM reviews LIKE 'edited_at'")->fetch()) {
+            return $ok = true;
+        }
+        $p->exec('ALTER TABLE reviews ADD COLUMN edited_at TIMESTAMP NULL DEFAULT NULL');
+        return $ok = true;
+    } catch (Throwable $e) {
+        error_log('Destinify: reviews.edited_at is not available: ' . $e->getMessage());
+        return $ok = false;
+    }
+}
+
+// Password reset requests and one-time reset links. A row with token_hash NULL is a request waiting for an admin.
+function ensure_resets(): void
+{
+    static $done = false;
+    if ($done) {
+        return;
+    }
+    $done = true;
+    db()->exec('CREATE TABLE IF NOT EXISTS password_resets (
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        user_id INT UNSIGNED NOT NULL,
+        token_hash CHAR(64) NULL,
+        via VARCHAR(10) NOT NULL DEFAULT \'user\',
+        requested_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        expires_at DATETIME NULL,
+        used_at DATETIME NULL,
+        INDEX idx_token (token_hash),
+        INDEX idx_user (user_id),
+        CONSTRAINT fk_reset_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+}
+
+// Anonymous usage counts for the admin Overview: destination views and search words. No user ids, no IP addresses.
+function ensure_events(): void
+{
+    static $done = false;
+    if ($done) {
+        return;
+    }
+    $done = true;
+    db()->exec('CREATE TABLE IF NOT EXISTS site_events (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        kind VARCHAR(10) NOT NULL,
+        ref VARCHAR(120) NOT NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_kind_time (kind, created_at),
+        INDEX idx_kind_ref (kind, ref)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+}
+
 // Key/value site settings: the feedback email and the editable site content (tips, festivals, and so on).
 function settings_table(): void
 {

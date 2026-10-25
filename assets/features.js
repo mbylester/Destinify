@@ -28,9 +28,21 @@ const authView=(m,api)=>{const up=m=="up",p=api?"b":"x",a=api?"data-xb":"data-x"
  <div class="xfld"><span class="xfi">${IC.user}</span><input id="${p}u" class="form-control" placeholder="Username" aria-label="Username" autocomplete="username" autocapitalize="none" spellcheck="false"></div>
  ${pwField(p+"p","Password (6+ characters)",up?"new-password":"current-password",up)}
  <button type="button" class="btn btn-c xcta" ${a}="${up?"up":"in"}" data-primary>${up?"Create my account":"Sign in"}</button>
+ ${api&&!up?`<p class="xfine xforgot"><button type="button" class="xlnk" data-xb="forgot">Forgot password?</button></p>`:""}
  <p class="xfine">${IC.shield}<span>${api?"Your account is stored in the Destinify database. Passwords are hashed, never saved as plain text.":"Demo accounts live in this browser only. Sign in to the live site for saved trips."}</span></p></div>`};
 const authOpen=(m,api)=>{show(m=="in"?"Sign in":"Create account",authView(m,api),{cls:"xv xv-auth",icon:IC.compass,sub:m=="in"?"Welcome back. Pick up your trip where you left off.":"Save trips, favorites and reviews across visits."});setTimeout(()=>{const i=document.querySelector("#xmc .xauth input");i&&i.focus()},380)};
 const authH=m=>authOpen(m,false);
+/* Forgot password: the visitor sends a request, the admin makes a one-time link for them (api-bridge.js posts it). */
+const forgotOpen=()=>{show("Forgot password",`<div class="xauth"><div id="xerr" class="xerr" role="alert"></div><div id="xok" class="xok" role="status" hidden></div><div id="xfpf">
+ <p class="note">Type your username. We pass your request to the site admin, who sends you a private link to choose a new password. The link works once and lasts 1 hour.</p>
+ <div class="xfld"><span class="xfi">${IC.user}</span><input id="fu" class="form-control" placeholder="Username" aria-label="Username" autocomplete="username" autocapitalize="none" spellcheck="false"></div>
+ <button type="button" class="btn btn-c xcta" data-xb="fpsend" data-primary>Send my request</button></div>
+ <p class="xfine"><button type="button" class="xlnk" data-xb="swi">Back to sign in</button></p></div>`,{cls:"xv xv-auth",icon:IC.key,sub:"We'll help you get back in."});setTimeout(()=>{const i=$("fu");i&&i.focus()},380)};
+/* Reset password: opened from the private link the admin gave the user (?reset=TOKEN). */
+const resetOpen=t=>{window.DXRESET=t;show("Choose a new password",`<div class="xauth"><div id="xerr" class="xerr" role="alert"></div>
+ ${pwField("rp1","New password (6+ characters)","new-password",true)}${pwField("rp2","Type it again","new-password",false)}
+ <button type="button" class="btn btn-c xcta" data-xb="rpsave" data-primary>Save new password</button>
+ <p class="xfine">${IC.shield}<span>This link works once. After saving, sign in with your new password.</span></p></div>`,{cls:"xv xv-auth",icon:IC.key,sub:"Pick something you will remember."});setTimeout(()=>{const i=$("rp1");i&&i.focus()},380)};
 document.body.insertAdjacentHTML("beforeend",'<div id="xcf" class="xcfo" hidden><div class="xcfb" role="alertdialog" aria-modal="true" aria-labelledby="xcft" aria-describedby="xcfm"><div class="xcfi" id="xcfi"></div><h4 id="xcft"></h4><p id="xcfm"></p><div class="xcfa"><button type="button" class="btn btn-l" id="xcfn"></button><button type="button" class="btn btn-c" id="xcfy"></button></div></div></div>');
 let xcfBusy=null;
 function confirmD(o){if(xcfBusy)return xcfBusy;return xcfBusy=new Promise(res=>{const el=$("xcf"),yes=$("xcfy"),no=$("xcfn"),prev=document.activeElement;
@@ -66,11 +78,12 @@ $("ac").parentElement.insertAdjacentHTML("afterend",`<details class="grp" style=
 document.addEventListener("input",e=>{const k=e.target.dataset.w;if(!k)return;W[k]=+e.target.value;norm();LS("dw",W);for(const x in W)$("xw"+x).textContent=Math.round(MX[x]);render()});
 /* reviews */
 const avg=i=>{const r=rev[i]||[];return r.length?r.reduce((s,x)=>s+x.r,0)/r.length:0};
-let rvPhoto="",rvAll=false;
-const okPic=p=>typeof p=="string"&&(/^data:image\/(jpeg|png|webp);base64,/.test(p)||/^api\/review_photo\.php\?id=\d+$/.test(p));
+let rvPhoto="",rvAll=false,rvEd=null,rvKeep=false;
+const okPic=p=>typeof p=="string"&&(/^data:image\/(jpeg|png|webp);base64,/.test(p)||/^api\/review_photo\.php\?id=\d+(&v=\d+)?$/.test(p));
+const canEdit=x=>!!U&&(dbOn()?!!x.mine:x.u==U.n);
 const canDel=x=>!!U&&(adm()||(dbOn()?!!x.mine:x.u==U.n));
-const revItem=(x,k,i)=>`<div class="info xrvi"><b>${esc(x.u)}</b> · ${"★".repeat(x.r)}${x.t?` · <small>${new Date(x.t).toLocaleDateString()}</small>`:""}${canDel(x)?`<button type="button" class="xlnk xrvd" data-x="rvdel" data-id="${i}" data-k="${k}" aria-label="Delete this review">${IC.trash}Delete</button>`:""}<p>${esc(x.c)}</p>${okPic(x.p)?`<img class="xrvp" data-x="rvzoom" src="${esc(x.p)}" alt="Photo from ${esc(x.u)}'s review" loading="lazy" tabindex="0" role="button" aria-label="Enlarge photo">`:""}</div>`;
-const revH=d=>{const r=rev[d.i]||[],all=r.map((x,k)=>({x,k})).reverse(),shown=rvAll?all:all.slice(0,5);return `<h4>TRAVELER REVIEWS${r.length?` · ${avg(d.i).toFixed(1)} ★ (${r.length})`:""}</h4>${shown.map(o=>revItem(o.x,o.k,d.i)).join("")||'<p class="note">No reviews yet.</p>'}${all.length>5?`<button type="button" class="xlnk" data-x="rvall" data-id="${d.i}">${rvAll?"Show fewer reviews":"Show all "+all.length+" reviews"}</button>`:""}${U?`<div class="ctl"><label>Rating <select id="xrs">${[5,4,3,2,1].map(n=>`<option>${n}</option>`).join("")}</select></label></div><textarea id="xrt" class="form-control" rows="3" style="display:block;width:100%;min-height:0;resize:vertical" maxlength="300" placeholder="Share your experience"></textarea><div class="xrvu"><label class="btn btn-l xrvb">${IC.camera}Add a photo (optional)<input type="file" id="xrvf" accept="image/*" hidden></label><span id="xrvpv"></span></div><div id="xrmsg" class="note xrmsg" role="alert"></div><button class="btn btn-c mt-2" data-x="rv" data-id="${d.i}" id="xrpost">Post review</button>`:'<p class="note">Sign in to post a review.</p>'}`};
+const revItem=(x,k,i)=>`<div class="info xrvi"><b>${esc(x.u)}</b> · ${"★".repeat(x.r)}${x.t?` · <small>${new Date(x.t).toLocaleDateString()}</small>`:""}${x.e?` · <small class="xedtd">edited</small>`:""}${canEdit(x)?`<button type="button" class="xlnk xrvd xrve" data-x="rvedit" data-id="${i}" data-k="${k}" aria-label="Edit your review">${IC.edit}Edit</button>`:""}${canDel(x)?`<button type="button" class="xlnk xrvd" data-x="rvdel" data-id="${i}" data-k="${k}" aria-label="Delete this review">${IC.trash}Delete</button>`:""}<p>${esc(x.c)}</p>${okPic(x.p)?`<img class="xrvp" data-x="rvzoom" src="${esc(x.p)}" alt="Photo from ${esc(x.u)}'s review" loading="lazy" tabindex="0" role="button" aria-label="Enlarge photo">`:""}</div>`;
+const revH=d=>{const r=rev[d.i]||[],all=r.map((x,k)=>({x,k})).reverse(),shown=rvAll?all:all.slice(0,5);return `<h4>TRAVELER REVIEWS${r.length?` · ${avg(d.i).toFixed(1)} ★ (${r.length})`:""}</h4>${shown.map(o=>revItem(o.x,o.k,d.i)).join("")||'<p class="note">No reviews yet.</p>'}${all.length>5?`<button type="button" class="xlnk" data-x="rvall" data-id="${d.i}">${rvAll?"Show fewer reviews":"Show all "+all.length+" reviews"}</button>`:""}${U?(()=>{const ed=rvEd&&rvEd.i==d.i?(rev[d.i]||[])[rvEd.k]:null,sel=ed?ed.r:5;return `${ed?'<h4 class="xedh4">EDIT YOUR REVIEW</h4>':""}<div class="ctl"><label>Rating <select id="xrs">${[5,4,3,2,1].map(n=>`<option${n==sel?" selected":""}>${n}</option>`).join("")}</select></label></div><textarea id="xrt" class="form-control" rows="3" style="display:block;width:100%;min-height:0;resize:vertical" maxlength="300" placeholder="Share your experience">${ed?esc(ed.c):""}</textarea><div class="xrvu"><label class="btn btn-l xrvb">${IC.camera}${ed?"Change photo":"Add a photo (optional)"}<input type="file" id="xrvf" accept="image/*" hidden></label><span id="xrvpv">${ed&&rvKeep&&okPic(ed.p)?`<img class="xrvp sm" src="${esc(ed.p)}" alt="Your photo"><button type="button" class="xlnk" data-x="rvkx">Remove photo</button>`:""}</span></div><div id="xrmsg" class="note xrmsg" role="alert"></div><div class="xrvbtns"><button class="btn btn-c mt-2" data-x="rv" data-id="${d.i}" id="xrpost">${ed?"Save changes":"Post review"}</button>${ed?'<button type="button" class="btn btn-l mt-2" data-x="rvcancel">Cancel</button>':""}</div>`})():'<p class="note">Sign in to post a review.</p>'}`};
 const drawRev=i=>{const el=$("xrev");if(el)el.innerHTML=revH(D[i])};
 const rvMsg=t=>{const m=$("xrmsg");if(m)m.textContent=t};
 /* Shrinks a chosen photo to a small JPEG (long side 1000 px) so it saves quickly and fits in storage. */
@@ -82,7 +95,20 @@ function shrinkPhoto(file){return new Promise((res,rej)=>{if(!/^image\/(jpeg|png
   let q=.82,out=c.toDataURL("image/jpeg",q);while(out.length>450000&&q>.4){q-=.1;out=c.toDataURL("image/jpeg",q)}
   out.length>600000?rej("That photo is still too large after shrinking. Try a different one."):res(out)};
  img.onerror=()=>{URL.revokeObjectURL(url);rej("That file could not be read as a picture.")};img.src=url})}
-async function postRev(i){const c=V("xrt"),btn=$("xrpost");rvMsg("");
+async function editRev(i){const c=V("xrt"),btn=$("xrpost"),o=(rev[i]||[])[rvEd.k];rvMsg("");
+ if(!o){rvEd=null;return drawRev(i)}
+ if(!c)return rvMsg("Write a short comment first.");
+ const old={...o};if(btn)btn.disabled=true;
+ try{
+  if(dbOn()){const body={action:"edit",id:o.id,rating:+$("xrs").value,comment:c};
+   if(rvPhoto)body.photo=rvPhoto;else if(!rvKeep&&o.p)body.photo="";
+   const r=await DBAPI.post("reviews.php",body);if(!r.ok){if(btn)btn.disabled=false;return rvMsg(r.error||"Could not save your changes.")}
+   o.r=+$("xrs").value;o.c=c;o.e=1;if(r.p)o.p=r.p;else delete o.p}
+  else{o.r=+$("xrs").value;o.c=c;o.e=1;if(rvPhoto)o.p=rvPhoto;else if(!rvKeep)delete o.p}
+  if(LS("drev",rev)===null){Object.keys(o).forEach(k=>delete o[k]);Object.assign(o,old);if(btn)btn.disabled=false;return rvMsg("This browser has no room left to save the change. Try without a photo.")}
+ }catch(e){if(btn)btn.disabled=false;return rvMsg("Something went wrong. Please try again.")}
+ rvEd=null;rvPhoto="";rvKeep=false;drawRev(i);render()}
+async function postRev(i){if(rvEd&&rvEd.i==i)return editRev(i);const c=V("xrt"),btn=$("xrpost");rvMsg("");
  if(!c)return rvMsg("Write a short comment first.");
  const o={u:U.n,r:+$("xrs").value,c,t:Date.now()};if(btn)btn.disabled=true;
  try{
@@ -101,7 +127,7 @@ async function delRev(i,k){const o=(rev[i]||[])[k];if(!o)return;
 document.addEventListener("change",async e=>{const f=e.target;if(f.id!="xrvf"||!f.files[0])return;rvMsg("");
  try{rvPhoto=await shrinkPhoto(f.files[0]);$("xrvpv").innerHTML=`<img class="xrvp sm" src="${rvPhoto}" alt="Your photo"><button type="button" class="xlnk" data-x="rvpx">Remove photo</button>`}
  catch(m){rvPhoto="";$("xrvpv").innerHTML="";rvMsg(String(m))}f.value=""});
-const _od=openDetail;openDetail=i=>{rvPhoto="";rvAll=false;_od(i);$("dmc").insertAdjacentHTML("beforeend",`<div class="dsc" id="xrev">${revH(D[i])}</div>`)};
+const _od=openDetail;openDetail=i=>{rvPhoto="";rvAll=false;rvEd=null;rvKeep=false;_od(i);$("dmc").insertAdjacentHTML("beforeend",`<div class="dsc" id="xrev">${revH(D[i])}</div>`)};
 /* auto trip builder */
 const _rt=renderTrip;renderTrip=()=>{_rt();$("tripBody").insertAdjacentHTML("beforeend",`<div class="xbox"><h4>BUILD A TRIP FOR ME</h4><div class="xg"><input id="xdy" type="number" min="1" max="30" value="7" class="form-control" aria-label="Days"><input id="xbd" type="number" min="1000" step="500" value="${st.b*3}" class="form-control" aria-label="Total budget per person"></div><p class="note">Days, then total budget per person (PHP). Picks nearby high-scoring places.</p><button class="btn btn-d" data-x="build">Build trip</button></div>`)};
 function build(){const days=+V("xdy"),bud=+V("xbd"),c=D.filter(d=>!hid.includes(d.n)).map(d=>(d.s=score(d),d)).sort((a,b)=>b.s-a.s).slice(0,45);
@@ -130,8 +156,11 @@ document.addEventListener("click",async e=>{const t=e.target.closest("[data-x]")
  else if(x=="rvdel"&&U)delRev(+t.dataset.id,+t.dataset.k);
  else if(x=="rvall"){rvAll=!rvAll;drawRev(+t.dataset.id)}
  else if(x=="rvpx"){rvPhoto="";$("xrvpv").innerHTML=""}
+ else if(x=="rvedit"&&U){const i=+t.dataset.id,k=+t.dataset.k,o=(rev[i]||[])[k];if(!o||!canEdit(o))return;rvEd={i,k};rvPhoto="";rvKeep=!!okPic(o.p);drawRev(i);const f=$("xrt");if(f){f.scrollIntoView({behavior:"smooth",block:"center"});f.focus({preventScroll:true})}}
+ else if(x=="rvcancel"){const i=rvEd?rvEd.i:st.cur;rvEd=null;rvPhoto="";rvKeep=false;drawRev(i)}
+ else if(x=="rvkx"){rvKeep=false;$("xrvpv").innerHTML=""}
  else if(x=="rvzoom")t.classList.toggle("big")});
 document.addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.matches&&e.target.matches('img[data-x="rvzoom"]')){e.preventDefault();e.target.classList.toggle("big")}});
-window.DX={avg,rev:()=>rev,drawRev,U:()=>U,show,M,V,LS,esc,hid:()=>hid,users:()=>users,saveUsers:()=>LS("dusers",users),sha,nav,ic:IC,confirm:confirmD,signOut,authOpen,pwField,pwScore};
+window.DX={avg,rev:()=>rev,drawRev,forgotOpen,resetOpen,U:()=>U,show,M,V,LS,esc,hid:()=>hid,users:()=>users,saveUsers:()=>LS("dusers",users),sha,nav,ic:IC,confirm:confirmD,signOut,authOpen,pwField,pwScore};
 render();
 })();

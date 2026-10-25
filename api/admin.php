@@ -1,7 +1,8 @@
 <?php
 // Admin only. GET returns counts (?list=users or ?list=reviews returns those lists).
 // POST actions: add / update / delete (a destination), hide (hide or restore one), role, deluser, delreview,
-// setting (the feedback email and the editable site content).
+// setting (the feedback email and the editable site content), reset_link / dismiss_reset (password resets).
+// GET ?list=analytics returns the usage numbers for the Overview tab.
 require __DIR__ . '/bootstrap.php';
 
 $u = need_admin();
@@ -27,7 +28,18 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
                 'email' => (string)($r['email'] ?? ''), 'created' => (int)$r['created'],
             ];
         }
-        out(['ok' => true, 'users' => $users, 'me' => (int)$u['id']]);
+        $resets = [];
+        try {
+            ensure_resets();
+            $rr = $p->query('SELECT r.id, r.user_id, u.username, u.display_name, UNIX_TIMESTAMP(r.requested_at) AS t
+                FROM password_resets r JOIN users u ON u.id = r.user_id
+                WHERE r.token_hash IS NULL AND r.used_at IS NULL ORDER BY r.id DESC LIMIT 50')->fetchAll();
+            foreach ($rr as $r) {
+                $resets[] = ['id' => (int)$r['id'], 'uid' => (int)$r['user_id'], 'u' => $r['username'], 'n' => $r['display_name'], 't' => (int)$r['t'] * 1000];
+            }
+        } catch (Throwable $e) {
+        }
+        out(['ok' => true, 'users' => $users, 'resets' => $resets, 'me' => (int)$u['id']]);
     }
     if ($list === 'reviews') {
         $hasPhoto = reviews_have_photo();
@@ -46,6 +58,48 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
             $rev[] = $one;
         }
         out(['ok' => true, 'reviews' => $rev]);
+    }
+    if ($list === 'analytics') {
+        $days = (int)($_GET['days'] ?? 30);
+        if (!in_array($days, [7, 30, 90], true)) {
+            $days = 30;
+        }
+        $res = ['ok' => true, 'days' => $days, 'views' => [], 'searches' => [], 'saved' => [], 'daily' => [], 'viewsTotal' => 0, 'searchTotal' => 0];
+        try {
+            ensure_events();
+            $q = $p->prepare("SELECT d.name, COUNT(*) AS n FROM site_events e JOIN destinations d ON d.id = CAST(e.ref AS UNSIGNED)
+                WHERE e.kind = 'view' AND e.created_at > (NOW() - INTERVAL ? DAY) GROUP BY d.id, d.name ORDER BY n DESC, d.name LIMIT 10");
+            $q->execute([$days]);
+            foreach ($q->fetchAll() as $r) {
+                $res['views'][] = [(string)$r['name'], (int)$r['n']];
+            }
+            $q = $p->prepare("SELECT ref, COUNT(*) AS n FROM site_events WHERE kind = 'search' AND created_at > (NOW() - INTERVAL ? DAY)
+                GROUP BY ref ORDER BY n DESC, ref LIMIT 10");
+            $q->execute([$days]);
+            foreach ($q->fetchAll() as $r) {
+                $res['searches'][] = [(string)$r['ref'], (int)$r['n']];
+            }
+            foreach (['view' => 'viewsTotal', 'search' => 'searchTotal'] as $k => $f) {
+                $q = $p->prepare('SELECT COUNT(*) FROM site_events WHERE kind = ? AND created_at > (NOW() - INTERVAL ? DAY)');
+                $q->execute([$k, $days]);
+                $res[$f] = (int)$q->fetchColumn();
+            }
+            $q = $p->query("SELECT DATE(created_at) AS d, COUNT(*) AS n FROM site_events WHERE kind = 'view'
+                AND created_at > (NOW() - INTERVAL 14 DAY) GROUP BY DATE(created_at) ORDER BY d");
+            foreach ($q->fetchAll() as $r) {
+                $res['daily'][] = [(string)$r['d'], (int)$r['n']];
+            }
+        } catch (Throwable $e) {
+            error_log('Destinify analytics: ' . $e->getMessage());
+        }
+        $q = $p->query('SELECT d.name, x.trips, x.favs FROM destinations d JOIN (
+                SELECT destination_id, SUM(t) AS trips, SUM(f) AS favs FROM (
+                    SELECT destination_id, 1 AS t, 0 AS f FROM trip_stops UNION ALL SELECT destination_id, 0, 1 FROM favorites
+                ) z GROUP BY destination_id) x ON x.destination_id = d.id ORDER BY (x.trips + x.favs) DESC, d.name LIMIT 10');
+        foreach ($q->fetchAll() as $r) {
+            $res['saved'][] = [(string)$r['name'], (int)$r['trips'], (int)$r['favs']];
+        }
+        out($res);
     }
     out([
         'ok'           => true,
@@ -218,6 +272,41 @@ if ($action === 'setting') {
         out(['ok' => true]);
     }
     fail('Unknown setting.');
+}
+
+if ($action === 'reset_link') {
+    // Makes a one-time link (valid for 1 hour) that lets a user choose a new password. The admin gives it to them privately.
+    $uid = (int)($b['user_id'] ?? 0);
+    if ($uid === (int)$u['id']) {
+        fail('Use your profile to change your own password.');
+    }
+    $t = db()->prepare('SELECT username FROM users WHERE id = ?');
+    $t->execute([$uid]);
+    $uname = $t->fetchColumn();
+    if ($uname === false) {
+        fail('That user no longer exists.', 404);
+    }
+    ensure_resets();
+    $token = bin2hex(random_bytes(32));
+    $pdo = db();
+    $pdo->beginTransaction();
+    try {
+        $pdo->prepare('UPDATE password_resets SET used_at = NOW() WHERE user_id = ? AND used_at IS NULL')->execute([$uid]);   // older links and requests stop working
+        $pdo->prepare("INSERT INTO password_resets (user_id, token_hash, via, expires_at) VALUES (?, ?, 'admin', NOW() + INTERVAL 1 HOUR)")
+            ->execute([$uid, hash('sha256', $token)]);
+        $pdo->commit();
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        throw $e;
+    }
+    admin_log((int)$u['id'], 'Created a password reset link for @' . $uname);
+    out(['ok' => true, 'token' => $token, 'minutes' => 60]);
+}
+
+if ($action === 'dismiss_reset') {
+    ensure_resets();
+    db()->prepare('UPDATE password_resets SET used_at = NOW() WHERE id = ? AND token_hash IS NULL AND used_at IS NULL')->execute([(int)($b['id'] ?? 0)]);
+    out(['ok' => true]);
 }
 
 if ($action === 'role' || $action === 'deluser') {

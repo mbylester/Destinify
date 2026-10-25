@@ -265,7 +265,31 @@ With the backend connected, everything in the console is saved to MySQL: add, ed
 
 **Site content tab.** Edit the festivals list, each Travel tips tab (cards of bullets, tables, checklists and best-month rows), the section headings, and the default match weights and starting budget. Content is stored in the `site_settings` table (backend) or in the admin's own browser (static hosting, where it only affects that browser).
 
-**Upgrading.** Run `database/upgrade.sql` once: it adds `reviews.photo` and `site_settings`. The API also tries to create them on first use if the database user is allowed to.
+**Upgrading.** Run `database/upgrade.sql` once: it adds `reviews.photo`, `reviews.edited_at`, `site_settings`, `password_resets` and `site_events`. The API also tries to create them on first use if the database user is allowed to.
+
+### Forgot password
+
+On the sign-in form, **Forgot password?** asks for a username and files a request (email is not used). The admin sees it in **Admin > Users**, presses **Reset link**, and sends the one-time link to the traveler. The link works once, lasts one hour, and only a hash of it is stored. Without the admin console you can set a password from the command line: `php tools/reset_password.php USERNAME NEWPASSWORD`.
+
+### Analytics (Admin > Overview)
+
+Counts how often each destination is opened, the most searched words and the places most often added to a trip, for the last 7, 30 or 90 days. It is anonymous (no user or IP is stored), rate limited, and admin visits are not counted. On static hosting the numbers are kept per browser.
+
+### Editing your own review
+
+Signed-in travelers can edit the rating, comment and photo of their own reviews (shown as "edited") or delete them. Admins can still delete any review.
+
+### Backups
+
+- **Admin > Reports and backup > Download database backup** downloads a full `.sql` dump (admins only).
+- **Automatic daily backup:** `php tools/backup.php` writes `backups/destinify-YYYYmmdd-HHMMSS.sql.gz` and keeps the newest 14 (`--keep=N`, `--dir=PATH`). The `backups/` folder is blocked from the web by `.htaccess` and ignored by git.
+  - Windows (XAMPP): Task Scheduler > Create Basic Task > Daily > run `tools\backup.bat`.
+  - Linux/macOS: `crontab -e` and add `0 2 * * * /path/to/Destinify/tools/backup.sh`.
+- **Restore:** `gunzip -c backups/FILE.sql.gz | mysql -u USER -p DATABASE`, or import the file in phpMyAdmin.
+
+### Language (English / Filipino)
+
+The **TL / EN** button in the header switches the interface between English and Filipino. The choice is saved in the browser (`dlang`). The dictionary is in `assets/i18n.js`: keys are the English text with `#` standing for any number, so adding a line is enough to translate a new string. Place names, descriptions, the chatbot's answers and the admin console stay in English, and anything the admin edits in **Site content** shows exactly as written.
 
 ---
 

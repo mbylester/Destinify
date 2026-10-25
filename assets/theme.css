@@ -306,3 +306,11 @@ body .xs-c.on{background:var(--t900);color:#fff}
 .xcadd{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px}.xcadd .btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;font-size:13px}
 .xcsub{margin-top:8px}.xlnk[disabled]{opacity:.4;cursor:default;text-decoration:none}
 .xpill.add{background:rgba(194,24,91,.12);color:var(--coral-d)}
+
+/* ---- v15: reset link, analytics, edit review ---- */
+.xok{background:rgba(31,157,107,.12);color:#17794f;border-radius:12px;padding:10px 12px;font:600 13.5px 'Work Sans',sans-serif;margin-bottom:12px}[data-theme=dark] .xok{color:#6fe0ab}
+.xerr.ok{background:rgba(31,157,107,.12);color:#17794f}[data-theme=dark] .xerr.ok{color:#6fe0ab}
+.xforgot{text-align:center;margin-top:10px}.xlinkbox{border-color:var(--coral)}.xlinkbox .xemrow .form-control{font-size:12.5px}
+.xnd{display:inline-block;width:auto;margin-left:auto;padding:4px 30px 4px 10px;font-size:12px;height:auto;border-radius:10px;text-transform:none;letter-spacing:0}
+.xan>h4{display:flex;align-items:center;gap:7px}.xedtd{color:var(--soft);font-style:italic}.xedh4{margin:14px 0 4px;font:700 12px 'Work Sans'}
+.xrve{margin-right:10px}.xrvbtns{display:flex;gap:8px;flex-wrap:wrap}

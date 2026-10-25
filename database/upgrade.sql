@@ -706,6 +706,7 @@ ALTER TABLE destinations
   ADD COLUMN IF NOT EXISTS region_name VARCHAR(80) NOT NULL DEFAULT '',
   ADD COLUMN IF NOT EXISTS tiktok TINYINT(1) NOT NULL DEFAULT 0;
 ALTER TABLE reviews ADD COLUMN IF NOT EXISTS photo MEDIUMTEXT NULL COMMENT 'optional photo, a resized image as a data URL';
+ALTER TABLE reviews ADD COLUMN IF NOT EXISTS edited_at TIMESTAMP NULL DEFAULT NULL;
 CREATE TABLE IF NOT EXISTS user_profiles (
   user_id INT UNSIGNED NOT NULL PRIMARY KEY,
   full_name VARCHAR(100) NOT NULL DEFAULT '',
@@ -735,6 +736,26 @@ CREATE TABLE IF NOT EXISTS site_settings (
   k VARCHAR(40) NOT NULL PRIMARY KEY COMMENT 'contact_email, content',
   v MEDIUMTEXT NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS password_resets (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  token_hash CHAR(64) NULL COMMENT 'NULL while it is only a request waiting for an admin',
+  via VARCHAR(10) NOT NULL DEFAULT 'user',
+  requested_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  expires_at DATETIME NULL,
+  used_at DATETIME NULL,
+  INDEX idx_token (token_hash),
+  INDEX idx_user (user_id),
+  CONSTRAINT fk_reset_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS site_events (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  kind VARCHAR(10) NOT NULL COMMENT 'view or search',
+  ref VARCHAR(120) NOT NULL COMMENT 'destination id, or the search words',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_kind_time (kind, created_at),
+  INDEX idx_kind_ref (kind, ref)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO regions (code,name,short) VALUES

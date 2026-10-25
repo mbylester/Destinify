@@ -1,5 +1,5 @@
 <?php
-// Accounts: ?action=me (GET), and register, login, logout, profile (POST).
+// Accounts: ?action=me (GET), and register, login, logout, profile, forgot, reset (POST).
 require __DIR__ . '/bootstrap.php';
 
 function pub(array $u): array
@@ -169,6 +169,76 @@ if ($action === 'login') {
     $_SESSION['uid'] = (int)$u['id'];
     $_SESSION['pv'] = pw_stamp((string)$u['password_hash']);
     out(['ok' => true, 'user' => pub($u)]);
+}
+
+if ($action === 'forgot') {
+    // The visitor asks for a reset. The answer is always the same, so nobody can use this to find out which usernames exist.
+    $uname = strtolower(trim((string)($b['username'] ?? '')));
+    $bi = 'forgot:ip:' . client_ip();
+    $bu = 'forgot:user:' . mb_substr($uname, 0, 40);
+    throttle_check($bi, 8, 3600);
+    throttle_check($bu, 3, 3600);
+    throttle_hit($bi);
+    throttle_hit($bu);
+    if (preg_match('/^[a-z0-9_.]{3,30}$/', $uname)) {
+        $s = db()->prepare('SELECT id FROM users WHERE username = ?');
+        $s->execute([$uname]);
+        $uid = $s->fetchColumn();
+        if ($uid !== false) {
+            ensure_resets();
+            $open = db()->prepare('SELECT COUNT(*) FROM password_resets WHERE user_id = ? AND token_hash IS NULL AND used_at IS NULL');
+            $open->execute([(int)$uid]);
+            if ((int)$open->fetchColumn() === 0) {   // one waiting request per account is enough
+                db()->prepare("INSERT INTO password_resets (user_id, via) VALUES (?, 'user')")->execute([(int)$uid]);
+            }
+        }
+    }
+    out(['ok' => true]);
+}
+
+if ($action === 'reset') {
+    // The visitor opened the one-time link an admin gave them and chose a new password.
+    $token = (string)($b['token'] ?? '');
+    $pw = (string)($b['password'] ?? '');
+    $bi = 'reset:ip:' . client_ip();
+    throttle_check($bi, 10, 900);
+    if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
+        throttle_hit($bi);
+        fail('This reset link is not valid. Ask the admin for a new one.', 400);
+    }
+    if (strlen($pw) < 6) {
+        fail('Password must be at least 6 characters.');
+    }
+    if (strlen($pw) > 200) {
+        fail('Password is too long.');
+    }
+    ensure_resets();
+    $q = db()->prepare('SELECT id, user_id FROM password_resets WHERE token_hash = ? AND used_at IS NULL AND expires_at > NOW()');
+    $q->execute([hash('sha256', $token)]);
+    $row = $q->fetch();
+    if (!$row) {
+        throttle_hit($bi);
+        fail('This reset link has expired or was already used. Ask the admin for a new one.', 400);
+    }
+    $hash = password_hash($pw, PASSWORD_DEFAULT);
+    $pdo = db();
+    $pdo->beginTransaction();
+    try {
+        $pdo->prepare('UPDATE users SET password_hash = ? WHERE id = ?')->execute([$hash, (int)$row['user_id']]);
+        $pdo->prepare('UPDATE password_resets SET used_at = NOW() WHERE user_id = ? AND used_at IS NULL')->execute([(int)$row['user_id']]);
+        $pdo->commit();
+    } catch (Throwable $e) {
+        $pdo->rollBack();
+        throw $e;
+    }
+    $un = $pdo->prepare('SELECT username FROM users WHERE id = ?');
+    $un->execute([(int)$row['user_id']]);
+    $name = (string)$un->fetchColumn();
+    if ($name !== '') {
+        throttle_clear('login:user:' . mb_substr($name, 0, 40));   // a locked-out user can sign in right away
+    }
+    admin_log((int)$row['user_id'], 'Password was reset with a reset link');
+    out(['ok' => true]);
 }
 
 if ($action === 'logout') {

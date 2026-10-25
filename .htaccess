@@ -4,7 +4,7 @@ Options -Indexes
 
 # Never serve repository, editor, database, tooling or doc files
 RedirectMatch 404 "(?i)(^|/)\.(git|vscode)(/|$)"
-RedirectMatch 404 "(?i)(^|/)(database|tools|docs)(/|$)"
+RedirectMatch 404 "(?i)(^|/)(database|tools|docs|backups)(/|$)"
 <FilesMatch "(?i)(\.(sql|py|log|bak|patch|sh|ini|ya?ml)|^\.git.*|^composer\.(json|lock))$">
     Require all denied
 </FilesMatch>
