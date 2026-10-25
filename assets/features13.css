@@ -1,0 +1,22 @@
+#f11-home{max-width:1100px;margin:1rem auto;padding:0 1rem}
+#f11-home h4{margin:1rem 0 .5rem;font-size:1.1rem}
+.f11-intro{text-align:center;padding:1.5rem 1rem;border-radius:1rem;background:rgba(214,51,132,.1)}
+.f11-big{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.75rem;margin:1rem 0}
+.f11-big button{font-size:1.15rem;padding:1.4rem .5rem;border:0;border-radius:1rem;background:#d63384;color:#fff;font-weight:600;cursor:pointer}
+.f11-cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:700px){.f11-cols{grid-template-columns:1fr}}
+.f11-list{display:grid;gap:.5rem}
+.f11-card{padding:.7rem .9rem;border-radius:.75rem;border:1px solid rgba(128,128,128,.3);background:var(--bs-body-bg,#fff);color:var(--bs-body-color,#212529)}
+.f11-t{font-weight:600}.f11-s{font-size:.85rem;opacity:.75}.f11-km,.f11-kmt{font-size:.85rem;color:#d63384;margin-right:.5rem}
+.f11-go{margin-top:.4rem;padding:.25rem .7rem;border-radius:2rem;border:1px solid #d63384;background:transparent;color:#d63384;cursor:pointer;font-size:.85rem}
+.f11-go.on{background:#d63384;color:#fff}
+.f11-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
+.f11-btn{padding:.55rem 1rem;border-radius:2rem;border:0;background:#d63384;color:#fff;cursor:pointer}
+.f11-bar{margin-top:.5rem}
+.f11-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:3000;display:flex;align-items:center;justify-content:center;padding:1rem}
+.f11-dlg{position:relative;background:var(--bs-body-bg,#fff);color:var(--bs-body-color,#212529);border-radius:1rem;padding:1.25rem;width:100%;max-width:420px;max-height:90vh;overflow:auto}
+.f11-dlg.f11-wide{max-width:760px}.f11-x{position:absolute;top:.4rem;right:.7rem;border:0;background:none;font-size:1.6rem;color:inherit;cursor:pointer}
+.f11-in{width:100%;padding:.55rem;margin:.4rem 0;border-radius:.5rem;border:1px solid rgba(128,128,128,.5);background:transparent;color:inherit}
+#f11-map{height:260px;border-radius:.75rem;margin:.5rem 0}
+.f11-prog{height:10px;border-radius:5px;background:rgba(128,128,128,.25)}#f11-bar{height:100%;border-radius:5px;background:#d63384;width:0}
+.f11-row{display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding:.35rem 0;border-bottom:1px solid rgba(128,128,128,.2)}
