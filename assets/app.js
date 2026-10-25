@@ -13,7 +13,7 @@ const $=id=>document.getElementById(id),P=n=>"₱"+n.toLocaleString(),NOW=new Da
 const D=RAW.trim().split("\n").map((l,i)=>{const[n,p,g,la,ln,t,b,d,a,o,bm]=l.split("|");const[s,e]=(bm||"11-5").split("-").map(Number);const mo=[];for(let m=s;;m=m%12+1){mo.push(m);if(m==e)break}return{i,n,p,g,la:+la,ln:+ln,t,b:+b,d:+d,a:a.split(" "),o:+o,mo}});
 if(typeof DET!=="undefined")DET.trim().split("\n").forEach(l=>{const[n,desc,go,tip]=l.split("|"),d=D.find(x=>x.n==n);if(d)Object.assign(d,{desc,go,tip})});
 const TYPES=[...new Set(D.map(x=>x.t))].sort();
-const st={q:"",b:8000,g:"",d:"any",mon:0,types:new Set(),acts:new Set(),tab:"all",sort:"match",shown:12,trip:[],cmp:new Set(),pax:2,sty:2,me:null,cur:null};
+const st={q:"",b:(window.SC&&+SC.data.b>=1000&&+SC.data.b<=30000?+SC.data.b:8000),g:"",d:"any",mon:0,types:new Set(),acts:new Set(),tab:"all",sort:"match",shown:12,trip:[],cmp:new Set(),pax:2,sty:2,me:null,cur:null};
 try{st.trip=JSON.parse(localStorage.getItem("dtrip")||"[]").filter(i=>D[i])}catch(e){}
 const hm=location.hash.match(/trip=([\w,.-]+)/);if(hm)st.trip=hm[1].split(",").map(x=>DID.idx(x)).filter(i=>i!==null&&D[i]);
 var save=()=>{try{localStorage.setItem("dtrip",JSON.stringify(st.trip))}catch(e){}};
@@ -36,7 +36,8 @@ function ctl(){return `<div class="ctl"><label>Travelers <select data-pax>${[1,2
 function copy(txt,btn,label){(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent=label,1800)},()=>{btn.textContent="Copy not available"})}
 
 /* ---------- matching ---------- */
-const W=(()=>{try{return JSON.parse(localStorage.getItem("dw"))||{t:30,a:25,b:20,du:10,s:15}}catch(e){return{t:30,a:25,b:20,du:10,s:15}}})(),MX={};
+const DW=(()=>{const w=window.SC&&SC.data.w,ok=w&&["t","a","b","du","s"].every(k=>+w[k]>=1&&+w[k]<=60);return ok?{t:+w.t,a:+w.a,b:+w.b,du:+w.du,s:+w.s}:{t:30,a:25,b:20,du:10,s:15}})();
+const W=(()=>{try{return JSON.parse(localStorage.getItem("dw"))||{...DW}}catch(e){return{...DW}}})(),MX={};
 function norm(){const k=100/Object.values(W).reduce((a,b)=>a+b,0);for(const x in W)MX[x]=W[x]*k}norm();
 function parts(d){const p=st;
  const t=p.types.size?(p.types.has(d.t)?1:0):1;

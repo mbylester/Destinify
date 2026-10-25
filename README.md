@@ -147,6 +147,8 @@ Destinify/
     ├── api-bridge.js   Connects the site to the PHP backend when it is available
     ├── stable-ids.js   Permanent destination ids (slugs), so saved data survives changes to data.js
     ├── features10.js   Launch kit: trip actions, profile, admin console, feedback, tour, install
+    ├── features11.js   Admin console "Site content" tab (festivals, Travel tips, headings, defaults)
+    ├── site-content.js Store for the editable site content and the feedback email
     ├── logo.svg        Destinify logo
     ├── og-image.png    Social preview image
     ├── apple-touch-icon.png
@@ -154,7 +156,7 @@ Destinify/
     └── icon-512.png
 ```
 
-Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`, `regions.js`, `features8.js`, and `features9.js`, then `features10.js`. Each feature file builds on the one before it, so keep that order.
+Scripts load in this order: `data.js`, `details.js`, `images.js`, `app.js`, then `features.js` to `features7.js`, `regions.js`, `features8.js`, and `features9.js`, then `features10.js` and `features11.js` (with `site-content.js` loaded right after `api-bridge.js`). Each feature file builds on the one before it, so keep that order.
 
 ---
 
@@ -167,7 +169,8 @@ The site works two ways. With no backend (for example on GitHub Pages) it uses `
 - Real accounts with hashed passwords, and each user's trip and favorites are saved to the database
 - Reviews are shared between users
 - Admin actions are saved to the database: add, edit and hide destinations, delete reviews, change user roles, delete users, with an audit log
-- Travelers can delete their own reviews
+- Travelers can delete their own reviews, and attach one photo to a review (resized in the browser, stored in the `reviews.photo` column)
+- Admins can edit and permanently delete any destination, set the feedback email, and edit the site content (festivals, Travel tips, headings, default weights and budget)
 
 **Set up on XAMPP**
 1. Put the `api` folder in `C:\xampp\htdocs\Destinify\api`.
@@ -258,7 +261,11 @@ Destinify has two roles, **Traveler** and **Admin**, and it stores accounts in o
 - **Users:** change roles and remove accounts
 - **Reports and backup:** CSV exports (destinations, reviews, users), JSON backup and restore, and a deployment checklist
 
-With the backend connected, adding and hiding destinations sync to MySQL. Editing built-in places, deleting reviews and managing other accounts are done in phpMyAdmin.
+With the backend connected, everything in the console is saved to MySQL: add, edit, hide and delete destinations, delete reviews, manage users, the feedback email and the site content. **Delete** removes a place for good with its reviews and saved trip stops (use **Hide** to keep it); if you import `database/upgrade.sql` again, places that are in `data.js` come back, so remove them from `data.js` too if you want them gone.
+
+**Site content tab.** Edit the festivals list, each Travel tips tab (cards of bullets, tables, checklists and best-month rows), the section headings, and the default match weights and starting budget. Content is stored in the `site_settings` table (backend) or in the admin's own browser (static hosting, where it only affects that browser).
+
+**Upgrading.** Run `database/upgrade.sql` once: it adds `reviews.photo` and `site_settings`. The API also tries to create them on first use if the database user is allowed to.
 
 ---
 
@@ -270,7 +277,7 @@ At the top of `assets/features10.js`:
 const CFG={contactEmail:""};
 ```
 
-Set `contactEmail` to receive messages from the **Send feedback** form by email. Leave it empty to keep feedback in the sender's browser only.
+Set `contactEmail` to receive messages from the **Send feedback** form by email, or leave it empty and set it in **Admin console > Reports & backup > Feedback email** (saved in the database when the backend is connected, or in `api/config.php` as `'contact_email'`). Leave both empty to keep feedback in the sender's browser only.
 
 ---
 

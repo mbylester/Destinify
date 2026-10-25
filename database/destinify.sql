@@ -5,7 +5,7 @@ USE destinify_app;
 SET NAMES utf8mb4;
 
 SET FOREIGN_KEY_CHECKS=0;
-DROP TABLE IF EXISTS rate_limits, admin_log, user_profiles, trip_stops, favorites, reviews, users, destinations, regions;
+DROP TABLE IF EXISTS site_settings, rate_limits, admin_log, user_profiles, trip_stops, favorites, reviews, users, destinations, regions;
 SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE regions (
@@ -52,6 +52,7 @@ CREATE TABLE reviews (
   user_id INT UNSIGNED NOT NULL,
   rating TINYINT UNSIGNED NOT NULL,
   comment VARCHAR(300) NOT NULL,
+  photo MEDIUMTEXT NULL COMMENT 'optional photo, a resized image as a data URL',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (destination_id) REFERENCES destinations(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -95,6 +96,11 @@ CREATE TABLE rate_limits (
   bucket VARCHAR(80) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_bucket_time (bucket, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE site_settings (
+  k VARCHAR(40) NOT NULL PRIMARY KEY COMMENT 'contact_email, content',
+  v MEDIUMTEXT NOT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO regions (code,name,short) VALUES

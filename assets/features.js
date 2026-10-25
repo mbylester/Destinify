@@ -62,12 +62,46 @@ async function auth(m){const u=V("xu").toLowerCase(),p=$("xp").value,e=t=>$("xer
 (async()=>{
  const s=LS("dsess"),f=users.find(x=>x.u==s);if(f)login(f)})();
 /* weights */
-$("ac").parentElement.insertAdjacentHTML("afterend",`<details class="grp" style="display:block"><summary style="cursor:pointer;font-weight:600;color:var(--soft)">Fine-tune how matches are scored</summary><div class="xw mt-3">${[["t","Type"],["a","Activities"],["b","Budget"],["du","Trip length"],["s","Season"]].map(([k,n])=>`<div><label>${n}: <b id="xw${k}">${Math.round(MX[k])}</b>%</label><input type="range" min="1" max="60" value="${W[k]}" data-w="${k}"></div>`).join("")}</div><p class="note">Weights are rescaled to total 100%. Defaults: 30 / 25 / 20 / 10 / 15.</p></details>`);
+$("ac").parentElement.insertAdjacentHTML("afterend",`<details class="grp" style="display:block"><summary style="cursor:pointer;font-weight:600;color:var(--soft)">Fine-tune how matches are scored</summary><div class="xw mt-3">${[["t","Type"],["a","Activities"],["b","Budget"],["du","Trip length"],["s","Season"]].map(([k,n])=>`<div><label>${n}: <b id="xw${k}">${Math.round(MX[k])}</b>%</label><input type="range" min="1" max="60" value="${W[k]}" data-w="${k}"></div>`).join("")}</div><p class="note">Weights are rescaled to total 100%. Defaults: ${["t","a","b","du","s"].map(k=>DW[k]).join(" / ")}.</p></details>`);
 document.addEventListener("input",e=>{const k=e.target.dataset.w;if(!k)return;W[k]=+e.target.value;norm();LS("dw",W);for(const x in W)$("xw"+x).textContent=Math.round(MX[x]);render()});
 /* reviews */
 const avg=i=>{const r=rev[i]||[];return r.length?r.reduce((s,x)=>s+x.r,0)/r.length:0};
-const revH=d=>{const r=rev[d.i]||[];return `<h4>TRAVELER REVIEWS${r.length?` · ${avg(d.i).toFixed(1)} ★ (${r.length})`:""}</h4>${r.slice(-5).reverse().map(x=>`<div class="info"><b>${esc(x.u)}</b> · ${"★".repeat(x.r)}<p>${esc(x.c)}</p></div>`).join("")||'<p class="note">No reviews yet.</p>'}${U?`<div class="ctl"><label>Rating <select id="xrs">${[5,4,3,2,1].map(n=>`<option>${n}</option>`).join("")}</select></label></div><textarea id="xrt" class="form-control" rows="3" style="display:block;width:100%;min-height:0;resize:vertical" maxlength="300" placeholder="Share your experience"></textarea><button class="btn btn-c mt-2" data-x="rv" data-id="${d.i}">Post review</button>`:'<p class="note">Sign in to post a review.</p>'}`};
-const _od=openDetail;openDetail=i=>{_od(i);$("dmc").insertAdjacentHTML("beforeend",`<div class="dsc" id="xrev">${revH(D[i])}</div>`)};
+let rvPhoto="",rvAll=false;
+const okPic=p=>typeof p=="string"&&(/^data:image\/(jpeg|png|webp);base64,/.test(p)||/^api\/review_photo\.php\?id=\d+$/.test(p));
+const canDel=x=>!!U&&(adm()||(dbOn()?!!x.mine:x.u==U.n));
+const revItem=(x,k,i)=>`<div class="info xrvi"><b>${esc(x.u)}</b> · ${"★".repeat(x.r)}${x.t?` · <small>${new Date(x.t).toLocaleDateString()}</small>`:""}${canDel(x)?`<button type="button" class="xlnk xrvd" data-x="rvdel" data-id="${i}" data-k="${k}" aria-label="Delete this review">${IC.trash}Delete</button>`:""}<p>${esc(x.c)}</p>${okPic(x.p)?`<img class="xrvp" data-x="rvzoom" src="${esc(x.p)}" alt="Photo from ${esc(x.u)}'s review" loading="lazy" tabindex="0" role="button" aria-label="Enlarge photo">`:""}</div>`;
+const revH=d=>{const r=rev[d.i]||[],all=r.map((x,k)=>({x,k})).reverse(),shown=rvAll?all:all.slice(0,5);return `<h4>TRAVELER REVIEWS${r.length?` · ${avg(d.i).toFixed(1)} ★ (${r.length})`:""}</h4>${shown.map(o=>revItem(o.x,o.k,d.i)).join("")||'<p class="note">No reviews yet.</p>'}${all.length>5?`<button type="button" class="xlnk" data-x="rvall" data-id="${d.i}">${rvAll?"Show fewer reviews":"Show all "+all.length+" reviews"}</button>`:""}${U?`<div class="ctl"><label>Rating <select id="xrs">${[5,4,3,2,1].map(n=>`<option>${n}</option>`).join("")}</select></label></div><textarea id="xrt" class="form-control" rows="3" style="display:block;width:100%;min-height:0;resize:vertical" maxlength="300" placeholder="Share your experience"></textarea><div class="xrvu"><label class="btn btn-l xrvb">${IC.camera}Add a photo (optional)<input type="file" id="xrvf" accept="image/*" hidden></label><span id="xrvpv"></span></div><div id="xrmsg" class="note xrmsg" role="alert"></div><button class="btn btn-c mt-2" data-x="rv" data-id="${d.i}" id="xrpost">Post review</button>`:'<p class="note">Sign in to post a review.</p>'}`};
+const drawRev=i=>{const el=$("xrev");if(el)el.innerHTML=revH(D[i])};
+const rvMsg=t=>{const m=$("xrmsg");if(m)m.textContent=t};
+/* Shrinks a chosen photo to a small JPEG (long side 1000 px) so it saves quickly and fits in storage. */
+function shrinkPhoto(file){return new Promise((res,rej)=>{if(!/^image\/(jpeg|png|webp|gif|heic|heif)$/i.test(file.type)&&!/^image\//.test(file.type))return rej("Please choose an image file.");
+ if(file.size>15e6)return rej("That photo is too big. Choose one under 15 MB.");
+ const url=URL.createObjectURL(file),img=new Image();
+ img.onload=()=>{URL.revokeObjectURL(url);const m=Math.min(1,1000/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.width*m));c.height=Math.max(1,Math.round(img.height*m));
+  const g=c.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);g.drawImage(img,0,0,c.width,c.height);
+  let q=.82,out=c.toDataURL("image/jpeg",q);while(out.length>450000&&q>.4){q-=.1;out=c.toDataURL("image/jpeg",q)}
+  out.length>600000?rej("That photo is still too large after shrinking. Try a different one."):res(out)};
+ img.onerror=()=>{URL.revokeObjectURL(url);rej("That file could not be read as a picture.")};img.src=url})}
+async function postRev(i){const c=V("xrt"),btn=$("xrpost");rvMsg("");
+ if(!c)return rvMsg("Write a short comment first.");
+ const o={u:U.n,r:+$("xrs").value,c,t:Date.now()};if(btn)btn.disabled=true;
+ try{
+  if(dbOn()){const r=await DBAPI.post("reviews.php",{destination_id:DBAPI.ids[i],rating:o.r,comment:c,photo:rvPhoto});
+   if(!r.ok){if(btn)btn.disabled=false;return rvMsg(r.error||"Could not post your review.")}
+   o.id=r.id;o.mine=true;if(r.p)o.p=r.p}
+  else if(rvPhoto)o.p=rvPhoto;
+  (rev[i]=rev[i]||[]).push(o);
+  if(LS("drev",rev)===null){rev[i].pop();if(btn)btn.disabled=false;return rvMsg("This browser has no room left to save the review. Try without a photo.")}
+ }catch(e){if(btn)btn.disabled=false;return rvMsg("Something went wrong. Please try again.")}
+ rvPhoto="";drawRev(i);render()}
+async function delRev(i,k){const o=(rev[i]||[])[k];if(!o)return;
+ if(!await confirmD({title:"Delete this review?",msg:(adm()&&!(dbOn()?o.mine:o.u==U.n)?"The review":"Your review")+" and its photo will be removed for everyone. This can't be undone.",ok:"Delete review",danger:1,icon:IC.trash}))return;
+ if(dbOn()){if(!o.id)return rvMsg("This review is still saving. Try again in a moment.");const r=await DBAPI.post("reviews.php",{action:"delete",id:o.id});if(!r.ok)return rvMsg(r.error||"Could not delete the review.")}
+ const n=(rev[i]||[]).indexOf(o);if(n<0)return;rev[i].splice(n,1);LS("drev",rev);drawRev(i);render()}
+document.addEventListener("change",async e=>{const f=e.target;if(f.id!="xrvf"||!f.files[0])return;rvMsg("");
+ try{rvPhoto=await shrinkPhoto(f.files[0]);$("xrvpv").innerHTML=`<img class="xrvp sm" src="${rvPhoto}" alt="Your photo"><button type="button" class="xlnk" data-x="rvpx">Remove photo</button>`}
+ catch(m){rvPhoto="";$("xrvpv").innerHTML="";rvMsg(String(m))}f.value=""});
+const _od=openDetail;openDetail=i=>{rvPhoto="";rvAll=false;_od(i);$("dmc").insertAdjacentHTML("beforeend",`<div class="dsc" id="xrev">${revH(D[i])}</div>`)};
 /* auto trip builder */
 const _rt=renderTrip;renderTrip=()=>{_rt();$("tripBody").insertAdjacentHTML("beforeend",`<div class="xbox"><h4>BUILD A TRIP FOR ME</h4><div class="xg"><input id="xdy" type="number" min="1" max="30" value="7" class="form-control" aria-label="Days"><input id="xbd" type="number" min="1000" step="500" value="${st.b*3}" class="form-control" aria-label="Total budget per person"></div><p class="note">Days, then total budget per person (PHP). Picks nearby high-scoring places.</p><button class="btn btn-d" data-x="build">Build trip</button></div>`)};
 function build(){const days=+V("xdy"),bud=+V("xbd"),c=D.filter(d=>!hid.includes(d.n)).map(d=>(d.s=score(d),d)).sort((a,b)=>b.s-a.s).slice(0,45);
@@ -92,7 +126,12 @@ document.addEventListener("click",async e=>{const t=e.target.closest("[data-x]")
  else if(x=="hide"&&adm()){const n=$("ah").value.replace(" (hidden)","");hid=hid.includes(n)?hid.filter(h=>h!=n):[...hid,n];LS("dhide",hid);render();admH()}
  else if(x=="csv"&&adm()){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv([["Name","Province","Type","Budget","Days","Popular","Avg rating","Reviews","Times in trips"],...D.map(d=>[d.n,d.p,d.t,d.b,d.d,d.o?"yes":"no",avg(d.i).toFixed(1),(rev[d.i]||[]).length,users.filter(u=>(u.trip||[]).includes(d.i)).length])])],{type:"text/csv"}));a.download="destinify-report.csv";a.click()}
  else if(x=="build")build();
- else if(x=="rv"&&U){const i=+t.dataset.id,c=V("xrt");if(!c)return;(rev[i]=rev[i]||[]).push({u:U.n,r:+$("xrs").value,c,t:Date.now()});LS("drev",rev);$("xrev").innerHTML=revH(D[i])}});
-window.DX={avg,rev:()=>rev,U:()=>U,show,M,V,LS,esc,hid:()=>hid,users:()=>users,saveUsers:()=>LS("dusers",users),sha,nav,ic:IC,confirm:confirmD,signOut,authOpen,pwField,pwScore};
+ else if(x=="rv"&&U)postRev(+t.dataset.id);
+ else if(x=="rvdel"&&U)delRev(+t.dataset.id,+t.dataset.k);
+ else if(x=="rvall"){rvAll=!rvAll;drawRev(+t.dataset.id)}
+ else if(x=="rvpx"){rvPhoto="";$("xrvpv").innerHTML=""}
+ else if(x=="rvzoom")t.classList.toggle("big")});
+document.addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.matches&&e.target.matches('img[data-x="rvzoom"]')){e.preventDefault();e.target.classList.toggle("big")}});
+window.DX={avg,rev:()=>rev,drawRev,U:()=>U,show,M,V,LS,esc,hid:()=>hid,users:()=>users,saveUsers:()=>LS("dusers",users),sha,nav,ic:IC,confirm:confirmD,signOut,authOpen,pwField,pwScore};
 render();
 })();

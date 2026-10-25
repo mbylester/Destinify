@@ -33,8 +33,18 @@ foreach ($rows as $r) {
     }
 }
 
+// Site settings the public pages need: the feedback email (the admin console setting wins over config.php) and the
+// editable site content (travel tips, festivals, headings). Missing table or empty values simply mean "use the defaults".
+$contact = trim((string)(setting_get('contact_email') ?? ''));
+if ($contact === '' && !empty($CFG['contact_email'])) {
+    $contact = trim((string)$CFG['contact_email']);
+}
+$content = setting_get('content');
+$content = ($content !== null && $content !== '') ? json_decode($content, true, 12) : null;
+
 out([
     'ok'     => true,
+    'site'   => ['contact' => $contact, 'content' => is_array($content) ? $content : new stdClass()],
     'count'  => count($rows),
     'raw'    => implode("\n", $raw),
     'det'    => implode("\n", $det),

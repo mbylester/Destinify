@@ -163,6 +163,84 @@ function state_for(int $uid): array
     ];
 }
 
+// ---------- schema helpers (older databases get the new bits added automatically) ----------
+
+// True when reviews.photo exists. Adds the column the first time if the database user is allowed to.
+function reviews_have_photo(): bool
+{
+    static $ok = null;
+    if ($ok !== null) {
+        return $ok;
+    }
+    try {
+        $p = db();
+        if ($p->query("SHOW COLUMNS FROM reviews LIKE 'photo'")->fetch()) {
+            return $ok = true;
+        }
+        $p->exec('ALTER TABLE reviews ADD COLUMN photo MEDIUMTEXT NULL');
+        return $ok = true;
+    } catch (Throwable $e) {
+        error_log('Destinify: reviews.photo is not available: ' . $e->getMessage());
+        return $ok = false;
+    }
+}
+
+// Key/value site settings: the feedback email and the editable site content (tips, festivals, and so on).
+function settings_table(): void
+{
+    static $done = false;
+    if ($done) {
+        return;
+    }
+    $done = true;
+    db()->exec('CREATE TABLE IF NOT EXISTS site_settings (k VARCHAR(40) NOT NULL PRIMARY KEY, v MEDIUMTEXT NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+}
+
+function setting_get(string $k): ?string
+{
+    try {
+        $q = db()->prepare('SELECT v FROM site_settings WHERE k = ?');
+        $q->execute([$k]);
+        $v = $q->fetchColumn();
+        return $v === false ? null : (string)$v;
+    } catch (Throwable $e) {
+        return null;   // table not created yet
+    }
+}
+
+function setting_set(string $k, string $v): void
+{
+    settings_table();
+    db()->prepare('INSERT INTO site_settings (k, v) VALUES (?, ?) ON DUPLICATE KEY UPDATE v = VALUES(v)')->execute([$k, $v]);
+}
+
+// Plain text from the admin or a visitor: no angle brackets (the site shows these values as HTML), trimmed, capped.
+function clean_text($s, int $max): string
+{
+    $s = str_replace(['<', '>', "\r"], ['', '', ''], (string)$s);
+    return mb_substr(trim($s), 0, $max);
+}
+
+// A review photo arrives as a data URL made by the browser (resized JPEG). Returns the checked data URL or null.
+function valid_photo($s): ?string
+{
+    $s = trim((string)$s);
+    if ($s === '') {
+        return null;
+    }
+    if (strlen($s) > 700000 || !preg_match('#^data:image/(jpeg|png|webp);base64,([A-Za-z0-9+/]+={0,2})$#', $s, $m)) {
+        fail('That photo is too large or not a JPEG, PNG or WebP image.');
+    }
+    $bin = base64_decode($m[2], true);
+    $info = $bin === false ? false : @getimagesizefromstring($bin);
+    $want = ['jpeg' => IMAGETYPE_JPEG, 'png' => IMAGETYPE_PNG, 'webp' => IMAGETYPE_WEBP];
+    if (!$info || $info[2] !== $want[$m[1]] || $info[0] > 4000 || $info[1] > 4000) {
+        fail('That file is not a valid image.');
+    }
+    return $s;
+}
+
 // Audit trail for admin actions. Logging must never stop the action it records.
 function admin_log(int $uid, string $msg): void
 {

@@ -3,7 +3,7 @@
    d = destination name exactly as in data.js, m = months 1-12. Edit or add rows freely. */
 (()=>{
 const{LS,esc}=DX;
-const FEST=[
+const FEST0=[
 {n:"Sinulog Festival",d:"Cebu City",m:[1],w:"Third Sunday of January (grand parade)",x:"Street dancing and a grand parade honoring the Santo Niño."},
 {n:"Ati-Atihan",d:"Kalibo",m:[1],w:"January, climaxing on the third Sunday",x:"Drums, painted faces and tribal costumes in one of the country's oldest festivals."},
 {n:"Dinagyang",d:"Iloilo City",m:[1],w:"Fourth Sunday of January",x:"Tribal dance competitions honoring the Santo Niño."},
@@ -28,7 +28,10 @@ const FEST=[
 {n:"Diyandi Festival",d:"Iligan City",m:[9],w:"Late September",x:"City fiesta honoring St. Michael with street dancing and parades."},
 {n:"Bonok-Bonok Festival",d:"Surigao City",m:[9],w:"Typically September",x:"Street dancing and rituals of thanksgiving in Surigao City."},
 {n:"Siargao International Surfing Cup",d:"Cloud 9",m:[9,10],w:"Typically late September to October",x:"Pro surfing competition at Siargao's famous Cloud 9 break."}
-].filter(f=>{const d=D.find(x=>x.n==f.d);if(d)f.i=d.i;return d});
+];
+/* The admin can replace this whole list in Admin console > Site content (stored as SC.data.fest). */
+const FS=()=>{const src=window.SC&&Array.isArray(SC.data.fest)?SC.data.fest:FEST0;
+ return src.filter(f=>f&&f.n&&Array.isArray(f.m)).map(f=>{const d=D.find(x=>x.n==f.d);return d?{...f,m:f.m.map(Number).filter(m=>m>=1&&m<=12),i:d.i}:null}).filter(Boolean)};
 const mt=f=>f.m.includes(NOW)?'<span class="tag now">This month</span>':f.m.includes(NOW%12+1)?'<span class="tag gem">Next month</span>':"";
 const evH=(f,km)=>`<div class="info"><b>🎉 ${esc(f.n)}</b> ${mt(f)}<br><small>${f.m.map(m=>MN[m-1]).join("–")} · ${esc(f.w)}${km!=null?` · in ${esc(f.d)}, ${km} km away`:""}</small><p>${esc(f.x)}</p></div>`;
 /* ---------- favorites (per user when signed in, otherwise this browser) ---------- */
@@ -48,14 +51,15 @@ const _c=cardH;cardH=d=>{const f=isF(d.i),t=st.trip.includes(d.i);
 function renderFav(){const a=favs().filter(i=>D[i]);$("favN").textContent=a.length;
  $("favBody").innerHTML=a.length?`<div class="macts mb-3"><button class="btn btn-c" data-x5="allfav">Add all to my trip</button><button class="btn btn-l" data-x5="clrfav">Clear</button></div>`+a.map(i=>{const d=D[i];return `<div class="stop"><div class="t"><b>${esc(d.n)}</b><span>${esc(d.p)} · ${d.d}d · ${P(d.b)}</span></div><button data-d="${i}" title="Details" aria-label="Details">ⓘ</button><button data-x5="trip" data-id="${i}" style="width:auto;padding:0 8px">${st.trip.includes(i)?"In trip ✓":"+ Trip"}</button><button data-x5="fav" data-id="${i}" title="Remove" aria-label="Remove from favorites">✕</button></div>`}).join(""):'<p style="color:var(--soft)">No favorites yet. Tap the heart on any destination to save it here, then move your picks into a trip when you are ready.</p>'}
 /* ---------- festivals calendar section ---------- */
-document.querySelector("#insights").insertAdjacentHTML("beforebegin",'<section class="insights" id="festivals"><div class="wrap"><div class="head"><div><h2>Festivals &amp; events calendar</h2><p>Pick a month to see what is on. Timing is typical and can shift each year, so confirm locally.</p></div></div><div class="tags" id="fmonths"></div><div class="fgrid" id="fgrid"></div></div></section>');
+document.querySelector("#insights").insertAdjacentHTML("beforebegin",'<section class="insights" id="festivals"><div class="wrap"><div class="head"><div><h2 id="fstT"></h2><p id="fstS"></p></div></div><div class="tags" id="fmonths"></div><div class="fgrid" id="fgrid"></div></div></section>');
 document.querySelector(".links").insertAdjacentHTML("beforeend",'<a href="#festivals">Festivals</a>');
 let fm=NOW;
-function drawF(){$("fmonths").innerHTML=MN.map((m,k)=>{const n=FEST.filter(f=>f.m.includes(k+1)).length;return `<button class="chip${k+1==fm?" on":""}" data-fm="${k+1}">${m}${n?` (${n})`:""}</button>`}).join("");
+const FH=()=>{$("fstT").textContent=SC.txt("fstT","Festivals & events calendar");$("fstS").textContent=SC.txt("fstS","Pick a month to see what is on. Timing is typical and can shift each year, so confirm locally.")};FH();
+function drawF(){const FEST=FS();$("fmonths").innerHTML=MN.map((m,k)=>{const n=FEST.filter(f=>f.m.includes(k+1)).length;return `<button class="chip${k+1==fm?" on":""}" data-fm="${k+1}">${m}${n?` (${n})`:""}</button>`}).join("");
  const a=FEST.filter(f=>f.m.includes(fm));
  $("fgrid").innerHTML=a.length?a.map(f=>{const d=D[f.i];return `<div class="fcard"><h3>🎉 ${esc(f.n)}</h3><small>${esc(d.n)}, ${esc(d.p)}</small><b>${esc(f.w)}</b><p>${esc(f.x)}</p><div class="macts"><button class="btn btn-d" data-d="${f.i}">View destination</button><button class="btn btn-l" data-x5="fav" data-id="${f.i}">${isF(f.i)?"♥ Saved":"♡ Save"}</button></div></div>`}).join(""):'<p class="note">No major festivals listed for this month yet. Try the neighbouring months.</p>'}
 /* ---------- detail page: festivals + heatmap markers + favorite button ---------- */
-const _od=openDetail;openDetail=i=>{_od(i);const d=D[i],own=FEST.filter(f=>f.d==d.n),
+const _od=openDetail;openDetail=i=>{_od(i);const FEST=FS(),d=D[i],own=FEST.filter(f=>f.d==d.n),
  nb=own.length?[]:FEST.map(f=>({f,k:hav(d,D[f.i])})).filter(o=>o.k<=150).sort((a,b)=>a.k-b.k).slice(0,2),hm=$("xhm");
  if(hm){const cells=hm.querySelectorAll(".xhm div");
   own.forEach(f=>f.m.forEach(m=>{const c=cells[m-1];if(!c)return;if(!c.querySelector("em"))c.insertAdjacentHTML("beforeend","<em>🎉</em>");c.title=(c.title?c.title+", ":"")+f.n}));
@@ -72,5 +76,8 @@ document.addEventListener("click",e=>{const t=e.target.closest("[data-fm],[data-
  if(x=="fav")togF(i);else if(x=="trip")toggleTrip(i);
  else if(x=="allfav"){favs().forEach(j=>{if(D[j]&&!st.trip.includes(j))st.trip.push(j)});save();render()}
  else if(x=="clrfav"){setF([]);render()}});
+const cp=a=>a.map(f=>({n:f.n,d:f.d,m:(f.m||[]).slice(),w:f.w||"",x:f.x||""}));
+window.FESTIVALS={def:()=>cp(FEST0),raw:()=>cp(window.SC&&Array.isArray(SC.data.fest)?SC.data.fest:FEST0),eff:FS};
+if(window.SC)SC.on(()=>{FH();drawF()});
 render();
 })();

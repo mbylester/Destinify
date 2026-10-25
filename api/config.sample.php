@@ -10,4 +10,6 @@ return [
     'session_name' => 'destinify_sid',
     // Set to true on a live HTTPS site (needed when a proxy or host ends TLS before PHP). Keep false for http://localhost.
     'force_https_cookie' => false,
+    // Optional. Where the Send feedback form sends mail. You can also set this later in Admin console > Reports & backup.
+    'contact_email' => '',
 ];

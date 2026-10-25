@@ -5,7 +5,7 @@
    When the backend is reachable it:
    - loads every destination from MySQL instead of data.js and details.js
    - replaces the demo sign-in with real accounts (passwords are hashed on the server)
-   - saves each user's trip and favorites to the database, and stores reviews there
+   - saves each user's trip and favorites to the database (reviews are posted and deleted by features.js through DBAPI)
    - sends admin actions (add destination, hide or restore) to the database */
 (function () {
   "use strict";
@@ -36,6 +36,7 @@
 
   var d = call("GET", "destinations.php");
   if (!d || typeof RAW === "undefined") return;           // static mode: nothing changes
+  window.SITE_REMOTE = d.site || {};                       // feedback email and editable site content (see site-content.js)
 
   /* ---------- 1. destinations from the database ---------- */
   RAW = d.raw; DET = d.det;
@@ -59,8 +60,6 @@
   var rv = call("GET", "reviews.php?all=1"), drev = {};
   if (rv) Object.keys(rv.byDest).forEach(function (id) { if (idx[id] !== undefined) drev[idx[id]] = rv.byDest[id]; });
   put("drev", drev);
-  var revCount = {};
-  Object.keys(drev).forEach(function (i) { revCount[i] = drev[i].length; });
   var serverHidden = {};
   (d.hidden || []).forEach(function (n) { serverHidden[n] = 1; });
   var pushedCustom = {};
@@ -77,18 +76,6 @@
     var payload = { trip: ids(u.trip), fav: ids(u.fav) }, j = JSON.stringify(payload);
     if (j === lastState) return;
     lastState = j; post("state.php", payload);
-  }
-  function pushReviews() {
-    if (!ME) return;
-    var r = get("drev") || {};
-    Object.keys(r).forEach(function (i) {
-      var before = revCount[i] || 0, list = r[i] || [];
-      if (list.length <= before) return;
-      list.slice(before).forEach(function (x) {
-        if (x.u === ME.name && IDS[i]) post("reviews.php", { destination_id: IDS[i], rating: x.r, comment: x.c });
-      });
-      revCount[i] = list.length;
-    });
   }
   function pushCustom() {
     var c = get("dcustom") || [];
@@ -120,7 +107,6 @@
     rawSet.apply(this, arguments);
     if (this !== localStorage) return;
     if (k === "dusers") later(k, pushState);
-    else if (k === "drev") later(k, pushReviews);
     else if (k === "dcustom") later(k, pushCustom);
     else if (k === "dhide") later(k, pushHide);
   };
